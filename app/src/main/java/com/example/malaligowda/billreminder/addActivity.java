@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-public abstract class addActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public  class addActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private EditText titleView;
     private EditText amountView;
@@ -28,6 +28,7 @@ public abstract class addActivity extends AppCompatActivity implements TimePicke
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.add_bill);
 
         titleView = findViewById(R.id.titleView);
         amountView = findViewById(R.id.amountView);

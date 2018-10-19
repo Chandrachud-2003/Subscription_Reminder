@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">billReminder</string>
-    <string name="mainBillButton">RadioButton</string>
-    <string name="mainSubButton">RadioButton</string>
+    <string name="mainBillButton">BILLS</string>
+    <string name="mainSubButton">SUBSCRIPTIONS</string>
     <string name="addTitle">Add Payment</string>
     <string name="add_Title">ADD PAYMENT</string>
     <string name="addTitleHint">Title</string>
@@ -9,18 +9,10 @@
     <string name="addBillButton">Single Bill</string>
     <string name="addSubButton">Subscription</string>
     <string name="addIntervalText">Interval</string>
-    <string name="addReminderText">Reminder Notifications</string>
+    <string name="addReminderText">Notifications</string>
     <string name="addPaymentButton">ADD</string>
     <string name="addAlarmHint">Alarm Time</string>
-    <string-array name="Interval">
-        <item>Monthly</item>
-        <item>Daily</item>
-        <item>Annually</item>
-    </string-array>
-    <string-array name="Ringtone">
-
-
-    </string-array>
+ 
 
 
 
