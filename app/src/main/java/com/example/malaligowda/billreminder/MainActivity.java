@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
      private TextView month;
      private TextView year;
      private TextView day;
-     private RecyclerView displayBill;
+     private RecyclerView displayBills;
      private ImageButton addBill;
      private RadioButton mainBill;
      private RadioButton mainSubscription;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         month = findViewById(R.id.monthText);
         year = findViewById(R.id.yearText);
         day = findViewById(R.id.dayText);
-        displayBill = findViewById(R.id.displayView);
+        displayBills = findViewById(R.id.displayView);
         addBill = findViewById(R.id.addPaymentButton);
         mainBill = findViewById(R.id.mainBillButton);
         mainSubscription = findViewById(R.id.mainSubscriptionButton);
