@@ -11,6 +11,7 @@
     <string name="addIntervalText">Interval</string>
     <string name="addReminderText">Reminder Notifications</string>
     <string name="addPaymentButton">ADD</string>
+    <string name="addAlarmHint">Alarm Time</string>
     <string-array name="Interval">
         <item>Monthly</item>
         <item>Daily</item>

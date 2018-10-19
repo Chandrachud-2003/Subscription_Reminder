@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-public class addActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public abstract class addActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private EditText titleView;
     private EditText amountView;
