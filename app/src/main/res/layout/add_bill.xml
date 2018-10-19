@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_purple">
+
+    <TextView
+        android:id="@+id/addHeading"
+        android:layout_width="206dp"
+        android:layout_height="41dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/add_Title"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <EditText
+        android:id="@+id/titleView"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:hint="@string/addTitleHint"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="115dp" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="292dp"
+        android:layout_height="1dp"
+        android:background="?attr/colorBackgroundFloating"
+        tools:layout_editor_absoluteX="59dp"
+        tools:layout_editor_absoluteY="150dp" />
+
+    <EditText
+        android:id="@+id/amountView"
+        android:layout_width="173dp"
+        android:layout_height="29dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="@string/addAmountHint"
+        android:inputType="numberDecimal"
+        android:textColorHint="@android:color/background_light"
+        tools:layout_editor_absoluteX="177dp"
+        tools:layout_editor_absoluteY="160dp" />
+
+    <RadioButton
+        android:id="@+id/billButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/addBillButton"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="68dp" />
+
+    <RadioButton
+        android:id="@+id/subscriptionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/addSubButton"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="204dp"
+        tools:layout_editor_absoluteY="68dp" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="173dp"
+        android:layout_height="1dp"
+        android:background="@android:color/background_light"
+        tools:layout_editor_absoluteX="177dp"
+        tools:layout_editor_absoluteY="189dp" />
+
+    <Spinner
+        android:id="@+id/currencySpinner"
+        android:layout_width="100dp"
+        android:layout_height="29dp"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="160dp" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:background="@android:color/background_light"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="189dp" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="321dp"
+        android:layout_height="292dp"
+        android:focusedMonthDateColor="@android:color/background_light"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="200dp" />
+
+    <TextView
+        android:id="@+id/alarmTimeView"
+        android:layout_width="111dp"
+        android:layout_height="28dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="@string/addAlarmHint"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="507dp" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="111dp"
+        android:layout_height="1dp"
+        android:background="@android:color/background_light"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="535dp" />
+
+    <Spinner
+        android:id="@+id/ringView"
+        android:layout_width="170dp"
+        android:layout_height="33dp"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="501dp" />
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="170dp"
+        android:layout_height="1dp"
+        android:background="@android:color/background_light"
+        tools:layout_editor_absoluteX="180dp"
+        tools:layout_editor_absoluteY="535dp" />
+
+    <Spinner
+        android:id="@+id/intervalView"
+        android:layout_width="311dp"
+        android:layout_height="34dp"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="546dp" />
+
+    <View
+        android:id="@+id/divider6"
+        android:layout_width="111dp"
+        android:layout_height="1dp"
+        android:background="@android:color/background_light"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="535dp" />
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="48dp"
+        android:layout_height="44dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/back_button"
+        tools:layout_editor_absoluteX="12dp"
+        tools:layout_editor_absoluteY="13dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:text="@string/addIntervalText"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="546dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="321dp"
+        android:layout_height="24dp"
+        android:text="@string/addReminderText"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="591dp" />
+
+    <Button
+        android:id="@+id/addPaymentButton"
+        android:layout_width="121dp"
+        android:layout_height="39dp"
+        android:background="@drawable/toggle_button_design"
+        android:text="@string/addPaymentButton"
+        android:textColor="@android:color/background_light"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="618dp" />
+
+    <View
+        android:id="@+id/divider7"
+        android:layout_width="311dp"
+        android:layout_height="1dp"
+        android:background="@android:color/background_light"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="580dp" />
+
+</android.support.constraint.ConstraintLayout>
