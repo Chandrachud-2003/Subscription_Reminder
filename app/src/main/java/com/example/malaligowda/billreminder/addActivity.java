@@ -63,7 +63,13 @@ public  class addActivity extends AppCompatActivity implements TimePickerDialog.
         currencySpinner.setAdapter(adapter2);
             mCalendarView.setDate(System.currentTimeMillis(),false,true);
 
-
+        alarmTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragmant();
+                timePicker.show(getSupportFragmentManager(), "Time Picker");
+            }
+        });
 
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,13 +86,14 @@ public  class addActivity extends AppCompatActivity implements TimePickerDialog.
                 mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                        int billyear = year;
-                        int billmonth = month;
-                        int billday = dayOfMonth;
+                        String selectedDate = year+"/"+month+"/"+dayOfMonth;
 
                         Bills bill = new Bills(titleView.getText().toString());
-                        bill.setDay(billday);
+                        bill.set_date(selectedDate);
                         bill.setAmt(Integer.parseInt(amountView.getText().toString()));
+                        bill.set_currency(currencySpinner.getSelectedItem().toString());
+                        bill.set_interval(intervalSpinner.getSelectedItem().toString());
+                        bill.set_name(titleView.getText().toString());
                         dbHandler.addBill(bill);
 
                     }

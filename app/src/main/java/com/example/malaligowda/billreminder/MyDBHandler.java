@@ -12,8 +12,11 @@ public class MyDBHandler extends SQLiteOpenHelper
     public static final String TABLE_BILLS = "bills";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_day = "day";
+    public static final String COLUMN_date = "date";
     public static final String COLUMN_amt = "amt";
+    public static final String COLUMN_currency = "currency";
+    public static final String COLUMN_interval = "interval";
+    public static final String COLUMN_type = "type";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -22,7 +25,14 @@ public class MyDBHandler extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_BILLS + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_NAME + " TEXT, " + COLUMN_day + "INTEGER, "+ COLUMN_amt + "INTEGER"+");";
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT, " +
+                COLUMN_date+ "TEXT, "+
+                COLUMN_amt + "INTEGER"+
+                COLUMN_currency+"TEXT, "+
+                COLUMN_interval+"TEXT, "+
+                COLUMN_type+"TEXT"+");";
+
         db.execSQL(query);
     }
 
@@ -35,8 +45,11 @@ public class MyDBHandler extends SQLiteOpenHelper
    public void addBill(Bills bills){
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME,bills.get_name());
-        values.put(COLUMN_day,bills.getDay());
+        values.put(COLUMN_date,bills.get_date());
        values.put(COLUMN_amt,bills.getAmt());
+       values.put(COLUMN_type, bills.get_type());
+       values.put(COLUMN_currency, bills.get_currency());
+       values.put(COLUMN_interval, bills.get_interval());
        SQLiteDatabase db = getWritableDatabase();
        db.insert(TABLE_BILLS,null,values);
        db.close();

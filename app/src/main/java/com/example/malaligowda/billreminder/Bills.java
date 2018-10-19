@@ -3,10 +3,13 @@ package com.example.malaligowda.billreminder;
 public class Bills {
     private int _id;
     private String _name;
-    private int day;
-    private int month;
-    private int year;
+    private String _date;
     private int amt;
+    private String _time;
+    private String _type;
+    private String _currency;
+    private String _interval;
+    private String _ring;
 
     public Bills(String name) {
         this._name = name;
@@ -20,16 +23,38 @@ public class Bills {
         this._id = _id;
     }
 
-    public void setDay(int day) {
-        this.day = day;
+    public void set_name(String _name) {
+        this._name = _name;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
+
+
+    public String get_currency() {
+        return _currency;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public String get_interval() {
+        return _interval;
+    }
+
+    public void set_interval(String _interval) {
+        this._interval = _interval;
+    }
+
+
+
+    public void set_currency(String _currency) {
+        this._currency = _currency;
+    }
+
+
+
+    public String get_type() {
+        return _type;
+    }
+
+    public void set_type(String _type) {
+        this._type = _type;
     }
 
     public void setAmt(int amt) {
@@ -40,16 +65,12 @@ public class Bills {
         return _id;
     }
 
-    public int getDay() {
-        return day;
+    public String get_date() {
+        return _date;
     }
 
-    public int getMonth() {
-        return month;
-    }
-
-    public int getYear() {
-        return year;
+    public void set_date(String _date) {
+        this._date = _date;
     }
 
     public int getAmt() {
