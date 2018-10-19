@@ -38,6 +38,7 @@ public abstract class addActivity extends AppCompatActivity implements TimePicke
         reminder = findViewById(R.id.checkBox);
         alarmTime = findViewById(R.id.alarmTimeView);
 
+
         alarmTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +48,8 @@ public abstract class addActivity extends AppCompatActivity implements TimePicke
 
             }
         });
+
+
 
 
 

@@ -2,6 +2,7 @@ package com.example.malaligowda.billreminder;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
         addBill = findViewById(R.id.addPaymentButton);
         mainBill = findViewById(R.id.mainBillButton);
         mainSubscription = findViewById(R.id.mainSubscriptionButton);
+
+        addBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, addActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
 
 
 
