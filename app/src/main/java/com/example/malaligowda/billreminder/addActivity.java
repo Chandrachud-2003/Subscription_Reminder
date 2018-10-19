@@ -2,6 +2,7 @@ package com.example.malaligowda.billreminder;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +34,7 @@ public  class addActivity extends AppCompatActivity implements TimePickerDialog.
     private TextView alarmTime;
     private ImageButton backbutton;
     private Button addbutton;
+    MyDBHandler dbHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public  class addActivity extends AppCompatActivity implements TimePickerDialog.
         alarmTime = findViewById(R.id.alarmTimeView);
         backbutton = findViewById(R.id.backButton);
         addbutton = findViewById(R.id.addPaymentButton);
-
+        dbHandler = new MyDBHandler(this,null,null,1);
         String[] intervalarraySpinner = new String[] {"Monthly", "Annually"};
         String[] currencyarraySpinner = new String[] {"AUD $","EUR €", "INR ₹","USD $","JPY	¥","ZAR R"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
@@ -81,6 +83,12 @@ public  class addActivity extends AppCompatActivity implements TimePickerDialog.
                         int billyear = year;
                         int billmonth = month;
                         int billday = dayOfMonth;
+
+                        Bills bill = new Bills(titleView.getText().toString());
+                        bill.setDay(billday);
+                        bill.setAmt(Integer.parseInt(amountView.getText().toString()));
+                        dbHandler.addBill(bill);
+
                     }
                 });
 
