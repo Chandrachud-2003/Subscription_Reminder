@@ -28,39 +28,44 @@
         android:id="@+id/titleView"
         android:layout_width="290dp"
         android:layout_height="29dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
         android:background="@android:color/transparent"
         android:hint="@string/addTitleHint"
         android:textColorHint="@android:color/background_light"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/subscriptionButton"
-        tools:layout_editor_absoluteX="61dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subscriptionButton" />
 
     <View
         android:id="@+id/divider1"
         android:layout_width="292dp"
         android:layout_height="1dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:background="?attr/colorBackgroundFloating"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.697"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/titleView"
+        app:layout_constraintStart_toStartOf="@+id/titleView"
         app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
     <EditText
         android:id="@+id/amountView"
         android:layout_width="173dp"
         android:layout_height="29dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="@string/addAmountHint"
         android:inputType="numberDecimal"
         android:textColorHint="@android:color/background_light"
-        tools:layout_editor_absoluteX="178dp"
-        tools:layout_editor_absoluteY="125dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toEndOf="@+id/currencySpinner"
+        app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
     <RadioButton
         android:id="@+id/billButton"
@@ -99,75 +104,81 @@
         android:id="@+id/divider2"
         android:layout_width="173dp"
         android:layout_height="1dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginRight="36dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:background="@android:color/background_light"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/amountView"
+        app:layout_constraintStart_toStartOf="@+id/amountView"
         app:layout_constraintTop_toBottomOf="@+id/amountView" />
 
     <Spinner
         android:id="@+id/currencySpinner"
-        android:layout_width="100dp"
-        android:layout_height="29dp"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="125dp" />
+        android:layout_width="121dp"
+        android:layout_height="27dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
     <View
         android:id="@+id/divider3"
         android:layout_width="100dp"
         android:layout_height="1dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:background="@android:color/background_light"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
-        app:layout_constraintHorizontal_bias="0.854"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/currencySpinner"
+        app:layout_constraintStart_toStartOf="@+id/currencySpinner"
         app:layout_constraintTop_toBottomOf="@+id/currencySpinner" />
 
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="280dp"
         android:layout_height="292dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:focusedMonthDateColor="@android:color/background_light"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"
-        tools:layout_editor_absoluteX="61dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <TextView
         android:id="@+id/alarmTimeView"
         android:layout_width="111dp"
         android:layout_height="28dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="28dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="@string/addAlarmHint"
         android:textColorHint="@android:color/background_light"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView"
-        tools:layout_editor_absoluteX="59dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
     <View
         android:id="@+id/divider4"
         android:layout_width="111dp"
         android:layout_height="1dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:background="@android:color/background_light"
-        app:layout_constraintEnd_toStartOf="@+id/divider5"
-        app:layout_constraintHorizontal_bias="0.963"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/alarmTimeView"
+        app:layout_constraintStart_toStartOf="@+id/alarmTimeView"
         app:layout_constraintTop_toBottomOf="@+id/alarmTimeView" />
 
     <Spinner
         android:id="@+id/ringView"
         android:layout_width="170dp"
         android:layout_height="33dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toEndOf="@+id/alarmTimeView"
         app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
@@ -175,28 +186,12 @@
         android:id="@+id/divider5"
         android:layout_width="170dp"
         android:layout_height="1dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@android:color/background_light"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ringView"
+        app:layout_constraintStart_toStartOf="@+id/ringView"
         app:layout_constraintTop_toBottomOf="@+id/ringView" />
-
-    <Spinner
-        android:id="@+id/intervalView"
-        android:layout_width="311dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="5dp"
-        android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/ringView"
-        tools:layout_editor_absoluteX="42dp" />
-
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="111dp"
-        android:layout_height="1dp"
-        android:background="@android:color/background_light"
-        app:layout_constraintTop_toBottomOf="@+id/alarmTimeView"
-        tools:layout_editor_absoluteX="61dp" />
 
     <ImageButton
         android:id="@+id/backButton"
@@ -208,55 +203,58 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back_button" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="166dp"
+        android:layout_height="29dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/addIntervalText"
-        android:textColor="@android:color/background_light"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarmTimeView" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="321dp"
-        android:layout_height="24dp"
+        android:layout_marginTop="20dp"
         android:text="@string/addReminderText"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="591dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/intervalView"
+        app:layout_constraintTop_toTopOf="@+id/divider5" />
 
     <Button
         android:id="@+id/addPaymentButton"
         android:layout_width="121dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/toggle_button_design"
         android:text="@string/addPaymentButton"
         android:textColor="@android:color/background_light"
-        app:layout_constraintBottom_toTopOf="@+id/divider7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
     <View
         android:id="@+id/divider7"
-        android:layout_width="311dp"
+        android:layout_width="145dp"
         android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:background="@android:color/background_light"
-        tools:layout_editor_absoluteX="39dp"
-        tools:layout_editor_absoluteY="580dp" />
+        app:layout_constraintStart_toStartOf="@+id/intervalView"
+        app:layout_constraintTop_toBottomOf="@+id/intervalView" />
+
+    <Spinner
+        android:id="@+id/intervalView"
+        android:layout_width="145dp"
+        android:layout_height="29dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/divider5" />
 
 </android.support.constraint.ConstraintLayout>

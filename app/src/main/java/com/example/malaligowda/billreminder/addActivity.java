@@ -21,7 +21,7 @@ import android.widget.TimePicker;
 import java.text.DateFormat;
 import java.util.Date;
 
-public abstract class addActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public  class addActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private EditText titleView;
     private EditText amountView;
@@ -37,6 +37,7 @@ public abstract class addActivity extends AppCompatActivity implements TimePicke
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.add_bill);
 
         titleView = findViewById(R.id.titleView);
         amountView = findViewById(R.id.amountView);
@@ -48,6 +49,7 @@ public abstract class addActivity extends AppCompatActivity implements TimePicke
         alarmTime = findViewById(R.id.alarmTimeView);
         backbutton = findViewById(R.id.backButton);
         addbutton = findViewById(R.id.addPaymentButton);
+
         String[] intervalarraySpinner = new String[] {"Monthly", "Annually"};
         String[] currencyarraySpinner = new String[] {"AUD $","EUR €", "INR ₹","USD $","JPY	¥","ZAR R"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
