@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -20,7 +21,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
-public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHolder> {
+public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHolder>  {
 
     private ArrayList<String> mNames;
     private ArrayList<String> mDates;
@@ -29,10 +30,11 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private ArrayList<String> mType;
     private ArrayList<String> mNotify;
     private ArrayList<String> mInterval;
+    private BottomSheetBehavior mBehavior;
     private Context mContext;
 
 
-    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval) {
+    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, BottomSheetBehavior bottomSheetBehavior) {
 
         mContext = context;
         mNames = names;
@@ -42,6 +44,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mType = type;
         mNotify = notify;
         mInterval = interval;
+        mBehavior = bottomSheetBehavior;
     }
 
     @NonNull
@@ -65,7 +68,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.mainbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
+                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
             }
         });
@@ -95,6 +98,10 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         TextView typeView;
         ConstraintLayout layout;
         Button mainbutton;
+        Button deleteButton;
+        Button editButton;
+        Button cancelButton;
+        Button checkButton;
 
 
         RecyclerView mRecyclerView;
@@ -110,6 +117,10 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
              this.typeView = itemView.findViewById(R.id.typeView);
              this.layout = itemView.findViewById(R.id.parent_layout);
              this.mainbutton = itemView.findViewById(R.id.RecyclerButton);
+             this.deleteButton = itemView.findViewById(R.id.deleteButton);
+             this.editButton = itemView.findViewById(R.id.editButton);
+             this.checkButton = itemView.findViewById(R.id.checkButton);
+             this.cancelButton = itemView.findViewById(R.id.cancelButton);
              mRecyclerView = itemView.findViewById(R.id.displayView);
 
          }

@@ -87,7 +87,7 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> names=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
+        String query = "SELECT name FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
 
@@ -96,7 +96,7 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 names.add(c.getString(c.getColumnIndex(COLUMN_NAME)));
 
-            }while (c.moveToNext());
+            }while (c.moveToNext()&&!c.isLast());
 
         }
 
@@ -113,15 +113,16 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> amount=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
+        String query = "SELECT amt FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         if (c.moveToFirst())
         {
             do {
-                amount.add(c.getString(c.getColumnIndex(COLUMN_amt)));
 
-            }while (c.moveToNext());
+                    amount.add(c.getString(c.getColumnIndex(COLUMN_amt)));
+
+            }while (c.moveToNext()&&!c.isLast());
 
         }
 
@@ -139,7 +140,7 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> currency=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
+        String query = "SELECT currency FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -147,9 +148,10 @@ public class MyDBHandler extends SQLiteOpenHelper
         if (c.moveToFirst())
         {
             do {
-                currency.add(c.getString(c.getColumnIndex(COLUMN_currency)));
 
-            }while (c.moveToNext());
+                    currency.add(c.getString(c.getColumnIndex(COLUMN_currency)));
+
+            }while (c.moveToNext()&&!c.isLast());
 
         }
 
@@ -165,7 +167,7 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> date=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
+        String query = "SELECT date FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -175,7 +177,7 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 date.add(c.getString(c.getColumnIndex(COLUMN_date)));
 
-            }while (c.moveToNext());
+            }while (c.moveToNext()&&!c.isLast());
 
         }
 
@@ -192,7 +194,7 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> type=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
+        String query = "SELECT type FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -202,7 +204,7 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 type.add(c.getString(c.getColumnIndex(COLUMN_type)));
 
-            }while (c.moveToNext());
+            }while (c.moveToNext()&&!c.isLast());
 
         }
 
@@ -219,7 +221,7 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> interval=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
+        String query = "SELECT interval FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -229,7 +231,7 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 interval.add(c.getString(c.getColumnIndex(COLUMN_interval)));
 
-            }while (c.moveToNext());
+            }while (c.moveToNext()&&!c.isLast());
 
         }
 
@@ -246,7 +248,7 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> notify=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
+        String query = "SELECT notify FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -256,7 +258,7 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 notify.add(c.getString(c.getColumnIndex(COLUMN_notify)));
 
-            }while (c.moveToNext());
+            }while (c.moveToNext()&&!c.isLast());
 
         }
 

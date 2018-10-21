@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +32,7 @@ public  class addActivity extends AppCompatActivity {
     private Button addbutton;
     MyDBHandler dbHandler;
     String selectedDate;
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public  class addActivity extends AppCompatActivity {
         dbHandler = new MyDBHandler(this,null,null,1);
         billButton = findViewById(R.id.billButton);
         subscriptionButton = findViewById(R.id.subscriptionButton);
+
 
         billButton.toggle();
         String[] intervalarraySpinner = new String[] {"Monthly", "Annually"};
@@ -86,6 +90,7 @@ public  class addActivity extends AppCompatActivity {
                                 public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
 
                                     selectedDate = year + "/" + (month+1) + "/" + dayOfMonth;
+                                    Log.d("billReminder",selectedDate);
 
                                 }
                             });

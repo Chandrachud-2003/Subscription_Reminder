@@ -1,6 +1,8 @@
 package com.example.malaligowda.billreminder;
 
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView day;
     private RecyclerView displayBills;
     private ImageButton addBill;
+    private ConstraintLayout mConstraintLayout;
+    private BottomSheetBehavior mBottomSheetBehavior;
 
 
     private MyDBHandler mDBHandler;
@@ -43,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         day = findViewById(R.id.dayText);
         displayBills = findViewById(R.id.displayView);
         addBill = findViewById(R.id.addPaymentButton);
+        mConstraintLayout = findViewById(R.id.customBottom);
+        mBottomSheetBehavior = BottomSheetBehavior.from(mConstraintLayout);
+
 
         addBill.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         {
 
 
-            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval);
+            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mBottomSheetBehavior);
             displayBills.setVisibility(View.VISIBLE);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
             displayBills.setLayoutManager(staggeredGridLayoutManager);
