@@ -66,7 +66,13 @@ public class MyDBHandler extends SQLiteOpenHelper
        long result;
        result = db.insert(TABLE_BILLS, null, values);
        db.close();
-       return result != -1;
+       if (result!=-1)
+       {
+           return true;
+       }
+       else {
+           return false;
+       }
    }
 
     public void deleteBill(String billname){
@@ -74,26 +80,27 @@ public class MyDBHandler extends SQLiteOpenHelper
 
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_BILLS + " WHERE "+ COLUMN_NAME + "=\"" + billname + "\";");
+
     }
 
     public ArrayList<String> namesArray()
     {
         ArrayList<String> names=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS;
+        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast())
         {
+            if (c.getString(c.getColumnIndex(COLUMN_NAME))!=null){
+                names.add(c.getString(c.getColumnIndex(COLUMN_NAME)));
 
-            names.add(c.getString(c.getColumnIndex("name")));
-
-
-
+            }
 
         }
+
         if (names != null) {
             Log.d("billReminder", names.toString());
         }
@@ -107,18 +114,17 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> amount=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS;
+        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast())
         {
+            if (c.getString(c.getColumnIndex(COLUMN_amt))!=null){
+                amount.add(c.getString(c.getColumnIndex(COLUMN_amt)));
 
-            amount.add(c.getString(c.getColumnIndex("amt")));
-
-
-
+            }
 
         }
 
@@ -136,20 +142,20 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> currency=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS;
+        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast())
         {
+            if (c.getString(c.getColumnIndex(COLUMN_currency))!=null){
+                currency.add(c.getString(c.getColumnIndex(COLUMN_currency)));
 
-                currency.add(c.getString(c.getColumnIndex("currency")));
+            }
 
-
-
-            c.moveToNext();
         }
+
         if (currency != null) {
             Log.d("billReminder", currency.toString());
         }        c.close();
@@ -162,21 +168,20 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> date=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS;
+        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast())
         {
+            if (c.getString(c.getColumnIndex(COLUMN_date))!=null){
+                date.add(c.getString(c.getColumnIndex(COLUMN_date)));
 
-                date.add(c.getString(c.getColumnIndex("date")));
-
-
-
-
+            }
 
         }
+
         if (date != null) {
             Log.d("billReminder", date.toString());
         }        c.close();
@@ -190,21 +195,20 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> type=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS;
+        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast())
         {
+            if (c.getString(c.getColumnIndex(COLUMN_type))!=null){
+                type.add(c.getString(c.getColumnIndex(COLUMN_type)));
 
-                type.add(c.getString(c.getColumnIndex("type")));
-
-
-
-
+            }
 
         }
+
         if (type != null) {
             Log.d("billReminder", type.toString());
         }        c.close();
@@ -218,21 +222,20 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> interval=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS;
+        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast())
         {
+            if (c.getString(c.getColumnIndex(COLUMN_interval))!=null){
+                interval.add(c.getString(c.getColumnIndex(COLUMN_interval)));
 
-                interval.add(c.getString(c.getColumnIndex("interval")));
-
-
-
-
+            }
 
         }
+
         if (interval != null) {
             Log.d("billReminder", interval.toString());
         }        c.close();
@@ -246,20 +249,20 @@ public class MyDBHandler extends SQLiteOpenHelper
     {
         ArrayList<String> notify=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_BILLS;
+        String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast())
         {
+            if (c.getString(c.getColumnIndex(COLUMN_notify))!=null){
+                notify.add(c.getString(c.getColumnIndex(COLUMN_notify)));
 
-                notify.add(c.getString(c.getColumnIndex("interval")));
-
-
-
+            }
 
         }
+
         if (notify != null) {
             Log.d("billReminder", notify.toString());
         }        c.close();

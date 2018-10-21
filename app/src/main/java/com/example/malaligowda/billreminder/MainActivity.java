@@ -1,41 +1,32 @@
 package com.example.malaligowda.billreminder;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-     private TextView timeView;
-     private TextView dayNumber;
-     private TextView month;
-     private TextView year;
-     private TextView day;
-     private RecyclerView displayBills;
-     private ImageButton addBill;
-     private RadioButton mainBill;
-     private RadioButton mainSubscription;
+    private TextView timeView;
+    private TextView dayNumber;
+    private TextView month;
+    private TextView year;
+    private TextView day;
+    private RecyclerView displayBills;
+    private ImageButton addBill;
+    private RadioButton mainBill;
+    private RadioButton mainSubscription;
 
-     private MyDBHandler mDBHandler;
+    private MyDBHandler mDBHandler;
     private static final int NUM_COLUMNS = 1;
 
 
@@ -52,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         addBill = findViewById(R.id.addPaymentButton);
         mainBill = findViewById(R.id.mainBillButton);
         mainSubscription = findViewById(R.id.mainSubscriptionButton);
+        mainBill.toggle();
         addBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
 
 
-
-
-
-
-
     }
 
     private void initRecyclerView() {
@@ -113,62 +100,42 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> sType = new ArrayList<>();
 
 
+        if (mDBHandler.namesArray().size() != 0) {
 
 
-        if (mDBHandler.namesArray().size() != 0){
-
-        for (int i = 0; i < mDBHandler.namesArray().size(); i++) {
-            if (mDBHandler.typeArray().get(i).equals("bill")) {
-                bNames.add(mDBHandler.namesArray().get(i));
-                bAmount.add(mDBHandler.amountArray().get(i));
-                bCurrency.add(mDBHandler.currencyArray().get(i));
-                bDate.add(mDBHandler.dateArray().get(i));
-                bInterval.add(mDBHandler.intervalArray().get(i));
-                bNotify.add(mDBHandler.notifyArray().get(i));
+            bNames = mDBHandler.namesArray();
+            bDate = mDBHandler.dateArray();
+            bCurrency = mDBHandler.currencyArray();
+            bAmount = mDBHandler.amountArray();
+            bInterval = mDBHandler.intervalArray();
+            bNotify = mDBHandler.notifyArray();
+            bType = mDBHandler.typeArray();
 
 
-            } else if (mDBHandler.typeArray().get(i).equals("subscription")) {
-                sNames.add(mDBHandler.namesArray().get(i));
-                sAmount.add(mDBHandler.amountArray().get(i));
-                sCurrency.add(mDBHandler.currencyArray().get(i));
-                sDate.add(mDBHandler.dateArray().get(i));
-                sInterval.add(mDBHandler.intervalArray().get(i));
-                sNotify.add(mDBHandler.notifyArray().get(i));
-            }
+            displayAdapter displayAdapter = new displayAdapter(this, bNames, bDate, bCurrency, bAmount, bType, bNotify);
+            displayBills.setVisibility(View.VISIBLE);
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
+            displayBills.setLayoutManager(staggeredGridLayoutManager);
+            displayBills.setAdapter(displayAdapter);
 
         }
 
 
+     else
 
-            if (mainBill.isChecked()) {
+    {
 
+        Toast.makeText(getBaseContext(), "No Reminders Set", Toast.LENGTH_SHORT).show();
+        displayBills.removeAllViewsInLayout();
+        displayBills.setAdapter(null);
 
-                displayAdapter displayAdapter = new displayAdapter(this, bNames, bDate, bCurrency, bAmount, bType, bNotify );
-                displayBills.setVisibility(View.VISIBLE);
-                StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
-                displayBills.setLayoutManager(staggeredGridLayoutManager);
-                displayBills.setAdapter(displayAdapter);
-            } else if (mainSubscription.isChecked()) {
-                displayAdapter displayAdapter = new displayAdapter(this, sNames, sDate, sCurrency, sAmount, sType, sNotify);
-                displayBills.setVisibility(View.VISIBLE);
-                StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
-                displayBills.setLayoutManager(staggeredGridLayoutManager);
-                displayBills.setAdapter(displayAdapter);
-            }
-
-
-        }
-        else {
-
-            Toast.makeText(getBaseContext(), "No Reminders Set", Toast.LENGTH_SHORT).show();
-            displayBills.removeAllViewsInLayout();
-            displayBills.setAdapter(null);
-
-        }
+    }
+}
     }
 
 
-    }
+
+
 
 
 
