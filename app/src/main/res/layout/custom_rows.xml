@@ -9,25 +9,29 @@
         android:id="@+id/currencyView"
         android:layout_width="21dp"
         android:layout_height="33dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginTop="8dp"
         android:text="$"
         android:textColor="@android:color/background_light"
-        android:textSize="24sp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/divider4"
         app:layout_constraintStart_toStartOf="@+id/RecyclerButton"
         app:layout_constraintTop_toTopOf="@+id/RecyclerButton" />
 
     <TextView
         android:id="@+id/amountView"
         android:layout_width="wrap_content"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="250"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
-        android:textSize="36sp"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/RecyclerButton"
         app:layout_constraintStart_toEndOf="@+id/currencyView"
         app:layout_constraintTop_toTopOf="@+id/RecyclerButton" />
 
@@ -35,13 +39,13 @@
         android:id="@+id/nameView"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
-        android:layout_marginEnd="200dp"
-        android:layout_marginRight="200dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:text="Internet Bill"
         android:textColor="?attr/colorBackgroundFloating"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/RecyclerButton"
+        app:layout_constraintEnd_toStartOf="@+id/dateView"
         app:layout_constraintTop_toTopOf="@+id/RecyclerButton" />
 
     <TextView
@@ -56,6 +60,33 @@
         app:layout_constraintEnd_toEndOf="@+id/RecyclerButton"
         app:layout_constraintTop_toTopOf="@+id/RecyclerButton" />
 
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="395dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@android:color/background_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RecyclerButton" />
+
+    <TextView
+        android:id="@+id/typeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/rows_background"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Subscription"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/divider4"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/RecyclerButton"
         android:layout_width="393dp"
@@ -69,15 +100,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/divider4"
-        android:layout_width="395dp"
-        android:layout_height="1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@android:color/background_light"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RecyclerButton" />
 
 </android.support.constraint.ConstraintLayout>

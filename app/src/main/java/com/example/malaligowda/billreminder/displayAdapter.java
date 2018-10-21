@@ -24,10 +24,11 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private ArrayList<String> mAmount;
     private ArrayList<String> mType;
     private ArrayList<String> mNotify;
+    private ArrayList<String> mInterval;
     private Context mContext;
 
 
-    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify) {
+    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval) {
 
         mContext = context;
         mNames = names;
@@ -36,6 +37,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mAmount = amount;
         mType = type;
         mNotify = notify;
+        mInterval = interval;
     }
 
     @NonNull
@@ -48,12 +50,12 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        RequestOptions requestOptions = new RequestOptions().placeholder(R.color.white);
 
         holder.nameDisplay.setText(mNames.get(position));
         holder.currencyDisplay.setText(mCurrency.get(position));
         holder.dateDisplay.setText(mDates.get(position));
         holder.amountDisplay.setText(mAmount.get(position));
+        holder.typeView.setText(mType.get(position));
 
 
 
@@ -81,6 +83,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         TextView dateDisplay;
         TextView currencyDisplay;
         TextView amountDisplay;
+        TextView typeView;
 
         Button mainButton;
         RecyclerView mRecyclerView;
@@ -93,6 +96,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
              this.nameDisplay = itemView.findViewById(R.id.nameView);
              this.dateDisplay = itemView.findViewById(R.id.dateView);
              this.currencyDisplay = itemView.findViewById(R.id.currencyView);
+             this.typeView = itemView.findViewById(R.id.typeView);
 
              mRecyclerView = itemView.findViewById(R.id.displayView);
 

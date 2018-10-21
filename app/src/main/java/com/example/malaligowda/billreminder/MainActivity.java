@@ -23,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView day;
     private RecyclerView displayBills;
     private ImageButton addBill;
-    private RadioButton mainBill;
-    private RadioButton mainSubscription;
+
 
     private MyDBHandler mDBHandler;
     private static final int NUM_COLUMNS = 1;
@@ -41,9 +40,7 @@ public class MainActivity extends AppCompatActivity {
         day = findViewById(R.id.dayText);
         displayBills = findViewById(R.id.displayView);
         addBill = findViewById(R.id.addPaymentButton);
-        mainBill = findViewById(R.id.mainBillButton);
-        mainSubscription = findViewById(R.id.mainSubscriptionButton);
-        mainBill.toggle();
+
         addBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,25 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mainBill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                mainBill.setChecked(true);
-                mainSubscription.setChecked(false);
-                initRecyclerView();
-            }
-        });
-
-        mainSubscription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mainBill.setChecked(false);
-                mainSubscription.setChecked(true);
-                initRecyclerView();
-            }
-        });
 
         mDBHandler = new MyDBHandler(this, null, null, 1);
 
@@ -83,36 +62,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        ArrayList<String> bNames = new ArrayList<>();
-        ArrayList<String> bAmount = new ArrayList<>();
-        ArrayList<String> bCurrency = new ArrayList<>();
-        ArrayList<String> bDate = new ArrayList<>();
-        ArrayList<String> bInterval = new ArrayList<>();
-        ArrayList<String> bNotify = new ArrayList<>();
-        ArrayList<String> bType = new ArrayList<>();
-
-        ArrayList<String> sNames = new ArrayList<>();
-        ArrayList<String> sAmount = new ArrayList<>();
-        ArrayList<String> sCurrency = new ArrayList<>();
-        ArrayList<String> sDate = new ArrayList<>();
-        ArrayList<String> sInterval = new ArrayList<>();
-        ArrayList<String> sNotify = new ArrayList<>();
-        ArrayList<String> sType = new ArrayList<>();
+        ArrayList<String> mNames;
+        ArrayList<String> mAmount;
+        ArrayList<String> mCurrency;
+        ArrayList<String> mDate;
+        ArrayList<String> mInterval;
+        ArrayList<String> mNotify;
+        ArrayList<String> mType;
 
 
-        if (mDBHandler.namesArray().size() != 0) {
 
 
-            bNames = mDBHandler.namesArray();
-            bDate = mDBHandler.dateArray();
-            bCurrency = mDBHandler.currencyArray();
-            bAmount = mDBHandler.amountArray();
-            bInterval = mDBHandler.intervalArray();
-            bNotify = mDBHandler.notifyArray();
-            bType = mDBHandler.typeArray();
 
 
-            displayAdapter displayAdapter = new displayAdapter(this, bNames, bDate, bCurrency, bAmount, bType, bNotify);
+
+
+        mNames = mDBHandler.namesArray();
+            mDate = mDBHandler.dateArray();
+            mCurrency = mDBHandler.currencyArray();
+            mAmount = mDBHandler.amountArray();
+            mInterval = mDBHandler.intervalArray();
+            mNotify = mDBHandler.notifyArray();
+            mType = mDBHandler.typeArray();
+        if (mNames.size()!=0)
+        {
+
+
+            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval);
             displayBills.setVisibility(View.VISIBLE);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
             displayBills.setLayoutManager(staggeredGridLayoutManager);

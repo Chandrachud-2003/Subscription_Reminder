@@ -8,7 +8,7 @@ public class Bills {
     private String _type;
     private String _currency;
     private String _interval;
-    private boolean _notify;
+    private String _notify;
 
 
     public Bills(String name) {
@@ -27,11 +27,11 @@ public class Bills {
         this._name = _name;
     }
 
-    public boolean get_notify() {
+    public String get_notify() {
         return _notify;
     }
 
-    public void set_notify(boolean _notify) {
+    public void set_notify(String _notify) {
         this._notify = _notify;
     }
 

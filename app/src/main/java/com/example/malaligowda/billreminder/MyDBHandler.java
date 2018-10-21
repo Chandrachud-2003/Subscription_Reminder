@@ -90,14 +90,13 @@ public class MyDBHandler extends SQLiteOpenHelper
         String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
-        c.moveToFirst();
 
-        while (!c.isAfterLast())
+        if (c.moveToFirst())
         {
-            if (c.getString(c.getColumnIndex(COLUMN_NAME))!=null){
+            do {
                 names.add(c.getString(c.getColumnIndex(COLUMN_NAME)));
 
-            }
+            }while (c.moveToNext());
 
         }
 
@@ -117,14 +116,12 @@ public class MyDBHandler extends SQLiteOpenHelper
         String query = "SELECT * FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
-        c.moveToFirst();
-
-        while (!c.isAfterLast())
+        if (c.moveToFirst())
         {
-            if (c.getString(c.getColumnIndex(COLUMN_amt))!=null){
+            do {
                 amount.add(c.getString(c.getColumnIndex(COLUMN_amt)));
 
-            }
+            }while (c.moveToNext());
 
         }
 
@@ -147,12 +144,12 @@ public class MyDBHandler extends SQLiteOpenHelper
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
-        while (!c.isAfterLast())
+        if (c.moveToFirst())
         {
-            if (c.getString(c.getColumnIndex(COLUMN_currency))!=null){
+            do {
                 currency.add(c.getString(c.getColumnIndex(COLUMN_currency)));
 
-            }
+            }while (c.moveToNext());
 
         }
 
@@ -173,12 +170,12 @@ public class MyDBHandler extends SQLiteOpenHelper
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
-        while (!c.isAfterLast())
+        if (c.moveToFirst())
         {
-            if (c.getString(c.getColumnIndex(COLUMN_date))!=null){
+            do {
                 date.add(c.getString(c.getColumnIndex(COLUMN_date)));
 
-            }
+            }while (c.moveToNext());
 
         }
 
@@ -200,12 +197,12 @@ public class MyDBHandler extends SQLiteOpenHelper
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
-        while (!c.isAfterLast())
+        if (c.moveToFirst())
         {
-            if (c.getString(c.getColumnIndex(COLUMN_type))!=null){
+            do {
                 type.add(c.getString(c.getColumnIndex(COLUMN_type)));
 
-            }
+            }while (c.moveToNext());
 
         }
 
@@ -227,12 +224,12 @@ public class MyDBHandler extends SQLiteOpenHelper
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
-        while (!c.isAfterLast())
+        if (c.moveToFirst())
         {
-            if (c.getString(c.getColumnIndex(COLUMN_interval))!=null){
+            do {
                 interval.add(c.getString(c.getColumnIndex(COLUMN_interval)));
 
-            }
+            }while (c.moveToNext());
 
         }
 
@@ -254,12 +251,12 @@ public class MyDBHandler extends SQLiteOpenHelper
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
-        while (!c.isAfterLast())
+        if (c.moveToFirst())
         {
-            if (c.getString(c.getColumnIndex(COLUMN_notify))!=null){
+            do {
                 notify.add(c.getString(c.getColumnIndex(COLUMN_notify)));
 
-            }
+            }while (c.moveToNext());
 
         }
 

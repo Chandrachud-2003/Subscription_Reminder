@@ -94,27 +94,23 @@ public  class addActivity extends AppCompatActivity {
                             bill.set_currency(currencySpinner.getSelectedItem().toString());
 
                             bill.set_name(titleView.getText().toString());
-                            String type = "";
                             if (billButton.isChecked()) {
-                                type = "bill";
-                                bill.set_interval("null");
+                                bill.set_type("Bill");
 
                             }
                             if (subscriptionButton.isChecked()) {
-                                type = "subscription";
-                                bill.set_interval(intervalSpinner.getSelectedItem().toString());
-                                titleView.setText("");
+                                bill.set_type("Subscription");
 
 
 
                             }
-                            bill.set_type(type);
+                            bill.set_interval(intervalSpinner.getSelectedItem().toString());
                             if (reminder.isChecked())
                             {
-                                bill.set_notify(true);
+                                bill.set_notify("true");
                             }
                             else {
-                                bill.set_notify(false);
+                                bill.set_notify("false");
 
                             }
 
