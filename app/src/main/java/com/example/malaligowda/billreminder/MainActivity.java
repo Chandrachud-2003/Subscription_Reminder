@@ -162,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(getBaseContext(), "No Reminders Set", Toast.LENGTH_SHORT).show();
             displayBills.removeAllViewsInLayout();
+            displayBills.setAdapter(null);
+
         }
     }
 
