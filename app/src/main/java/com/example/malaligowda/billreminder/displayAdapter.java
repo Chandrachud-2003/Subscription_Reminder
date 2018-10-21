@@ -54,6 +54,19 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.currencyDisplay.setText(mCurrency.get(position));
         holder.dateDisplay.setText(mDates.get(position));
         holder.amountDisplay.setText(mAmount.get(position));
+        Glide.with(mContext)
+                .load(R.drawable.edit)
+                .apply(requestOptions)
+                .into(holder.editButton);
+
+        Glide.with(mContext)
+                .load(R.drawable.check_mark)
+                .apply(requestOptions)
+                .into(holder.checkButton);
+        Glide.with(mContext)
+                .load(R.drawable.delete_icon)
+                .apply(requestOptions)
+                .into(holder.deleteButton);
 
         holder.mainButton.setOnClickListener(new View.OnClickListener() {
             @Override
