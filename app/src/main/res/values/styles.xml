@@ -8,4 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MainBackground" parent="android:Theme">
+        <item name="android:background">@drawable/main_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+
+    </style>
+
+    <style name="AddBackground" parent="android:Theme">
+        <item name="android:background">@drawable/background_purple</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+
+    </style>
+
+
+
 </resources>

@@ -15,26 +15,29 @@ import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Date;
 
-public  class addActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public  class addActivity extends AppCompatActivity {
 
     private EditText titleView;
     private EditText amountView;
     private CalendarView mCalendarView;
     private Spinner currencySpinner;
-    private Spinner ringtoneSpinner;
+    private RadioButton billButton;
+    private RadioButton subscriptionButton;
     private Spinner intervalSpinner;
     private CheckBox reminder;
-    private TextView alarmTime;
     private ImageButton backbutton;
     private Button addbutton;
     MyDBHandler dbHandler;
+    String selectedDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,13 +48,15 @@ public  class addActivity extends AppCompatActivity implements TimePickerDialog.
         amountView = findViewById(R.id.amountView);
         mCalendarView = findViewById(R.id.calendarView);
         currencySpinner = findViewById(R.id.currencySpinner);
-        ringtoneSpinner = findViewById(R.id.ringView);
         intervalSpinner = findViewById(R.id.intervalView);
         reminder = findViewById(R.id.checkBox);
-        alarmTime = findViewById(R.id.alarmTimeView);
         backbutton = findViewById(R.id.backButton);
         addbutton = findViewById(R.id.addPaymentButton);
         dbHandler = new MyDBHandler(this,null,null,1);
+        billButton = findViewById(R.id.billButton);
+        subscriptionButton = findViewById(R.id.subscriptionButton);
+
+        billButton.toggle();
         String[] intervalarraySpinner = new String[] {"Monthly", "Annually"};
         String[] currencyarraySpinner = new String[] {"AUD $","EUR €", "INR ₹","USD $","JPY	¥","ZAR R"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
@@ -63,13 +68,6 @@ public  class addActivity extends AppCompatActivity implements TimePickerDialog.
         currencySpinner.setAdapter(adapter2);
             mCalendarView.setDate(System.currentTimeMillis(),false,true);
 
-        alarmTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragmant();
-                timePicker.show(getSupportFragmentManager(), "Time Picker");
-            }
-        });
 
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,33 +81,99 @@ public  class addActivity extends AppCompatActivity implements TimePickerDialog.
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                        String selectedDate = year+"/"+month+"/"+dayOfMonth;
 
-                        Bills bill = new Bills(titleView.getText().toString());
-                        bill.set_date(selectedDate);
-                        bill.setAmt(Integer.parseInt(amountView.getText().toString()));
-                        bill.set_currency(currencySpinner.getSelectedItem().toString());
-                        bill.set_interval(intervalSpinner.getSelectedItem().toString());
-                        bill.set_name(titleView.getText().toString());
-                        dbHandler.addBill(bill);
+                         selectedDate = year + "/" + (month+1) + "/" + dayOfMonth;
 
                     }
                 });
+                        if (titleView.getText().toString() != "" && amountView.getText().toString()!="")
+                        {
+
+                            Bills bill = new Bills(titleView.getText().toString());
+                            bill.set_date(selectedDate);
+                            bill.setAmt(amountView.getText().toString());
+                            bill.set_currency(currencySpinner.getSelectedItem().toString());
+
+                            bill.set_name(titleView.getText().toString());
+                            String type = "";
+                            if (billButton.isChecked()) {
+                                type = "bill";
+                                bill.set_interval("null");
+
+                            }
+                            if (subscriptionButton.isChecked()) {
+                                type = "subscription";
+                                bill.set_interval(intervalSpinner.getSelectedItem().toString());
+
+                            }
+                            bill.set_type(type);
+                            if (reminder.isChecked())
+                            {
+                                bill.set_notify(true);
+                            }
+                            else {
+                                bill.set_notify(false);
+
+                            }
+
+                            dbHandler.addBill(bill);
+                            if (dbHandler.addBill(bill))
+                            {
+                                Toast.makeText(getBaseContext(), "Bill added", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(getBaseContext(), "Something wasn't right", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            Intent intent = new Intent(addActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+
+                            Toast.makeText(getBaseContext(), "Incomplete fields found!", Toast.LENGTH_LONG).show();
+
+                        }
+
+
+
+
 
             }
 
         });
 
+        subscriptionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                subscriptionButton.setChecked(true);
+                billButton.setChecked(false);
+                intervalSpinner.setVisibility(View.VISIBLE);
+
+            }
+        });
+        billButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                subscriptionButton.setChecked(false);
+                billButton.setChecked(true);
+                intervalSpinner.setVisibility(View.INVISIBLE);
+
+
+            }
+        });
+
+
 
 
 
     }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        alarmTime.setText(hourOfDay+":"+minute);
-    }
+
 }

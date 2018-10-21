@@ -4,12 +4,12 @@ public class Bills {
     private int _id;
     private String _name;
     private String _date;
-    private int amt;
-    private String _time;
+    private String amt;
     private String _type;
     private String _currency;
     private String _interval;
-    private String _ring;
+    private boolean _notify;
+
 
     public Bills(String name) {
         this._name = name;
@@ -27,7 +27,13 @@ public class Bills {
         this._name = _name;
     }
 
+    public boolean get_notify() {
+        return _notify;
+    }
 
+    public void set_notify(boolean _notify) {
+        this._notify = _notify;
+    }
 
     public String get_currency() {
         return _currency;
@@ -57,7 +63,7 @@ public class Bills {
         this._type = _type;
     }
 
-    public void setAmt(int amt) {
+    public void setAmt(String amt) {
         this.amt = amt;
     }
 
@@ -73,7 +79,7 @@ public class Bills {
         this._date = _date;
     }
 
-    public int getAmt() {
+    public String getAmt() {
         return amt;
     }
 }
