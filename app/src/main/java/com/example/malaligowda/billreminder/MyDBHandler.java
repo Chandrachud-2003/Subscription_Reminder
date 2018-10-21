@@ -83,7 +83,7 @@ public class MyDBHandler extends SQLiteOpenHelper
 
     }
 
-    public ArrayList<String> namesArray()
+   public ArrayList<String> namesArray()
     {
         ArrayList<String> names=new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
@@ -266,7 +266,8 @@ public class MyDBHandler extends SQLiteOpenHelper
 
         db.close();
         return notify;
+        }
 
-    }
+
 
 }

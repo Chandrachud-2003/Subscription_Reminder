@@ -12,7 +12,10 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, addActivity.class);
                 startActivity(intent);
 
+
             }
         });
 
@@ -57,7 +61,43 @@ public class MainActivity extends AppCompatActivity {
 
         displayBills.removeAllViewsInLayout();
         initRecyclerView();
-
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        Date d = new Date();
+        String dayOfTheWeek = sdf.format(d);
+        day.setText(dayOfTheWeek);
+        String month1="";
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+        String datee = sdf1.format(new Date());
+        switch (Calendar.getInstance().get(Calendar.MONTH)) {
+            case 0:{ month1 = "JAN";
+                break;}
+            case 1:{ month1 = "FEB";
+                break;}
+            case 2:{ month1 = "MAR";
+                break;}
+            case 3:{ month1 = "APR";
+                break;}
+            case 5:{ month1 = "JUN";
+                break;}
+            case 6:{ month1 = "JUL";
+                break;}
+            case 7:{ month1 = "AUG";
+                break;}
+            case 8:{ month1 = "SEP";
+                break;}
+            case 9:{ month1 = "OCT";
+                break;}
+            case 10:{ month1 = "NOV";
+                break;}
+            case 11:{ month1 = "DEC";
+                break;}
+            case 4:{ month1 = "MAY";
+                break;}
+        }
+        String year1 = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        year.setText(year1);
+        month.setText(month1);
+        dayNumber.setText(datee);
 
     }
 
