@@ -204,7 +204,7 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 type.add(c.getString(c.getColumnIndex(COLUMN_type)));
 
-            }while (c.moveToNext()&&!c.isLast());
+            }while (c.moveToNext()&&!c.isLast()&&!c.isBeforeFirst());
 
         }
 
