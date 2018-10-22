@@ -133,7 +133,6 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
              this.cancelButton = itemView.findViewById(R.id.cancelButton);
              mRecyclerView = itemView.findViewById(R.id.displayView);
              this.viewBackground = itemView.findViewById(R.id.background);
-             this.viewforground = itemView.findViewById(R.id.parent_layout);
 
          }
      }

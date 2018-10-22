@@ -94,7 +94,8 @@
         android:elevation="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dayText"
-        app:srcCompat="@drawable/plus" />
+        app:srcCompat="@drawable/plus"
+        android:contentDescription="TODO" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/displayView"
