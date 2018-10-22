@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements RecyclerItemTouchHelperListener {
+public class MainActivity extends AppCompatActivity {
 
     private TextView timeView;
     private TextView dayNumber;
@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         day = findViewById(R.id.dayText);
         displayBills = findViewById(R.id.displayView);
         addBill = findViewById(R.id.addPaymentButton);
-        mConstraintLayout = findViewById(R.id.customBottom);
-     //   mBottomSheetBehavior = BottomSheetBehavior.from(mConstraintLayout);
+
 
 
         addBill.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +68,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         mDBHandler = new MyDBHandler(this, null, null, 1);
 
         displayBills.removeAllViewsInLayout();
+
         initRecyclerView();
+
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         Date d = new Date();
         String dayOfTheWeek = sdf.format(d);
@@ -138,7 +139,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         {
 
 
-            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval/* mBottomSheetBehavior*/);
+
+            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mBottomSheetBehavior);
             displayBills.setVisibility(View.VISIBLE);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
             displayBills.setLayoutManager(staggeredGridLayoutManager);
@@ -146,8 +148,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
 
 
 
-            ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0,ItemTouchHelper.LEFT,this);
-            new ItemTouchHelper(item).attachToRecyclerView(displayBills);
         }
 
 

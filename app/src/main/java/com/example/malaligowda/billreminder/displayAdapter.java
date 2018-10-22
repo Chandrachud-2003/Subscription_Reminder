@@ -31,11 +31,11 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private ArrayList<String> mType;
     private ArrayList<String> mNotify;
     private ArrayList<String> mInterval;
-  //  private BottomSheetBehavior mBehavior;
+    private BottomSheetBehavior mBehavior;
     private Context mContext;
 
 //
-    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval/* BottomSheetBehavior bottomSheetBehavior*/) {
+    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, BottomSheetBehavior bottomSheetBehavior) {
 
         mContext = context;
         mNames = names;
@@ -45,7 +45,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mType = type;
         mNotify = notify;
         mInterval = interval;
- //       mBehavior = bottomSheetBehavior;
+        mBehavior = bottomSheetBehavior;
     }
 
     @NonNull
@@ -65,15 +65,15 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.amountDisplay.setText(mAmount.get(position));
         holder.typeView.setText(mType.get(position));
 
-
-      /*  holder.mainbutton.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBehavior = BottomSheetBehavior.from(holder.mConstraintLayout);
+
                 mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
             }
         });
-*/
 
 
 
@@ -113,6 +113,8 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         Button cancelButton;
         Button checkButton;
 
+        ConstraintLayout mConstraintLayout;
+        BottomSheetBehavior mBottomSheetBehavior;
 
         RecyclerView mRecyclerView;
 
@@ -126,13 +128,13 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
              this.currencyDisplay = itemView.findViewById(R.id.currencyView);
              this.typeView = itemView.findViewById(R.id.typeView);
              this.layout = itemView.findViewById(R.id.parent_layout);
-             //this.mainbutton = itemView.findViewById(R.id.RecyclerButton);
              this.deleteButton = itemView.findViewById(R.id.deleteButton);
              this.editButton = itemView.findViewById(R.id.editButton);
              this.checkButton = itemView.findViewById(R.id.checkButton);
              this.cancelButton = itemView.findViewById(R.id.cancelButton);
              mRecyclerView = itemView.findViewById(R.id.displayView);
-             this.viewforground = itemView.findViewById(R.id.background);
+             this.layout = itemView.findViewById(R.id.parent_layout);
+             this.mConstraintLayout = itemView.findViewById(R.id.customBottom);
 
          }
      }
