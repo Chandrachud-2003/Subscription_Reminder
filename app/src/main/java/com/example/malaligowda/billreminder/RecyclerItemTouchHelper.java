@@ -54,5 +54,5 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback{
     public int convertToAbsoluteDirection(int flags, int layoutDirection) {
         return super.convertToAbsoluteDirection(flags, layoutDirection);
     }
-    //
+
 }
