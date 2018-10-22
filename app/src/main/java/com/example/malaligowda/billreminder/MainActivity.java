@@ -5,9 +5,11 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerItemTouchHelperListener {
 
     private TextView timeView;
     private TextView dayNumber;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         displayBills = findViewById(R.id.displayView);
         addBill = findViewById(R.id.addPaymentButton);
         mConstraintLayout = findViewById(R.id.customBottom);
-        mBottomSheetBehavior = BottomSheetBehavior.from(mConstraintLayout);
+     //   mBottomSheetBehavior = BottomSheetBehavior.from(mConstraintLayout);
 
 
         addBill.setOnClickListener(new View.OnClickListener() {
@@ -106,17 +108,18 @@ public class MainActivity extends AppCompatActivity {
         month.setText(month1);
         dayNumber.setText(datee);
 
+
     }
 
     private void initRecyclerView() {
-        ArrayList<String> mNames;
+
         ArrayList<String> mAmount;
         ArrayList<String> mCurrency;
         ArrayList<String> mDate;
         ArrayList<String> mInterval;
         ArrayList<String> mNotify;
         ArrayList<String> mType;
-
+        ArrayList<String> mNames;
 
 
 
@@ -135,12 +138,16 @@ public class MainActivity extends AppCompatActivity {
         {
 
 
-            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mBottomSheetBehavior);
+            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval/* mBottomSheetBehavior*/);
             displayBills.setVisibility(View.VISIBLE);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
             displayBills.setLayoutManager(staggeredGridLayoutManager);
             displayBills.setAdapter(displayAdapter);
 
+
+
+            ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0,ItemTouchHelper.LEFT,this);
+            new ItemTouchHelper(item).attachToRecyclerView(displayBills);
         }
 
 
@@ -154,7 +161,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if(viewHolder instanceof displayAdapter.ViewHolder) {
+            int deleteIndex = viewHolder.getAdapterPosition();
+
+
+        }
+
     }
+}
+
+
+
+
+
 
 
 

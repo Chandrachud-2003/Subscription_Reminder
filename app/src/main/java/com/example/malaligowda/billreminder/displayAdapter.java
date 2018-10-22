@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +31,11 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private ArrayList<String> mType;
     private ArrayList<String> mNotify;
     private ArrayList<String> mInterval;
-    private BottomSheetBehavior mBehavior;
+  //  private BottomSheetBehavior mBehavior;
     private Context mContext;
 
 
-    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, BottomSheetBehavior bottomSheetBehavior) {
+    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval/* BottomSheetBehavior bottomSheetBehavior*/) {
 
         mContext = context;
         mNames = names;
@@ -44,7 +45,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mType = type;
         mNotify = notify;
         mInterval = interval;
-        mBehavior = bottomSheetBehavior;
+ //       mBehavior = bottomSheetBehavior;
     }
 
     @NonNull
@@ -65,14 +66,14 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.typeView.setText(mType.get(position));
 
 
-        holder.mainbutton.setOnClickListener(new View.OnClickListener() {
+      /*  holder.mainbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
             }
         });
-
+*/
 
 
 
@@ -87,6 +88,14 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             return 0;
         }
     }
+    public void removeitem(int position)
+    {
+        mAmount.remove(position);
+        mCurrency.remove(position);
+        mNames.remove(position);
+        mInterval.remove(position);
+        notifyItemRemoved(position);
+    }
 
 
      class ViewHolder extends RecyclerView.ViewHolder {
@@ -97,6 +106,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         TextView amountDisplay;
         TextView typeView;
         ConstraintLayout layout;
+        RelativeLayout viewBackground,viewforground;
         Button mainbutton;
         Button deleteButton;
         Button editButton;
@@ -116,12 +126,14 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
              this.currencyDisplay = itemView.findViewById(R.id.currencyView);
              this.typeView = itemView.findViewById(R.id.typeView);
              this.layout = itemView.findViewById(R.id.parent_layout);
-             this.mainbutton = itemView.findViewById(R.id.RecyclerButton);
+             //this.mainbutton = itemView.findViewById(R.id.RecyclerButton);
              this.deleteButton = itemView.findViewById(R.id.deleteButton);
              this.editButton = itemView.findViewById(R.id.editButton);
              this.checkButton = itemView.findViewById(R.id.checkButton);
              this.cancelButton = itemView.findViewById(R.id.cancelButton);
              mRecyclerView = itemView.findViewById(R.id.displayView);
+             this.viewBackground = itemView.findViewById(R.id.background);
+             this.viewforground = itemView.findViewById(R.id.parent_layout);
 
          }
      }
