@@ -116,32 +116,31 @@
 
 </android.support.constraint.ConstraintLayout>
 
-<RelativeLayout
-    android:id="@+id/background"
-        android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    <RelativeLayout
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/delete_icon"
-        android:src="@android:drawable/ic_delete"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Delete_text"
-        android:text="Delete"
-        android:layout_centerVertical="true"
-        android:textSize="13sp"
-        android:textColor="@android:color/white"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/delete_icon"
-        />
+        <ImageView
+            android:id="@+id/delete_icon"
+            android:layout_width="30dp"
+            android:layout_height="31dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@android:drawable/ic_delete" />
+
+        <TextView
+            android:id="@+id/Delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/delete_icon"
+            android:text="Delete"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>

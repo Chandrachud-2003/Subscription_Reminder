@@ -34,7 +34,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
   //  private BottomSheetBehavior mBehavior;
     private Context mContext;
 
-
+//
     public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval/* BottomSheetBehavior bottomSheetBehavior*/) {
 
         mContext = context;

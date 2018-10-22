@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         addBill = findViewById(R.id.addPaymentButton);
         mConstraintLayout = findViewById(R.id.customBottom);
      //   mBottomSheetBehavior = BottomSheetBehavior.from(mConstraintLayout);
-
+//
 
         addBill.setOnClickListener(new View.OnClickListener() {
             @Override
