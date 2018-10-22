@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
                 break;}
             case 11:{ month1 = "DEC";
                 break;}
-            case 4:{ month1 = "MAY";
+            case 4:{ month1 = "MAYY";
                 break;}
         }
         String year1 = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
