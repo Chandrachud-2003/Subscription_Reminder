@@ -8,6 +8,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private Context mContext;
 
 //
-    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, BottomSheetBehavior bottomSheetBehavior) {
+    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval) {
 
         mContext = context;
         mNames = names;
@@ -45,7 +46,6 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mType = type;
         mNotify = notify;
         mInterval = interval;
-        mBehavior = bottomSheetBehavior;
     }
 
     @NonNull
@@ -59,18 +59,35 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
+
+        RequestOptions requestOptions = new RequestOptions().placeholder(R.color.white);
         holder.nameDisplay.setText(mNames.get(position));
         holder.currencyDisplay.setText(mCurrency.get(position));
         holder.dateDisplay.setText(mDates.get(position));
         holder.amountDisplay.setText(mAmount.get(position));
         holder.typeView.setText(mType.get(position));
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+        Glide.with(mContext)
+                .load(R.drawable.edit)
+                .apply(requestOptions)
+                .into(holder.editButton);
+        Glide.with(mContext)
+                .load(R.drawable.check)
+                .apply(requestOptions)
+                .into(holder.checkButton);
+        Glide.with(mContext)
+                .load(R.drawable.delete)
+                .apply(requestOptions)
+                .into(holder.deleteButton);
+
+
+        holder.mainbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBehavior = BottomSheetBehavior.from(holder.mConstraintLayout);
 
-                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+                Log.d("billReminder", holder.nameDisplay.getText().toString()+" clicked");
+
 
             }
         });
@@ -106,15 +123,11 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         TextView amountDisplay;
         TextView typeView;
         ConstraintLayout layout;
-        RelativeLayout viewBackground,viewforground;
         Button mainbutton;
-        Button deleteButton;
-        Button editButton;
-        Button cancelButton;
-        Button checkButton;
+        ImageButton deleteButton;
+        ImageButton editButton;
+        ImageButton checkButton;
 
-        ConstraintLayout mConstraintLayout;
-        BottomSheetBehavior mBottomSheetBehavior;
 
         RecyclerView mRecyclerView;
 
@@ -131,10 +144,9 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
              this.deleteButton = itemView.findViewById(R.id.deleteButton);
              this.editButton = itemView.findViewById(R.id.editButton);
              this.checkButton = itemView.findViewById(R.id.checkButton);
-             this.cancelButton = itemView.findViewById(R.id.cancelButton);
              mRecyclerView = itemView.findViewById(R.id.displayView);
              this.layout = itemView.findViewById(R.id.parent_layout);
-             this.mConstraintLayout = itemView.findViewById(R.id.customBottom);
+             this.mainbutton = itemView.findViewById(R.id.mainButton);
 
          }
      }

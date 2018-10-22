@@ -18,6 +18,9 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 public  class addActivity extends AppCompatActivity {
 
     private EditText titleView;
@@ -85,12 +88,17 @@ public  class addActivity extends AppCompatActivity {
 
 
                             Bills bill = new Bills(titleView.getText().toString());
+
+
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                            selectedDate = sdf.format(new Date(mCalendarView.getDate()));
                             mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                                 @Override
                                 public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
 
-                                    selectedDate = year + "/" + (month+1) + "/" + dayOfMonth;
-                                    Log.d("billReminder",selectedDate);
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                    selectedDate = sdf.format(new Date(mCalendarView.getDate()));
 
                                 }
                             });

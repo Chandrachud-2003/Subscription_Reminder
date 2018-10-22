@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView day;
     private RecyclerView displayBills;
     private ImageButton addBill;
-    private ConstraintLayout mConstraintLayout;
-    private BottomSheetBehavior mBottomSheetBehavior;
-
 
     private MyDBHandler mDBHandler;
     private static final int NUM_COLUMNS = 1;
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         day = findViewById(R.id.dayText);
         displayBills = findViewById(R.id.displayView);
         addBill = findViewById(R.id.addPaymentButton);
-
 
 
         addBill.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mBottomSheetBehavior);
+
+            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval);
             displayBills.setVisibility(View.VISIBLE);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
             displayBills.setLayoutManager(staggeredGridLayoutManager);
