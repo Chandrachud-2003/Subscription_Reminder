@@ -122,7 +122,7 @@ public  class addActivity extends AppCompatActivity {
                             bill.set_day(selectedDate);
 
 
-                            bill.setAmt(amountView.getText().toString());
+                             bill.setAmt(amountView.getText().toString());
                             bill.set_currency(currencySpinner.getSelectedItem().toString());
                             bill.set_notifyDays(notifyDays.getText().toString());
 

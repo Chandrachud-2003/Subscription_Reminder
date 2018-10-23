@@ -10,9 +10,9 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class MyDBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "bills.db";
-    public static final String TABLE_BILLS = "Table3";
+    public static final String TABLE_BILLS = "Table2";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_date = "date";
@@ -37,8 +37,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 COLUMN_currency + " TEXT, " +
                 COLUMN_interval + " TEXT, " +
                 COLUMN_type + " TEXT, " +
-                COLUMN_notify + " TEXT" +
-                COLUMN_notifyDays + "TEXT" +
+                COLUMN_notify + " TEXT, " +
+                COLUMN_notifyDays + " TEXT " +
                 ");";
 
         db.execSQL(query);
@@ -88,7 +88,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public ArrayList<String> idArray() {
         ArrayList<String> id = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT currency FROM " + TABLE_BILLS + " WHERE1";
+        String query = "SELECT _id FROM " + TABLE_BILLS + " WHERE1";
 
         Cursor c = db.rawQuery(query, null);
 
@@ -380,7 +380,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public ArrayList<String> notifyDays() {
         ArrayList<String> notifyDays = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT name FROM " + TABLE_BILLS + " WHERE1";
+        String query = "SELECT days FROM " + TABLE_BILLS + " WHERE1";
 
         Cursor c = db.rawQuery(query, null);
 

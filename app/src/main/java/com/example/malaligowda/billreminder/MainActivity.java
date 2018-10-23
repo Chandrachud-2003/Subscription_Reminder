@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        mDBHandler = new MyDBHandler(this, null, null, 1);
+        mDBHandler = new MyDBHandler(this, null, null, 5);
 
         displayBills.removeAllViewsInLayout();
 

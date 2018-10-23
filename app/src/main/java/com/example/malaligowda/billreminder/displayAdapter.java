@@ -70,7 +70,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.dateDisplay.setText(mDates.get(position));
         holder.amountDisplay.setText(mAmount.get(position));
         holder.typeView.setText(mType.get(position));
-        dbHandler = new MyDBHandler(mContext,null,null,1);
+        dbHandler = new MyDBHandler(mContext,null,null,5);
 
         Glide.with(mContext)
                 .load(R.drawable.edit)
