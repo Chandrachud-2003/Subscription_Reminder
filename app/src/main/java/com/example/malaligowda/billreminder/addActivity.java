@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 public  class addActivity extends AppCompatActivity {
 
@@ -74,7 +75,29 @@ public  class addActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, currencyarraySpinner);
         currencySpinner.setAdapter(adapter2);
-            mCalendarView.setDate(System.currentTimeMillis(),false,true);
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        selectedDate = sdf.format(new Date(mCalendarView.getDate()));
+        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                long milliTime = calendar.getTimeInMillis();
+                mCalendarView.setDate(milliTime, true, true);
+                final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                selectedDate = sdf.format(new Date(mCalendarView.getDate()));
+                Log.d("billReminder",selectedDate);
+
+
+
+
+            }
+        });
+
 
         getIncomingIntent();
         backbutton.setOnClickListener(new View.OnClickListener() {
@@ -94,19 +117,10 @@ public  class addActivity extends AppCompatActivity {
 
 
                             Bills bill = new Bills(titleView.getText().toString());
+                            bill.set_day(selectedDate);
 
 
-                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                            selectedDate = sdf.format(new Date(mCalendarView.getDate()));
-                            mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-                                @Override
-                                public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
 
-                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                    selectedDate = sdf.format(new Date(mCalendarView.getDate()));
-
-                                }
-                            });
 
                             bill.setAmt(amountView.getText().toString());
                             bill.set_currency(currencySpinner.getSelectedItem().toString());
@@ -202,6 +216,7 @@ public  class addActivity extends AppCompatActivity {
             String editinterval = getIntent().getStringExtra("interval");
             String editdate = getIntent().getStringExtra("date");
             String edittype = getIntent().getStringExtra("type");
+
             titleView.setText(editname);
             amountView.setText(editamount);
             ArrayList<String> currency = new ArrayList<String>(Arrays.asList("AUD $","EUR €", "INR ₹","USD $","JPY	¥","ZAR R"));
@@ -212,15 +227,40 @@ public  class addActivity extends AppCompatActivity {
             if (edittype.equals("Bill")) {
                 billButton.setChecked(true);
                 subscriptionButton.setChecked(false);
+                intervalSpinner.setVisibility(View.INVISIBLE);
+
 
             }
-            else{
+            else if( edittype.equals("Subscription")) {
                 billButton.setChecked(false);
                 subscriptionButton.setChecked(true);
                 intervalSpinner.setVisibility(View.VISIBLE);
                 divider.setVisibility(View.VISIBLE);
 
             }
+            subscriptionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    subscriptionButton.setChecked(true);
+                    billButton.setChecked(false);
+                    intervalSpinner.setVisibility(View.VISIBLE);
+                    divider.setVisibility(View.VISIBLE);
+
+                }
+            });
+            billButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    subscriptionButton.setChecked(false);
+                    billButton.setChecked(true);
+                    intervalSpinner.setVisibility(View.INVISIBLE);
+                    divider.setVisibility(View.INVISIBLE);
+
+
+                }
+            });
             Log.d("intent", "notify-"+editnotify+"r");
             if(editnotify.equals("true"))
                 reminder.setChecked(true);

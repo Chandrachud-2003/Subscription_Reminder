@@ -59,7 +59,7 @@ public class MyDBHandler extends SQLiteOpenHelper
        values.put(COLUMN_currency, bills.get_currency());
        values.put(COLUMN_interval, bills.get_interval());
        values.put(COLUMN_notify, bills.get_notify());
-     //  values.put(COLUMN_date,bills.get_date());
+       values.put(COLUMN_date,bills.get_day());
 
        db.insert(TABLE_BILLS,null,values);
 

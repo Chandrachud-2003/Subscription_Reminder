@@ -105,11 +105,19 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("illReminder", holder.nameDisplay.getText().toString()+" delete clicked");
+                Log.d("billReminder", holder.nameDisplay.getText().toString() + " delete clicked");
 
-                String remove = mNames.get(position);
-                 dbHandler.deleteBill(remove);
+
+                if (mNames.size() != 1){
+                    String remove = mNames.get(position);
+                dbHandler.deleteBill(remove);
                 deleteitem(position);
+            }
+                else{
+                    String remove = mNames.get(0);
+                    dbHandler.deleteBill(remove);
+                    deleteitem(0);
+                }
 
 
             }
@@ -139,9 +147,9 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 holder.nameDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 holder.currencyDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 holder.amountDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.editButton.setVisibility(View.INVISIBLE);
-                holder.checkButton.setVisibility(View.INVISIBLE);
-                holder.deleteButton.setVisibility(View.INVISIBLE);
+                holder.editButton.setVisibility(View.GONE);
+                holder.checkButton.setVisibility(View.GONE);
+                holder.deleteButton.setVisibility(View.GONE);
                 holder.mainbutton.setClickable(false);
                 String remove = mNames.get(position);
                 dbHandler.deleteBill(remove);
