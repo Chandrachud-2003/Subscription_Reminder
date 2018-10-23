@@ -22,7 +22,7 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHolder>  {
-
+    private ArrayList<String> mId;
     private ArrayList<String> mNames;
     private ArrayList<String> mDates;
     private ArrayList<String> mCurrency;
@@ -121,6 +121,12 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
                 Intent intent = new Intent(mContext, addActivity.class);
                 intent.putExtra("amount",mAmount.get(position));
+                intent.putExtra("name",mNames.get(position));
+                intent.putExtra("notify",mNotify.get(position));
+                intent.putExtra("currency",mCurrency.get(position));
+                intent.putExtra("interval",mInterval.get(position));
+                intent.putExtra("dates",mDates.get(position));
+                intent.putExtra("type",mType.get(position));
                 mContext.startActivity(intent);
 
 

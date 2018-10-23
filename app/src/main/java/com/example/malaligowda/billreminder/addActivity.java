@@ -16,10 +16,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public  class addActivity extends AppCompatActivity {
 
@@ -36,6 +39,7 @@ public  class addActivity extends AppCompatActivity {
     MyDBHandler dbHandler;
     String selectedDate;
     private View divider;
+    String edit="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public  class addActivity extends AppCompatActivity {
         billButton.toggle();
         String[] intervalarraySpinner = new String[] {"Monthly", "Annually"};
         String[] currencyarraySpinner = new String[] {"AUD $","EUR €", "INR ₹","USD $","JPY	¥","ZAR R"};
+        currencySpinner.setSelection(2);
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, intervalarraySpinner);
         intervalSpinner.setAdapter(adapter1);
@@ -71,7 +76,7 @@ public  class addActivity extends AppCompatActivity {
         currencySpinner.setAdapter(adapter2);
             mCalendarView.setDate(System.currentTimeMillis(),false,true);
 
-
+        getIncomingIntent();
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,12 +90,10 @@ public  class addActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                        if (!titleView.getText().toString().equals("") && !amountView.getText().toString().equals(""))
-                        {
+                        if (!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("")) {
 
 
                             Bills bill = new Bills(titleView.getText().toString());
-
 
 
                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -117,34 +120,31 @@ public  class addActivity extends AppCompatActivity {
                                 bill.set_type("Subscription");
 
 
-
                             }
                             bill.set_interval(intervalSpinner.getSelectedItem().toString());
-                            if (reminder.isChecked())
-                            {
+                            if (reminder.isChecked()) {
                                 bill.set_notify("true");
-                            }
-                            else {
+                            } else {
                                 bill.set_notify("false");
 
                             }
 
                             dbHandler.addBill(bill);
-                            if (dbHandler.addBill(bill))
-                            {
+                            if (dbHandler.addBill(bill)) {
+                                if(edit=="")
                                 Toast.makeText(getBaseContext(), "Bill added", Toast.LENGTH_SHORT).show();
-
-
-                            }
-                            else {
+                                else {
+                                    dbHandler.deleteBill(edit);
+                                    Toast.makeText(getBaseContext(), "Bill changed", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
                                 Toast.makeText(getBaseContext(), "Something wasn't right", Toast.LENGTH_SHORT).show();
 
                             }
 
                             Intent intent = new Intent(addActivity.this, MainActivity.class);
                             startActivity(intent);
-                        }
-                        else {
+                        } else {
 
                             Toast.makeText(getBaseContext(), "Incomplete fields found!", Toast.LENGTH_LONG).show();
 
@@ -183,10 +183,53 @@ public  class addActivity extends AppCompatActivity {
         });
 
 
+
 //
         //
 
 
+    }
+    private void getIncomingIntent(){
+
+
+        if(getIntent().hasExtra("amount") && getIntent().hasExtra("name")){
+            Log.d("intent", "getIncomingIntent: found intent extras.");
+
+            String editamount = getIntent().getStringExtra("amount");
+            String editname = getIntent().getStringExtra("name");
+            String editcurrency = getIntent().getStringExtra("currency");
+            String editnotify = getIntent().getStringExtra("notify");
+            String editinterval = getIntent().getStringExtra("interval");
+            String editdate = getIntent().getStringExtra("date");
+            String edittype = getIntent().getStringExtra("type");
+            titleView.setText(editname);
+            amountView.setText(editamount);
+            ArrayList<String> currency = new ArrayList<String>(Arrays.asList("AUD $","EUR €", "INR ₹","USD $","JPY	¥","ZAR R"));
+            currencySpinner.setSelection(currency.indexOf(editcurrency));
+            ArrayList<String> interval = new ArrayList<String>(Arrays.asList("Monthly", "Annually"));
+            intervalSpinner.setSelection(interval.indexOf(editinterval));
+            Log.d("intent", "type-"+edittype+"r");
+            if (edittype.equals("Bill")) {
+                billButton.setChecked(true);
+                subscriptionButton.setChecked(false);
+
+            }
+            else{
+                billButton.setChecked(false);
+                subscriptionButton.setChecked(true);
+                intervalSpinner.setVisibility(View.VISIBLE);
+                divider.setVisibility(View.VISIBLE);
+
+            }
+            Log.d("intent", "notify-"+editnotify+"r");
+            if(editnotify.equals("true"))
+                reminder.setChecked(true);
+            else
+                reminder.setChecked(false);
+
+            edit=editname;
+
+        }
     }
 
 

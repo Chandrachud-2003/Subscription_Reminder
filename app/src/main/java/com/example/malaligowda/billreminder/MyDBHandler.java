@@ -105,6 +105,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             {
                 names.remove(0);
             }
+            if(names.size()>4)
+            {
+                names.remove(4);
+            }
+            if(names.size()>7)
+            {
+                names.remove(7);
+            }
         }
 
         if (names != null) {
@@ -136,6 +144,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             if(amount.size()>1)
             {
                 amount.remove(0);
+            }
+            if(amount.size()>4)
+            {
+                amount.remove(4);
+            }
+            if(amount.size()>7)
+            {
+                amount.remove(7);
             }
         }
 
@@ -172,6 +188,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             {
                 currency.remove(0);
             }
+            if(currency.size()>4)
+            {
+                currency.remove(4);
+            }
+            if(currency.size()>7)
+            {
+                currency.remove(7);
+            }
         }
 
         if (currency != null) {
@@ -203,6 +227,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             if(date.size()>1)
             {
                 date.remove(0);
+            }
+            if(date.size()>4)
+            {
+                date.remove(4);
+            }
+            if(date.size()>7)
+            {
+                date.remove(7);
             }
         }
 
@@ -237,6 +269,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             {
                 type.remove(0);
             }
+            if(type.size()>4)
+            {
+                type.remove(4);
+            }
+            if(type.size()>7)
+            {
+                type.remove(7);
+            }
         }
 
         if (type != null) {
@@ -270,6 +310,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             {
                 interval.remove(0);
             }
+            if(interval.size()>4)
+            {
+                interval.remove(4);
+            }
+            if(interval.size()>7)
+            {
+                interval.remove(7);
+            }
         }
 
         if (interval != null) {
@@ -302,6 +350,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             if(notify.size()>1)
             {
                 notify.remove(0);
+            }
+            if(notify.size()>4)
+            {
+                notify.remove(4);
+            }
+            if(notify.size()>7)
+            {
+                notify.remove(7);
             }
         }
 
