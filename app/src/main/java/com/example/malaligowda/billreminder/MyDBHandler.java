@@ -59,7 +59,7 @@ public class MyDBHandler extends SQLiteOpenHelper
        values.put(COLUMN_currency, bills.get_currency());
        values.put(COLUMN_interval, bills.get_interval());
        values.put(COLUMN_notify, bills.get_notify());
-       values.put(COLUMN_date,bills.get_date());
+     //  values.put(COLUMN_date,bills.get_date());
 
        db.insert(TABLE_BILLS,null,values);
 
@@ -81,6 +81,7 @@ public class MyDBHandler extends SQLiteOpenHelper
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_BILLS + " WHERE "+ COLUMN_NAME + "=\"" + billname + "\";");
 
+
     }
 
    public ArrayList<String> namesArray()
@@ -96,8 +97,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 names.add(c.getString(c.getColumnIndex(COLUMN_NAME)));
 
-            }while (c.moveToNext()&&!c.isLast());
+                    c.moveToNext();
+                    c.moveToNext();
 
+            }while (c.moveToNext()&&!c.isLast());
+            if(names.size()>1)
+            {
+                names.remove(0);
+            }
         }
 
         if (names != null) {
@@ -122,8 +129,14 @@ public class MyDBHandler extends SQLiteOpenHelper
 
                     amount.add(c.getString(c.getColumnIndex(COLUMN_amt)));
 
-            }while (c.moveToNext()&&!c.isLast());
+                   c.moveToNext();
+                   c.moveToNext();
 
+            }while (c.moveToNext()&&!c.isLast());
+            if(amount.size()>1)
+            {
+                amount.remove(0);
+            }
         }
 
         if (amount != null) {
@@ -131,7 +144,7 @@ public class MyDBHandler extends SQLiteOpenHelper
         }        c.close();
 
         db.close();
-
+//        Log.d("test", "amountArray:"+amount.get(1));
         return amount;
 
     }
@@ -143,7 +156,7 @@ public class MyDBHandler extends SQLiteOpenHelper
         String query = "SELECT currency FROM "+TABLE_BILLS+" WHERE1";
 
         Cursor c = db.rawQuery(query, null);
-        c.moveToFirst();
+
 
         if (c.moveToFirst())
         {
@@ -151,8 +164,14 @@ public class MyDBHandler extends SQLiteOpenHelper
 
                     currency.add(c.getString(c.getColumnIndex(COLUMN_currency)));
 
-            }while (c.moveToNext()&&!c.isLast());
+                   c.moveToNext();
+                   c.moveToNext();
 
+            }while (c.moveToNext()&&!c.isLast());
+            if(currency.size()>1)
+            {
+                currency.remove(0);
+            }
         }
 
         if (currency != null) {
@@ -177,8 +196,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 date.add(c.getString(c.getColumnIndex(COLUMN_date)));
 
-            }while (c.moveToNext()&&!c.isLast());
+                    c.moveToNext();
+                    c.moveToNext();
 
+            }while (c.moveToNext()&&!c.isLast());
+            if(date.size()>1)
+            {
+                date.remove(0);
+            }
         }
 
         if (date != null) {
@@ -204,8 +229,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 type.add(c.getString(c.getColumnIndex(COLUMN_type)));
 
-            }while (c.moveToNext()&&!c.isLast()&&!c.isBeforeFirst());
+                    c.moveToNext();
+                    c.moveToNext();
 
+            }while (c.moveToNext()&&!c.isLast());
+            if(type.size()>1)
+            {
+                type.remove(0);
+            }
         }
 
         if (type != null) {
@@ -231,8 +262,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 interval.add(c.getString(c.getColumnIndex(COLUMN_interval)));
 
-            }while (c.moveToNext()&&!c.isLast());
+                    c.moveToNext();
+                    c.moveToNext();
 
+            }while (c.moveToNext()&&!c.isLast());
+            if(interval.size()>1)
+            {
+                interval.remove(0);
+            }
         }
 
         if (interval != null) {
@@ -258,8 +295,14 @@ public class MyDBHandler extends SQLiteOpenHelper
             do {
                 notify.add(c.getString(c.getColumnIndex(COLUMN_notify)));
 
-            }while (c.moveToNext()&&!c.isLast());
+                    c.moveToNext();
+                    c.moveToNext();
 
+            }while (c.moveToNext()&&!c.isLast());
+            if(notify.size()>1)
+            {
+                notify.remove(0);
+            }
         }
 
         if (notify != null) {

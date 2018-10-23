@@ -105,15 +105,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addHeading" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="173dp"
-        android:layout_height="1dp"
-        android:background="@android:color/background_light"
-        app:layout_constraintEnd_toEndOf="@+id/amountView"
-        app:layout_constraintStart_toStartOf="@+id/amountView"
-        app:layout_constraintTop_toBottomOf="@+id/amountView" />
-
     <Spinner
         android:id="@+id/currencySpinner"
         android:layout_width="121dp"

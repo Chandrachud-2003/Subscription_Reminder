@@ -3,7 +3,7 @@ package com.example.malaligowda.billreminder;
 public class Bills {
     private int _id;
     private String _name;
-    private String _date;
+    private String _day;
     private String amt;
     private String _type;
     private String _currency;
@@ -71,12 +71,13 @@ public class Bills {
         return _id;
     }
 
-    public String get_date() {
-        return _date;
+    public void set_day(String _day) {
+        this._day = _day;
     }
 
-    public void set_date(String _date) {
-        this._date = _date;
+    public String get_day() {
+
+        return _day;
     }
 
     public String getAmt() {

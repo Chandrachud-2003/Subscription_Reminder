@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
 
+
             }
         });
 
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             mInterval = mDBHandler.intervalArray();
             mNotify = mDBHandler.notifyArray();
             mType = mDBHandler.typeArray();
+
         if (mNames.size()!=0)
         {
 

@@ -35,7 +35,7 @@ public  class addActivity extends AppCompatActivity {
     private Button addbutton;
     MyDBHandler dbHandler;
     String selectedDate;
-    RecyclerView mRecyclerView;
+    private View divider;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,10 +53,12 @@ public  class addActivity extends AppCompatActivity {
         backbutton = findViewById(R.id.backButton);
         addbutton = findViewById(R.id.addPaymentButton);
         dbHandler = new MyDBHandler(this,null,null,1);
+        divider = findViewById(R.id.divider7);
         billButton = findViewById(R.id.billButton);
         subscriptionButton = findViewById(R.id.subscriptionButton);
 
-
+        intervalSpinner.setVisibility(View.INVISIBLE);
+        divider.setVisibility(View.INVISIBLE);
         billButton.toggle();
         String[] intervalarraySpinner = new String[] {"Monthly", "Annually"};
         String[] currencyarraySpinner = new String[] {"AUD $","EUR €", "INR ₹","USD $","JPY	¥","ZAR R"};
@@ -102,7 +104,7 @@ public  class addActivity extends AppCompatActivity {
 
                                 }
                             });
-                            bill.set_date(selectedDate);
+
                             bill.setAmt(amountView.getText().toString());
                             bill.set_currency(currencySpinner.getSelectedItem().toString());
 
@@ -163,6 +165,7 @@ public  class addActivity extends AppCompatActivity {
                 subscriptionButton.setChecked(true);
                 billButton.setChecked(false);
                 intervalSpinner.setVisibility(View.VISIBLE);
+                divider.setVisibility(View.VISIBLE);
 
             }
         });
@@ -173,6 +176,7 @@ public  class addActivity extends AppCompatActivity {
                 subscriptionButton.setChecked(false);
                 billButton.setChecked(true);
                 intervalSpinner.setVisibility(View.INVISIBLE);
+                divider.setVisibility(View.INVISIBLE);
 
 
             }
