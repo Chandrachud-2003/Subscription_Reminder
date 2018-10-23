@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> mType;
         ArrayList<String> mNames;
         ArrayList<String> mNotifyDays;
-        List<Integer> mId;
+        ArrayList<String> mId;
 
 
 

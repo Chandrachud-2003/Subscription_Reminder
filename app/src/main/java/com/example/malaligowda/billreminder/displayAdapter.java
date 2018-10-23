@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHolder>  {
-    private List<Integer> mId;
+    private ArrayList<String> mId;
     private ArrayList<String> mNames;
     private ArrayList<String> mDates;
     private ArrayList<String> mCurrency;
@@ -39,7 +39,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
 //
 //
-    public displayAdapter(Context context, List<Integer> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays) {
+    public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays) {
 
         mContext = context;
         mNames = names;
@@ -113,13 +113,13 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
 
                 if (mNames.size() != 1){
-                    int remove = mId.get(position);
+                    String remove = mId.get(position);
                     Log.d("del", ""+mId.get(position));
                 dbHandler.deleteBill(remove);
                 deleteitem(position);
             }
                 else{
-                    int remove = mId.get(0);
+                    String remove = mId.get(0);
                     dbHandler.deleteBill(remove);
                     deleteitem(0);
                 }
@@ -157,7 +157,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 holder.checkButton.setVisibility(View.GONE);
                 holder.deleteButton.setVisibility(View.GONE);
                 holder.mainbutton.setClickable(false);
-                int remove = mId.get(position);
+                String remove = mId.get(position);
                 dbHandler.deleteBill(remove);
                 holder.view.setVisibility(View.VISIBLE);
                 holder.layout.setClickable(false);

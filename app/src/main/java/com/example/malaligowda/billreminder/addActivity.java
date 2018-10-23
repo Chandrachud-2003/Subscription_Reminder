@@ -41,7 +41,7 @@ public  class addActivity extends AppCompatActivity {
     MyDBHandler dbHandler;
     String selectedDate;
     private View divider;
-    int edit=0;
+    String edit="";
     int id;
     SharedPreferences savedid;
     SharedPreferences.Editor editor;
@@ -152,7 +152,7 @@ public  class addActivity extends AppCompatActivity {
 
                             dbHandler.addBill(bill);
                             if (dbHandler.addBill(bill)) {
-                                if(edit==0)
+                                if(edit=="")
                                 Toast.makeText(getBaseContext(), "Bill added", Toast.LENGTH_SHORT).show();
                                 else {
                                     dbHandler.deleteBill(edit);
@@ -223,7 +223,7 @@ public  class addActivity extends AppCompatActivity {
             String editinterval = getIntent().getStringExtra("interval");
             String editdate = getIntent().getStringExtra("date");
             String edittype = getIntent().getStringExtra("type");
-            int editid = getIntent().getIntExtra("id",0);
+            String editid = getIntent().getStringExtra("id");
 
             titleView.setText(editname);
             amountView.setText(editamount);
