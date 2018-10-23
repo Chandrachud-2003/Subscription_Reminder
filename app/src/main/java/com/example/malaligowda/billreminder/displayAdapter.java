@@ -37,7 +37,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
 
 
-//
+
 //
     public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays) {
 
