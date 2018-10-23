@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyDBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 5;
@@ -30,7 +31,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_BILLS + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " INTEGER, " +
                 COLUMN_NAME + " TEXT, " +
                 COLUMN_date + " TEXT, " +
                 COLUMN_amt + " INTEGER, " +
@@ -53,7 +54,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     //add new bill to the database
     public boolean addBill(Bills bills) {
         SQLiteDatabase db = this.getWritableDatabase();
-
+        Log.d("rohit", "type-"+bills.get_id());
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, bills.get_name());
         values.put(COLUMN_amt, bills.getAmt());
@@ -63,6 +64,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_notify, bills.get_notify());
         values.put(COLUMN_date, bills.get_day());
         values.put(COLUMN_notifyDays, bills.get_notifyDays());
+        values.put(COLUMN_ID,bills.get_id());
 
         db.insert(TABLE_BILLS, null, values);
 
@@ -76,17 +78,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
     }
 
-    public void deleteBill(String billID) {
-
-
+    public void deleteBill(int billID) {
+        Log.d("delete",""+ billID);
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_BILLS + " WHERE " + COLUMN_ID + "=\"" + billID + "\";");
+      //  db.execSQL("DELETE FROM " + TABLE_BILLS + " WHERE " + COLUMN_ID + "=\'" + billID + "\';");
+        db.delete(TABLE_BILLS, COLUMN_ID + "=" + billID, null);
 
 
     }
 
-    public ArrayList<String> idArray() {
-        ArrayList<String> id = new ArrayList<>();
+    public List<Integer> idArray() {
+        List<Integer> id = new ArrayList<Integer>();
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT _id FROM " + TABLE_BILLS + " WHERE1";
 
@@ -95,8 +97,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         if (c.moveToFirst()) {
             do {
+                id.add(c.getColumnIndex(COLUMN_ID));
 
-                id.add(c.getString(c.getColumnIndex(COLUMN_ID)));
 
                 c.moveToNext();
                 c.moveToNext();
@@ -119,8 +121,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         c.close();
         db.close();
         return id;
-
     }
+
     public ArrayList<String> namesArray() {
         ArrayList<String> names = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();

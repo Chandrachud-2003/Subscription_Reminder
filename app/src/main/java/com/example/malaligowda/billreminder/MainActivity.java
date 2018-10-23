@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> mType;
         ArrayList<String> mNames;
         ArrayList<String> mNotifyDays;
-        ArrayList<String> mId;
+        List<Integer> mId;
 
 
 

@@ -75,7 +75,12 @@ public class Bills {
         return _id;
     }
 
+    public void set_id(int _id) {
+        this._id = _id;
+    }
+
     public void set_day(String _day) {
+
         this._day = _day;
     }
 

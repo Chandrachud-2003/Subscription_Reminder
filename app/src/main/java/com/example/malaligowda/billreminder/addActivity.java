@@ -1,6 +1,7 @@
 package com.example.malaligowda.billreminder;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,7 +41,10 @@ public  class addActivity extends AppCompatActivity {
     MyDBHandler dbHandler;
     String selectedDate;
     private View divider;
-    String edit="";
+    int edit=0;
+    int id;
+    SharedPreferences savedid;
+    SharedPreferences.Editor editor;
     private EditText notifyDays;
 
     @Override
@@ -73,11 +77,12 @@ public  class addActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, intervalarraySpinner);
         intervalSpinner.setAdapter(adapter1);
-
+        savedid = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        editor = savedid.edit();
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, currencyarraySpinner);
         currencySpinner.setAdapter(adapter2);
-
+        id=savedid.getInt("id",0);
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         selectedDate = sdf.format(new Date(mCalendarView.getDate()));
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -120,7 +125,8 @@ public  class addActivity extends AppCompatActivity {
 
                             Bills bill = new Bills(titleView.getText().toString());
                             bill.set_day(selectedDate);
-
+                            id++;
+                            bill.set_id(id);
 
                              bill.setAmt(amountView.getText().toString());
                             bill.set_currency(currencySpinner.getSelectedItem().toString());
@@ -146,7 +152,7 @@ public  class addActivity extends AppCompatActivity {
 
                             dbHandler.addBill(bill);
                             if (dbHandler.addBill(bill)) {
-                                if(edit=="")
+                                if(edit==0)
                                 Toast.makeText(getBaseContext(), "Bill added", Toast.LENGTH_SHORT).show();
                                 else {
                                     dbHandler.deleteBill(edit);
@@ -217,6 +223,7 @@ public  class addActivity extends AppCompatActivity {
             String editinterval = getIntent().getStringExtra("interval");
             String editdate = getIntent().getStringExtra("date");
             String edittype = getIntent().getStringExtra("type");
+            int editid = getIntent().getIntExtra("id",0);
 
             titleView.setText(editname);
             amountView.setText(editamount);
@@ -268,9 +275,16 @@ public  class addActivity extends AppCompatActivity {
             else
                 reminder.setChecked(false);
 
-            edit=editname;
+            edit=editid;
 
         }
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        editor.putInt("id",id);
+        editor.commit();
+
     }
 
 

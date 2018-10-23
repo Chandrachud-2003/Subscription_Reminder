@@ -20,9 +20,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHolder>  {
-    private ArrayList<String> mId;
+    private List<Integer> mId;
     private ArrayList<String> mNames;
     private ArrayList<String> mDates;
     private ArrayList<String> mCurrency;
@@ -38,7 +39,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
 
 //
-    public displayAdapter(Context context,ArrayList<String> id,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays) {
+    public displayAdapter(Context context, List<Integer> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays) {
 
         mContext = context;
         mNames = names;
@@ -112,12 +113,13 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
 
                 if (mNames.size() != 1){
-                    String remove =mId.get(position);
+                    int remove = mId.get(position);
+                    Log.d("del", ""+mId.get(position));
                 dbHandler.deleteBill(remove);
                 deleteitem(position);
             }
                 else{
-                    String remove = mId.get(0);
+                    int remove = mId.get(0);
                     dbHandler.deleteBill(remove);
                     deleteitem(0);
                 }
@@ -131,6 +133,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 Log.d("illReminder", holder.nameDisplay.getText().toString()+" edit clicked");
 
                 Intent intent = new Intent(mContext, addActivity.class);
+                intent.putExtra("id",mId.get(position));
                 intent.putExtra("amount",mAmount.get(position));
                 intent.putExtra("name",mNames.get(position));
                 intent.putExtra("notify",mNotify.get(position));
@@ -154,7 +157,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 holder.checkButton.setVisibility(View.GONE);
                 holder.deleteButton.setVisibility(View.GONE);
                 holder.mainbutton.setClickable(false);
-                String remove = mNames.get(position);
+                int remove = mId.get(position);
                 dbHandler.deleteBill(remove);
                 holder.view.setVisibility(View.VISIBLE);
                 holder.layout.setClickable(false);
