@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+//
 
         mId = mDBHandler.idArray();
         mNames = mDBHandler.namesArray();

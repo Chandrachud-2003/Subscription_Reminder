@@ -77,7 +77,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             return false;
         }
     }
-
+//
     public void deleteBill(int billID) {
         Log.d("delete",""+ billID);
         SQLiteDatabase db = getWritableDatabase();
