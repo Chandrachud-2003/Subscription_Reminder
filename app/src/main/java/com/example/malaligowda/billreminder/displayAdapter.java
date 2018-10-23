@@ -32,12 +32,13 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private ArrayList<String> mInterval;
     MyDBHandler dbHandler;
     private Context mContext;
+    private ArrayList<String> mNotifyDays;
 
 
 
 
 //
-    public displayAdapter(Context context,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval) {
+    public displayAdapter(Context context,ArrayList<String> id,ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays) {
 
         mContext = context;
         mNames = names;
@@ -47,6 +48,8 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mType = type;
         mNotify = notify;
         mInterval = interval;
+        mNotifyDays = notifyDays;
+        mId = id;
     }
 
     @NonNull
@@ -109,12 +112,12 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
 
                 if (mNames.size() != 1){
-                    String remove = mNames.get(position);
+                    String remove =mId.get(position);
                 dbHandler.deleteBill(remove);
                 deleteitem(position);
             }
                 else{
-                    String remove = mNames.get(0);
+                    String remove = mId.get(0);
                     dbHandler.deleteBill(remove);
                     deleteitem(0);
                 }

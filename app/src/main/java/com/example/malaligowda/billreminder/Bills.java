@@ -9,6 +9,7 @@ public class Bills {
     private String _currency;
     private String _interval;
     private String _notify;
+    private String _notifyDays;
 
 
     public Bills(String name) {
@@ -19,9 +20,6 @@ public class Bills {
         return _name;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
-    }
 
     public void set_name(String _name) {
         this._name = _name;
@@ -47,7 +45,13 @@ public class Bills {
         this._interval = _interval;
     }
 
+    public String get_notifyDays() {
+        return _notifyDays;
+    }
 
+    public void set_notifyDays(String _notifyDays) {
+        this._notifyDays = _notifyDays;
+    }
 
     public void set_currency(String _currency) {
         this._currency = _currency;

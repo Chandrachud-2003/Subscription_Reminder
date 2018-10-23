@@ -41,6 +41,7 @@ public  class addActivity extends AppCompatActivity {
     String selectedDate;
     private View divider;
     String edit="";
+    private EditText notifyDays;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public  class addActivity extends AppCompatActivity {
         titleView = findViewById(R.id.titleView);
 
         amountView = findViewById(R.id.amount);
+        notifyDays = findViewById(R.id.notificationDays);
 
         mCalendarView = findViewById(R.id.calendarView);
         currencySpinner = findViewById(R.id.currencySpinner);
@@ -113,17 +115,16 @@ public  class addActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                        if (!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("")) {
+                        if (!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("")&&!notifyDays.getText().toString().equals("")) {
 
 
                             Bills bill = new Bills(titleView.getText().toString());
                             bill.set_day(selectedDate);
 
 
-
-
                             bill.setAmt(amountView.getText().toString());
                             bill.set_currency(currencySpinner.getSelectedItem().toString());
+                            bill.set_notifyDays(notifyDays.getText().toString());
 
                             bill.set_name(titleView.getText().toString());
                             if (billButton.isChecked()) {

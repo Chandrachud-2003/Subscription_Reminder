@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> mNotify;
         ArrayList<String> mType;
         ArrayList<String> mNames;
+        ArrayList<String> mNotifyDays;
+        ArrayList<String> mId;
 
 
 
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        mId = mDBHandler.idArray();
         mNames = mDBHandler.namesArray();
             mDate = mDBHandler.dateArray();
             mCurrency = mDBHandler.currencyArray();
@@ -133,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             mInterval = mDBHandler.intervalArray();
             mNotify = mDBHandler.notifyArray();
             mType = mDBHandler.typeArray();
+            mNotifyDays = mDBHandler.notifyDays();
 
         if (mNames.size()!=0)
         {
@@ -140,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            displayAdapter displayAdapter = new displayAdapter(this, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval);
+            displayAdapter displayAdapter = new displayAdapter(this,mId, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mNotifyDays);
             displayBills.setVisibility(View.VISIBLE);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
             displayBills.setLayoutManager(staggeredGridLayoutManager);
