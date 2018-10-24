@@ -175,7 +175,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
 
-        android:layout_marginTop="8dp"
         android:background="@drawable/add_payment"
         android:text="@string/addPaymentButton"
         android:textColor="@android:color/background_light"
@@ -201,7 +200,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +213,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="Days for Notifications updates"
