@@ -151,20 +151,20 @@
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="197dp"
-        android:layout_height="39dp"
+        android:layout_height="29dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:checked="true"
         android:text="@string/addReminderText"
         android:textColor="@android:color/background_light"
         android:textColorLink="@android:color/background_light"
-        android:textSize="27sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        app:layout_constraintTop_toBottomOf="@+id/syncBox" />
 
     <Button
         android:id="@+id/addPaymentButton"
@@ -236,5 +236,22 @@
         app:layout_constraintEnd_toEndOf="@+id/notificationDays"
         app:layout_constraintStart_toStartOf="@+id/notificationDays"
         app:layout_constraintTop_toBottomOf="@+id/notificationDays" />
+
+    <CheckBox
+        android:id="@+id/syncBox"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Sync to Calendar"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
 </android.support.constraint.ConstraintLayout>

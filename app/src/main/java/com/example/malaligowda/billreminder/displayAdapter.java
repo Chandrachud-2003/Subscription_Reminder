@@ -34,12 +34,13 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     MyDBHandler dbHandler;
     private Context mContext;
     private ArrayList<String> mNotifyDays;
+    private ArrayList<String> msync;
 
 
 
 
 //
-    public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays) {
+    public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays, ArrayList<String> sync) {
 
         mContext = context;
         mNames = names;
@@ -51,6 +52,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mInterval = interval;
         mNotifyDays = notifyDays;
         mId = id;
+        msync = sync;
     }
 
     @NonNull
@@ -198,6 +200,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mDates.remove(position);
         mNotify.remove(position);
         mType.remove(position);
+        msync.remove(position);
         notifyItemRemoved(position);
     }
 

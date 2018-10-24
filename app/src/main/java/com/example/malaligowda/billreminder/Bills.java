@@ -10,6 +10,7 @@ public class Bills {
     private String _interval;
     private String _notify;
     private String _notifyDays;
+    private String _sync;
 
 
     public Bills(String name) {
@@ -47,6 +48,14 @@ public class Bills {
 
     public String get_notifyDays() {
         return _notifyDays;
+    }
+
+    public String get_sync() {
+        return _sync;
+    }
+
+    public void set_sync(String _sync) {
+        this._sync = _sync;
     }
 
     public void set_notifyDays(String _notifyDays) {

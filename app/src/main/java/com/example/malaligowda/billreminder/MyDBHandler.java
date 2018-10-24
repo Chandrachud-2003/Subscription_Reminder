@@ -23,6 +23,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_type = "type";
     public static final String COLUMN_notify = "notify";
     public static final String COLUMN_notifyDays = "days";
+    public static final String COLUMN_sync = "sync";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -39,12 +40,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 COLUMN_interval + " TEXT, " +
                 COLUMN_type + " TEXT, " +
                 COLUMN_notify + " TEXT, " +
-                COLUMN_notifyDays + " TEXT " +
+                COLUMN_notifyDays + " TEXT, " +
+                COLUMN_sync + " TEXT " +
                 ");";
 
         db.execSQL(query);
     }
-//
+
+    //
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BILLS);
@@ -54,7 +57,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     //add new bill to the database
     public boolean addBill(Bills bills) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Log.d("rohit", "id-"+bills.get_id());
+        Log.d("rohit", "id-" + bills.get_id());
         String id = Integer.toString(bills.get_id());
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, bills.get_name());
@@ -65,7 +68,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_notify, bills.get_notify());
         values.put(COLUMN_date, bills.get_day());
         values.put(COLUMN_notifyDays, bills.get_notifyDays());
-        values.put(COLUMN_ID,id);
+        values.put(COLUMN_ID, id);
+        values.put(COLUMN_sync, bills.get_sync());
 
         db.insert(TABLE_BILLS, null, values);
 
@@ -80,9 +84,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public void deleteBill(String billID) {
-        Log.d("delete",""+ billID);
+        Log.d("delete", "" + billID);
         SQLiteDatabase db = getWritableDatabase();
-      //  db.execSQL("DELETE FROM " + TABLE_BILLS + " WHERE " + COLUMN_ID + "=\'" + billID + "\';");
+        //  db.execSQL("DELETE FROM " + TABLE_BILLS + " WHERE " + COLUMN_ID + "=\'" + billID + "\';");
         db.delete(TABLE_BILLS, COLUMN_ID + "=" + billID, null);
 
 
@@ -406,6 +410,35 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         return notifyDays;
 
+
+    }
+
+    public ArrayList<String> syncArray() {
+        ArrayList<String> sync = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT name FROM " + TABLE_BILLS + " WHERE1";
+
+        Cursor c = db.rawQuery(query, null);
+
+        if (c.moveToFirst()) {
+            do {
+                sync.add(c.getString(c.getColumnIndex(COLUMN_NAME)));
+
+                c.moveToNext();
+                c.moveToNext();
+
+            } while (c.moveToNext() && !c.isLast());
+            if (sync.size() > 1) {
+                sync.remove(0);
+            }
+            if (sync.size() > 4) {
+                sync.remove(4);
+            }
+            if (sync.size() > 7) {
+                sync.remove(7);
+            }
+        }
+        return sync;
 
     }
 }
