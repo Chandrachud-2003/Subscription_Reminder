@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 mNotifyDays.set(i, mNotifyDays.get(min));
                 mNotifyDays.set(min, notifydays);
 
-                
+
                 String sync  = mSync.get(i);
                 mSync.set(i, mSync.get(min));
                 mSync.set(min, sync);

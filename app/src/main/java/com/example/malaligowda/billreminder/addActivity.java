@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -42,7 +43,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 public class addActivity extends AppCompatActivity {
-
+    private TextView addheading;
     private EditText titleView;
     private EditText amountView;
     private CalendarView mCalendarView;
@@ -76,7 +77,7 @@ public class addActivity extends AppCompatActivity {
         setContentView(R.layout.add_bill);
 
         titleView = findViewById(R.id.titleView);
-
+        addheading = findViewById(R.id.addHeading);
 
         amountView = findViewById(R.id.amount);
         notifyDays = findViewById(R.id.notificationDays);
@@ -143,6 +144,7 @@ public class addActivity extends AppCompatActivity {
             }
         });
         addbutton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
 
@@ -175,6 +177,32 @@ public class addActivity extends AppCompatActivity {
                     bill.set_interval(intervalSpinner.getSelectedItem().toString());
                     if (reminder.isChecked()) {
                         bill.set_notify("true");
+                        setNotification(type, titleView.getText().toString(), selectedDate, amountView.getText().toString(), currencySpinner.getSelectedItem().toString().charAt(4));
+
+                        String n = notifyDays.getText().toString();
+                        int l = Integer.valueOf(n);
+                        if(l>0) {
+                            int day = Integer.valueOf(selectedDate.substring(0, 2));
+                            int month = Integer.valueOf(selectedDate.substring(3, 5));
+                            int year = Integer.valueOf(selectedDate.substring(6, 10));
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.DATE, day);
+                            calendar.set(Calendar.MONTH, month);
+                            calendar.set(Calendar.YEAR, year);
+                            calendar.add(Calendar.DATE, -l);
+                            String date = Integer.toString(calendar.get(Calendar.DATE));
+                            String mon = Integer.toString(calendar.get(Calendar.MONTH));
+                            String newyear = Integer.toString(calendar.get(Calendar.YEAR));
+                            String newdate;
+                            if(Integer.valueOf(mon)>9)
+                                newdate = date+"/"+mon+"/"+newyear;
+                            else
+                                newdate = date+"/0"+mon+"/"+newyear;
+
+                            Log.d("check", "onClick: "+newdate);
+                            setNotification(type, titleView.getText().toString(), newdate, amountView.getText().toString(), currencySpinner.getSelectedItem().toString().charAt(4));
+                        }
                     } else {
                         bill.set_notify("false");
 
@@ -190,7 +218,7 @@ public class addActivity extends AppCompatActivity {
                     if (dbHandler.addBill(bill)) {
                         if (edit == "") {
                             Toast.makeText(getBaseContext(), "Bill added", Toast.LENGTH_SHORT).show();
-                            setNotification(type, titleView.getText().toString(), selectedDate, amountView.getText().toString(), currencySpinner.getSelectedItem().toString().charAt(4));
+
                             if (syncBox.isChecked()) {
                                 addEvent();
 
@@ -209,6 +237,8 @@ public class addActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Something wasn't right", Toast.LENGTH_SHORT).show();
 
                     }
+
+
 
                     Intent intent = new Intent(addActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -266,7 +296,8 @@ public class addActivity extends AppCompatActivity {
             String editdate = getIntent().getStringExtra("date");
             String edittype = getIntent().getStringExtra("type");
             String editid = getIntent().getStringExtra("id");
-
+            addheading.setText("EDIT PAYMENT");
+            addbutton.setText("SAVE");
             titleView.setText(editname);
             amountView.setText(editamount);
             ArrayList<String> currency = new ArrayList<String>(Arrays.asList("AUD $", "EUR €", "INR ₹", "USD $", "JPY	¥", "ZAR R"));
@@ -379,24 +410,36 @@ public class addActivity extends AppCompatActivity {
 
         }
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
-        Toast.makeText(getBaseContext(), "Event SUccessfully added", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Event Successfully added", Toast.LENGTH_LONG).show();
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void setNotification(String title, String text, String date, String amount, Character currency){
 
-        createNotificationChannel();
-        notification.setSmallIcon(R.mipmap.notification);
-        notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle(title+" Due");
-        notification.setContentText(currency+amount+" | "+text+" | "+date);
-        notification.setChannelId(CHANNEL_ID);
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.setContentIntent(pendingIntent);
 
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(UNIQUE_ID, notification.build());
-        Log.d("billReminder", "Notification set");
 
+        int day = Integer.valueOf(date.substring(0,2));
+        int month = Integer.valueOf(date.substring(3,5));
+        int year = Integer.valueOf(date.substring(6,10));
+        Log.d("notification", ""+day+""+month+""+year);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE,day);
+        calendar.set(Calendar.MONTH,month-1);
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,1);
+        Log.d("no1", calendar.getTime().toString());
+        Intent intent = new Intent(this, AlarmReciever.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),10101,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.putExtra("amount",amount);
+        intent.putExtra("name",text);
+        intent.putExtra("currency",currency);
+     //   intent.putExtra("interval");
+        intent.putExtra("dates",date);
+        intent.putExtra("type",title);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
 
 
     }
