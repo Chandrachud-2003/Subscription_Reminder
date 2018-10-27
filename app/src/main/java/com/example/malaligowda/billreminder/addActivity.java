@@ -55,9 +55,11 @@ public class addActivity extends AppCompatActivity {
     private ImageButton backbutton;
     private Button addbutton;
     private CheckBox syncBox;
+    private
     MyDBHandler dbHandler;
     String selectedDate;
     private View divider;
+    private View divider2;
     String edit = "";
     int id;
     SharedPreferences savedid;
@@ -99,6 +101,7 @@ public class addActivity extends AppCompatActivity {
 
         intervalSpinner.setVisibility(View.INVISIBLE);
         divider.setVisibility(View.INVISIBLE);
+        divider2 = findViewById(R.id.divider2);
         billButton.toggle();
         String[] intervalarraySpinner = new String[]{"Monthly", "Annually"};
         String[] currencyarraySpinner = new String[]{"AUD $", "EUR €", "INR ₹", "USD $", "JPY	¥", "ZAR R"};
@@ -143,12 +146,15 @@ public class addActivity extends AppCompatActivity {
 
             }
         });
+
+
+
         addbutton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
 
-                if (!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !notifyDays.getText().toString().equals("")) {
+                if ((!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !notifyDays.getText().toString().equals("")&& notifyDays.getVisibility()== View.VISIBLE)||(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && notifyDays.getVisibility()== View.INVISIBLE)) {
 
 
 
@@ -275,6 +281,24 @@ public class addActivity extends AppCompatActivity {
                 intervalSpinner.setVisibility(View.INVISIBLE);
                 divider.setVisibility(View.INVISIBLE);
 
+
+            }
+        });
+
+        reminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (reminder.isChecked())
+                {
+                    notifyDays.setVisibility(View.VISIBLE);
+                    divider2.setVisibility(View.VISIBLE);
+                }
+                else if (!reminder.isChecked()){
+                    notifyDays.setVisibility(View.INVISIBLE);
+                    divider2.setVisibility(View.INVISIBLE);
+
+                }
 
             }
         });
