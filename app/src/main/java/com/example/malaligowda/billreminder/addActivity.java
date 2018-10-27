@@ -66,7 +66,7 @@ public class addActivity extends AppCompatActivity {
     private AlarmManager mAlarmManager;
     NotificationCompat.Builder notification;
     private static  final int UNIQUE_ID=456;
-    private static final String CHANNEL_ID="myId";
+    private static final String CHANNEL_ID="my_channel";
 
     final int REQUEST_CODE = 123;
 
@@ -151,7 +151,12 @@ public class addActivity extends AppCompatActivity {
                 if (!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !notifyDays.getText().toString().equals("")) {
 
 
+
+                    Calendar calendar = Calendar.getInstance();
+
+
                     Bills bill = new Bills(titleView.getText().toString());
+
                     bill.set_day(selectedDate);
                     id++;
                     bill.set_id(id);
@@ -177,7 +182,7 @@ public class addActivity extends AppCompatActivity {
                     bill.set_interval(intervalSpinner.getSelectedItem().toString());
                     if (reminder.isChecked()) {
                         bill.set_notify("true");
-                        setNotification(type, titleView.getText().toString(), selectedDate, amountView.getText().toString(), currencySpinner.getSelectedItem().toString().charAt(4));
+                        setNotification(type, titleView.getText().toString(), selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)));
 
                         String n = notifyDays.getText().toString();
                         int l = Integer.valueOf(n);
@@ -186,7 +191,6 @@ public class addActivity extends AppCompatActivity {
                             int month = Integer.valueOf(selectedDate.substring(3, 5));
                             int year = Integer.valueOf(selectedDate.substring(6, 10));
 
-                            Calendar calendar = Calendar.getInstance();
                             calendar.set(Calendar.DATE, day);
                             calendar.set(Calendar.MONTH, month);
                             calendar.set(Calendar.YEAR, year);
@@ -201,7 +205,7 @@ public class addActivity extends AppCompatActivity {
                                 newdate = date+"/0"+mon+"/"+newyear;
 
                             Log.d("check", "onClick: "+newdate);
-                            setNotification(type, titleView.getText().toString(), newdate, amountView.getText().toString(), currencySpinner.getSelectedItem().toString().charAt(4));
+                            setNotification(type, titleView.getText().toString(), newdate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)));
                         }
                     } else {
                         bill.set_notify("false");
@@ -360,10 +364,7 @@ public class addActivity extends AppCompatActivity {
 
     }
 
-    private void registerNotification() {
 
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -396,11 +397,12 @@ public class addActivity extends AppCompatActivity {
             cv.put(CalendarContract.Events.TITLE, "Subscription Payment");
         }
 
-        cv.put(CalendarContract.Events.CALENDAR_ID, 1);
+        cv.put(CalendarContract.Events.CALENDAR_ID, 3);
         cv.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
         cv.put(CalendarContract.Events.DTSTART, Calendar.getInstance().getTimeInMillis());
-        cv.put(CalendarContract.Events.DTEND, Calendar.getInstance().getTimeInMillis() + 60 * 60 * 1000);
-        cv.put(CalendarContract.Events.ALL_DAY, true);
+        cv.put(CalendarContract.Events.DTEND, Calendar.getInstance().getTimeInMillis() +86400000 );
+        cv.put(CalendarContract.Events.RRULE, "FREQ=MONTHLY");
+        cv.put(CalendarContract.Events.ALL_DAY, 0);
 
 
 
@@ -414,7 +416,7 @@ public class addActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void setNotification(String title, String text, String date, String amount, Character currency){
+    private void setNotification(String title, String text, String date, String amount, String currency){
 
 
 
@@ -431,15 +433,24 @@ public class addActivity extends AppCompatActivity {
         calendar.set(Calendar.SECOND,1);
         Log.d("no1", calendar.getTime().toString());
         Intent intent = new Intent(this, AlarmReciever.class);
+        intent.putExtra("amount",amount);
+        intent.putExtra("name",text);
+        intent.putExtra("currency", currency);
+        //   intent.putExtra("interval");
+        intent.putExtra("dates",date);
+        intent.putExtra("type",title);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),10101,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         intent.putExtra("amount",amount);
         intent.putExtra("name",text);
-        intent.putExtra("currency",currency);
+        intent.putExtra("currency", currency);
      //   intent.putExtra("interval");
         intent.putExtra("dates",date);
         intent.putExtra("type",title);
+        Log.d("billReminder", "Intent: "+title+","+text+","+amount+","+currency);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+
 
 
     }
@@ -456,6 +467,7 @@ public class addActivity extends AppCompatActivity {
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+            Log.d("billReminder","Channel created");
         }
     }
 
