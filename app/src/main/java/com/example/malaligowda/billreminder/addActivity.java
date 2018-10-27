@@ -188,31 +188,33 @@ public class addActivity extends AppCompatActivity {
                     bill.set_interval(intervalSpinner.getSelectedItem().toString());
                     if (reminder.isChecked()) {
                         bill.set_notify("true");
-                        setNotification(type, titleView.getText().toString(), selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)));
 
-                        String n = notifyDays.getText().toString();
-                        int l = Integer.valueOf(n);
-                        if(l>0) {
-                            int day = Integer.valueOf(selectedDate.substring(0, 2));
-                            int month = Integer.valueOf(selectedDate.substring(3, 5));
-                            int year = Integer.valueOf(selectedDate.substring(6, 10));
+                            setNotification(type, titleView.getText().toString(), selectedDate,selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)),type,intervalSpinner.getSelectedItem().toString(),id);
 
-                            calendar.set(Calendar.DATE, day);
-                            calendar.set(Calendar.MONTH, month);
-                            calendar.set(Calendar.YEAR, year);
-                            calendar.add(Calendar.DATE, -l);
-                            String date = Integer.toString(calendar.get(Calendar.DATE));
-                            String mon = Integer.toString(calendar.get(Calendar.MONTH));
-                            String newyear = Integer.toString(calendar.get(Calendar.YEAR));
-                            String newdate;
-                            if(Integer.valueOf(mon)>9)
-                                newdate = date+"/"+mon+"/"+newyear;
-                            else
-                                newdate = date+"/0"+mon+"/"+newyear;
+                            String n = notifyDays.getText().toString();
+                            int l = Integer.valueOf(n);
+                            if (l > 0) {
+                                int day = Integer.valueOf(selectedDate.substring(0, 2));
+                                int month = Integer.valueOf(selectedDate.substring(3, 5));
+                                int year = Integer.valueOf(selectedDate.substring(6, 10));
 
-                            Log.d("check", "onClick: "+newdate);
-                            setNotification(type, titleView.getText().toString(), newdate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)));
-                        }
+                                calendar.set(Calendar.DATE, day);
+                                calendar.set(Calendar.MONTH, month);
+                                calendar.set(Calendar.YEAR, year);
+                                calendar.add(Calendar.DATE, -l);
+                                String date = Integer.toString(calendar.get(Calendar.DATE));
+                                String mon = Integer.toString(calendar.get(Calendar.MONTH));
+                                String newyear = Integer.toString(calendar.get(Calendar.YEAR));
+                                String newdate;
+                                if (Integer.valueOf(mon) > 9)
+                                    newdate = date + "/" + mon + "/" + newyear;
+                                else
+                                    newdate = date + "/0" + mon + "/" + newyear;
+
+                                Log.d("check", "onClick: " + newdate);
+                                setNotification(type, titleView.getText().toString(), newdate,selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)),type,intervalSpinner.getSelectedItem().toString(),id);
+                            }
+
                     } else {
                         bill.set_notify("false");
 
@@ -440,13 +442,13 @@ public class addActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void setNotification(String title, String text, String date, String amount, String currency){
+    private void setNotification(String title, String text, String dateofnotificaiton,String dateofbill, String amount, String currency,String type,String Interval,int id1){
 
 
 
-        int day = Integer.valueOf(date.substring(0,2));
-        int month = Integer.valueOf(date.substring(3,5));
-        int year = Integer.valueOf(date.substring(6,10));
+        int day = Integer.valueOf(dateofnotificaiton.substring(0,2));
+        int month = Integer.valueOf(dateofnotificaiton.substring(3,5));
+        int year = Integer.valueOf(dateofnotificaiton.substring(6,10));
         Log.d("notification", ""+day+""+month+""+year);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DATE,day);
@@ -461,19 +463,27 @@ public class addActivity extends AppCompatActivity {
         intent.putExtra("name",text);
         intent.putExtra("currency", currency);
         //   intent.putExtra("interval");
-        intent.putExtra("dates",date);
+        intent.putExtra("dates",dateofbill);
         intent.putExtra("type",title);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),10101,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),id1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         intent.putExtra("amount",amount);
         intent.putExtra("name",text);
         intent.putExtra("currency", currency);
      //   intent.putExtra("interval");
-        intent.putExtra("dates",date);
+        intent.putExtra("dates",dateofbill);
         intent.putExtra("type",title);
-        Log.d("billReminder", "Intent: "+title+","+text+","+amount+","+currency);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
 
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if(type.equals("Bill"))
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+        else {
+            if (Interval.equals("Annually"))
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 365 * AlarmManager.INTERVAL_DAY, pendingIntent);
+            else
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30 * AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+        }
 
 
 

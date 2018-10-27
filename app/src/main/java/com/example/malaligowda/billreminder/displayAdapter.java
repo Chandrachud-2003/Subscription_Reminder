@@ -1,5 +1,7 @@
 package com.example.malaligowda.billreminder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -21,6 +23,8 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHolder>  {
     private ArrayList<String> mId;
@@ -125,7 +129,11 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                     dbHandler.deleteBill(remove);
                     deleteitem(0);
                 }
-
+                Intent intent = new Intent(mContext, AlarmReciever.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
+                alarmManager.cancel(pendingIntent);
+                pendingIntent.cancel();
 
             }
         });
@@ -159,10 +167,55 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 holder.checkButton.setVisibility(View.GONE);
                 holder.deleteButton.setVisibility(View.GONE);
                 holder.mainbutton.setClickable(false);
-                String remove = mId.get(position);
-                dbHandler.deleteBill(remove);
+                String newdate="";
+                if(mType.get(position).equals("Subscription"))
+                {
+                    String olddate = mDates.get(position);
+                    if (mInterval.get(position).equals("Monthly")) {
+
+                        if(olddate.substring(3,5).equals("01"))
+                        {
+                            if(Integer.valueOf(olddate.substring(0,2))>28)
+                            newdate = "28/02/"+olddate.substring(6,10);
+                        }
+                        else if(olddate.substring(3,5).equals("03"))
+                        {
+                            if(Integer.valueOf(olddate.substring(0,2))>30)
+                            newdate = "30/04/"+olddate.substring(6,10);
+                        }
+                        else if(olddate.substring(3,5).equals("05"))
+                        {
+                            if(Integer.valueOf(olddate.substring(0,2))>30)
+                            newdate = "30/06/"+olddate.substring(6,10);
+                        }
+                        else if(olddate.substring(3,5).equals("08"))
+                        {
+                            if(Integer.valueOf(olddate.substring(0,2))>30)
+                            newdate = "30/09/"+olddate.substring(6,10);
+                        }
+
+                        else
+                        {
+
+                        if (Integer.valueOf(olddate.substring(3, 5)) == 12)
+                            newdate = olddate.substring(0, 2) + "/01/" + Integer.toString(Integer.valueOf(olddate.substring(6, 10)) + 1);
+                        else
+                            newdate = olddate.substring(0, 2) + "/" + Integer.toString(Integer.valueOf(olddate.substring(3, 5)) + 1) + "/" + olddate.substring(6, 10);
+
+                      }
+                        }
+                        else
+                        newdate = olddate.substring(0,6)+Integer.toString(Integer.valueOf(olddate.substring(6,10))+1);
+                    dbHandler.updateDate(newdate,mId.get(position));
+                    }
+                else{
+                    String remove = mId.get(position);
+                    dbHandler.deleteBill(remove);
+                }
+
                 holder.view.setVisibility(View.VISIBLE);
                 holder.layout.setClickable(false);
+
 
 
             }

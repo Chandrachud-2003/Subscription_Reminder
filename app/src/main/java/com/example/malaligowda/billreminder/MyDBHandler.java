@@ -83,10 +83,16 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
     }
 
+    public  void updateDate(String date,String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_BILLS +" SET " + COLUMN_date + " = '"+ date+"' WHERE "+ COLUMN_ID+" = '"+ id +"'";
+        db.execSQL(query);
+
+    }
+
     public void deleteBill(String billID) {
         Log.d("delete", "" + billID);
         SQLiteDatabase db = getWritableDatabase();
-        //  db.execSQL("DELETE FROM " + TABLE_BILLS + " WHERE " + COLUMN_ID + "=\'" + billID + "\';");
         db.delete(TABLE_BILLS, COLUMN_ID + "=" + billID, null);
 
 
