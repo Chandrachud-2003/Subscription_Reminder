@@ -2,9 +2,13 @@ package com.example.malaligowda.billreminder;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 
@@ -17,9 +21,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,14 +108,34 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
                 Log.d("illReminder", holder.nameDisplay.getText().toString()+"  main clicked");
                 if (holder.editButton.getVisibility()== View.INVISIBLE) {
+                    YoYo.with(Techniques.Landing)
+                            .duration(700)
+                            .playOn(holder.deleteButton);
+                    YoYo.with(Techniques.Landing)
+                            .duration(700)
+                            .playOn(holder.editButton);
+                    YoYo.with(Techniques.Landing)
+                            .duration(700)
+                            .playOn(holder.checkButton);
                     holder.editButton.setVisibility(View.VISIBLE);
                     holder.checkButton.setVisibility(View.VISIBLE);
                     holder.deleteButton.setVisibility(View.VISIBLE);
                 }
-                else {
+                else if (holder.editButton.getVisibility()== View.VISIBLE){
+                    YoYo.with(Techniques.ZoomOut)
+                            .duration(2000)
+                            .playOn(holder.deleteButton);
+                    YoYo.with(Techniques.ZoomOut)
+                            .duration(2000)
+                            .playOn(holder.editButton);
+                    YoYo.with(Techniques.ZoomOut)
+                            .duration(2000)
+                            .playOn(holder.checkButton);
+                    Log.d("billReminder", "animation Played");
                     holder.editButton.setVisibility(View.INVISIBLE);
                     holder.checkButton.setVisibility(View.INVISIBLE);
                     holder.deleteButton.setVisibility(View.INVISIBLE);
+
                 }
             }
         });
@@ -129,6 +156,16 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                     dbHandler.deleteBill(remove);
                     deleteitem(0);
                 }
+                Uri eventsUri;
+                int osVersion = android.os.Build.VERSION.SDK_INT;
+                if (osVersion <= 7) { //up-to Android 2.1
+                    eventsUri = Uri.parse("content://calendar/events");
+                } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                    eventsUri = Uri.parse("content://com.android.calendar/events");
+                }
+                ContentResolver resolver = mContext.getContentResolver();
+                deleteEvent(resolver, eventsUri, 3, position);
+                Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, AlarmReciever.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
@@ -142,6 +179,15 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             public void onClick(View v) {
                 Log.d("illReminder", holder.nameDisplay.getText().toString()+" edit clicked");
 
+                Uri eventsUri;
+                int osVersion = android.os.Build.VERSION.SDK_INT;
+                if (osVersion <= 7) { //up-to Android 2.1
+                    eventsUri = Uri.parse("content://calendar/events");
+                } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                    eventsUri = Uri.parse("content://com.android.calendar/events");
+                }
+                ContentResolver resolver = mContext.getContentResolver();
+                deleteEvent(resolver, eventsUri, 3, position);
                 Intent intent = new Intent(mContext, addActivity.class);
                 intent.putExtra("id",mId.get(position));
                 intent.putExtra("amount",mAmount.get(position));
@@ -299,4 +345,19 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
          }
      }
+    private void deleteEvent(ContentResolver resolver, Uri eventsUri, int calendarId, int postion) {
+        Cursor cursor;
+        if (android.os.Build.VERSION.SDK_INT <= 7) { //up-to Android 2.1
+            cursor = resolver.query(eventsUri, new String[]{ "_id" }, "Calendars._id=" + calendarId, null, null);
+        } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+            cursor = resolver.query(eventsUri, new String[]{ "_id" }, "calendar_id=" + calendarId, null, null);
+        }
+            cursor.moveToPosition(postion);
+            long eventId = cursor.getLong(cursor.getColumnIndex("_id"));
+            resolver.delete(ContentUris.withAppendedId(eventsUri, eventId), null, null);
+
+        cursor.close();
+    }
+   // long eventId = cursor.getLong(cursor.getColumnIndex("_id"));
+
 }
