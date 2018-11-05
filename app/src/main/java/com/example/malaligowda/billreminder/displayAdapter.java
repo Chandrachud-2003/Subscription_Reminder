@@ -215,9 +215,9 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                     eventsUri = Uri.parse("content://com.android.calendar/events");
                 }
 
-                    ContentResolver resolver = mContext.getContentResolver();
-                    deleteEvent(resolver, eventsUri, 3, position);
-                    Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+                ContentResolver resolver = mContext.getContentResolver();
+                deleteEvent(resolver, eventsUri, 3, position);
+                Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(mContext, AlarmReciever.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);

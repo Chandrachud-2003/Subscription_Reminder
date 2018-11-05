@@ -117,6 +117,9 @@ public class addActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
         }
+        if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_CODE);
+        }
         intervalSpinner.setVisibility(View.INVISIBLE);
         divider.setVisibility(View.INVISIBLE);
         divider2 = findViewById(R.id.divider2);
@@ -254,6 +257,8 @@ public class addActivity extends AppCompatActivity {
                     }
                     if (syncBox.isChecked()) {
                         bill.set_sync("true");
+                        addEvent(milliTime, interval);
+
 
                     } else {
                         bill.set_sync("false");
@@ -264,11 +269,9 @@ public class addActivity extends AppCompatActivity {
                         if (edit.equals("")) {
                             Toast.makeText(getBaseContext(), "Bill added", Toast.LENGTH_SHORT).show();
 
-                            if (syncBox.isChecked()) {
-                                addEvent(milliTime, interval);
 
 
-                            }
+
                             Log.d("billReminder", "Bill added");
 
 
@@ -476,8 +479,7 @@ public class addActivity extends AppCompatActivity {
     }
 
 
-    /* @Override
-     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+     /*public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                             @NonNull int[] grantResults) {
          super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -495,9 +497,8 @@ public class addActivity extends AppCompatActivity {
              }
 
          }
-     }
+     }*/
 
- */
     private void addEvent(long dateTime, String interval) {
         ContentResolver cr = getBaseContext().getContentResolver();
         ContentValues cv = new ContentValues();
@@ -598,7 +599,6 @@ public class addActivity extends AppCompatActivity {
             Log.d("billReminder","Channel created");
         }
     }
-
 
 
 
