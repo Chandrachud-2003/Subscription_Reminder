@@ -178,7 +178,7 @@ public class addActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if ((ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)&&(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)&&(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !days.getText().toString().equals("")&& days.getVisibility()== View.VISIBLE)||(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && days.getVisibility()== View.INVISIBLE)) {
+                if ((ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)&&(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_GRANTED)&&(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !days.getText().toString().equals("")&& days.getVisibility()== View.VISIBLE)||(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && days.getVisibility()== View.INVISIBLE)) {
 
 
 
@@ -326,12 +326,14 @@ public class addActivity extends AppCompatActivity {
                         }
 
 
-                        if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_DENIED)
-                            ActivityCompat.requestPermissions(addActivity.this,new String[]{Manifest.permission.READ_CALENDAR},SPC);
-
-                        if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_DENIED)
-                            ActivityCompat.requestPermissions(addActivity.this,new String[]{Manifest.permission.WRITE_CALENDAR},SPC);
-
+                        if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_DENIED) {
+                            ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_CODE);
+                            if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_GRANTED)
+                                Toast.makeText(getBaseContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                        }
+                        if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_DENIED) {
+                            ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
+                        }
 
 
                     Toast.makeText(getBaseContext(), "Incomplete fields found!", Toast.LENGTH_LONG).show();
