@@ -81,8 +81,8 @@ public class addActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     private AlarmManager mAlarmManager;
     NotificationCompat.Builder notification;
-    private static  final int UNIQUE_ID=456;
-    private static final String CHANNEL_ID="my_channel";
+    private static final int UNIQUE_ID = 456;
+    private static final String CHANNEL_ID = "my_channel";
 
     final int REQUEST_CODE = 123;
 
@@ -141,21 +141,19 @@ public class addActivity extends AppCompatActivity {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                 milliTime = calendar.getTimeInMillis();
+                milliTime = calendar.getTimeInMillis();
                 mCalendarView.setDate(milliTime, true, true);
                 final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 selectedDate = sdf.format(new Date(mCalendarView.getDate()));
                 Log.d("billReminder", selectedDate);
 
-                if ((checkSelfPermission(Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)){
+                if ((checkSelfPermission(Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED)) {
                     Log.d("permission", "It is alreadyy granted");
-                }
-                else
+                } else
                     Log.d("permission", "It is not granted");
 
             }
         });
-
 
 
         getIncomingIntent();
@@ -171,15 +169,13 @@ public class addActivity extends AppCompatActivity {
         });
 
 
-
         addbutton.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.M)
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
 
-                if ((ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)&&(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_GRANTED)&&(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !days.getText().toString().equals("")&& days.getVisibility()== View.VISIBLE)||(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && days.getVisibility()== View.INVISIBLE)) {
-
+                if ((ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) && (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) && (!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !days.getText().toString().equals("") && days.getVisibility() == View.VISIBLE) || (!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && days.getVisibility() == View.INVISIBLE)) {
 
 
                     Calendar calendar = Calendar.getInstance();
@@ -194,17 +190,14 @@ public class addActivity extends AppCompatActivity {
                     bill.setAmt(amountView.getText().toString());
                     bill.set_currency(currencySpinner.getSelectedItem().toString());
                     bill.set_notifyDays(days.getText().toString());
-                    String type="";
+                    String type = "";
 
                     bill.set_name(titleView.getText().toString());
                     if (billButton.isChecked()) {
                         bill.set_type("Bill");
                         type = "Bill";
                         bill.set_interval("");
-                         interval = "";
-
-
-
+                        interval = "";
 
 
                     }
@@ -212,9 +205,7 @@ public class addActivity extends AppCompatActivity {
                         bill.set_type("Subscription");
                         type = "Subscription";
                         bill.set_interval(intervalSpinner.getSelectedItem().toString());
-                         interval = intervalSpinner.getSelectedItem().toString().toUpperCase();
-
-
+                        interval = intervalSpinner.getSelectedItem().toString().toUpperCase();
 
 
                     }
@@ -223,39 +214,38 @@ public class addActivity extends AppCompatActivity {
                         bill.set_notify("true");
                         bill.set_notifyDays(days.getText().toString());
 
-                            setNotification(type, titleView.getText().toString(), selectedDate,selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)),type,intervalSpinner.getSelectedItem().toString(),id);
+                        setNotification(type, titleView.getText().toString(), selectedDate, selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)), type, intervalSpinner.getSelectedItem().toString(), id);
 
-                            String n = days.getText().toString();
-                            int l = Integer.valueOf(n);
-                            if (l > 0) {
-                                int day = Integer.valueOf(selectedDate.substring(0, 2));
-                                int month = Integer.valueOf(selectedDate.substring(3, 5));
-                                int year = Integer.valueOf(selectedDate.substring(6, 10));
+                        String n = days.getText().toString();
+                        int l = Integer.valueOf(n);
+                        if (l > 0) {
+                            int day = Integer.valueOf(selectedDate.substring(0, 2));
+                            int month = Integer.valueOf(selectedDate.substring(3, 5));
+                            int year = Integer.valueOf(selectedDate.substring(6, 10));
 
-                                calendar.set(Calendar.DATE, day);
-                                calendar.set(Calendar.MONTH, month);
-                                calendar.set(Calendar.YEAR, year);
-                                calendar.add(Calendar.DATE, -l);
-                                String date = Integer.toString(calendar.get(Calendar.DATE));
-                                String mon = Integer.toString(calendar.get(Calendar.MONTH));
-                                String newyear = Integer.toString(calendar.get(Calendar.YEAR));
-                                String newdate;
-                                if (Integer.valueOf(mon) > 9){
-                                    if (Integer.valueOf(date) > 9)
-                                        newdate = date + "/" + mon + "/" + newyear;
-                                    else
-                                        newdate = "0"+date + "/" + mon + "/" + newyear;
+                            calendar.set(Calendar.DATE, day);
+                            calendar.set(Calendar.MONTH, month);
+                            calendar.set(Calendar.YEAR, year);
+                            calendar.add(Calendar.DATE, -l);
+                            String date = Integer.toString(calendar.get(Calendar.DATE));
+                            String mon = Integer.toString(calendar.get(Calendar.MONTH));
+                            String newyear = Integer.toString(calendar.get(Calendar.YEAR));
+                            String newdate;
+                            if (Integer.valueOf(mon) > 9) {
+                                if (Integer.valueOf(date) > 9)
+                                    newdate = date + "/" + mon + "/" + newyear;
+                                else
+                                    newdate = "0" + date + "/" + mon + "/" + newyear;
+                            } else {
+
+                                if (Integer.valueOf(date) > 9)
+                                    newdate = date + "/0" + mon + "/" + newyear;
+                                else
+                                    newdate = "0" + date + "/0" + mon + "/" + newyear;
                             }
-                                else {
-
-                                    if (Integer.valueOf(date) > 9)
-                                        newdate = date + "/0" + mon + "/" + newyear;
-                                    else
-                                        newdate = "0" + date + "/0" + mon + "/" + newyear;
-                                }
-                                Log.d("check", "onClick: " + newdate);
-                                setNotification(type, titleView.getText().toString(), newdate,selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)),type,intervalSpinner.getSelectedItem().toString(),id);
-                            }
+                            Log.d("check", "onClick: " + newdate);
+                            setNotification(type, titleView.getText().toString(), newdate, selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)), type, intervalSpinner.getSelectedItem().toString(), id);
+                        }
 
                     } else {
                         bill.set_notify("false");
@@ -278,7 +268,6 @@ public class addActivity extends AppCompatActivity {
                                 addEvent(milliTime, interval);
 
 
-
                             }
                             Log.d("billReminder", "Bill added");
 
@@ -288,7 +277,7 @@ public class addActivity extends AppCompatActivity {
                             addEvent(milliTime, interval);
                             Toast.makeText(getBaseContext(), "Bill changed", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(addActivity.this, AlarmReciever.class);
-                            PendingIntent pendingIntent = PendingIntent.getBroadcast(addActivity.this,Integer.valueOf(edit),intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(addActivity.this, Integer.valueOf(edit), intent, PendingIntent.FLAG_UPDATE_CURRENT);
                             AlarmManager alarmManager = (AlarmManager) addActivity.this.getSystemService(ALARM_SERVICE);
                             alarmManager.cancel(pendingIntent);
                             pendingIntent.cancel();
@@ -300,40 +289,39 @@ public class addActivity extends AppCompatActivity {
                     }
 
 
-
                     Intent intent = new Intent(addActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
 
 
-                        if (titleView.getText().toString().equals("")) {
+                    if (titleView.getText().toString().equals("")) {
+                        YoYo.with(Techniques.Shake)
+                                .duration(900)
+                                .playOn(titleView);
+                    }
+
+                    if (amountView.getText().toString().equals("")) {
+                        YoYo.with(Techniques.Shake)
+                                .duration(900)
+                                .playOn(amountView);
+                    }
+                    if (days.getVisibility() == View.VISIBLE) {
+                        if (days.getText().toString().equals("")) {
                             YoYo.with(Techniques.Shake)
                                     .duration(900)
-                                    .playOn(titleView);
+                                    .playOn(days);
                         }
-
-                        if (amountView.getText().toString().equals("")) {
-                            YoYo.with(Techniques.Shake)
-                                    .duration(900)
-                                    .playOn(amountView);
-                        }
-                        if (days.getVisibility() == View.VISIBLE) {
-                            if (days.getText().toString().equals("")) {
-                                YoYo.with(Techniques.Shake)
-                                        .duration(900)
-                                        .playOn(days);
-                            }
-                        }
+                    }
 
 
-                        if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_DENIED) {
-                            ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_CODE);
-                            if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_GRANTED)
-                                Toast.makeText(getBaseContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
-                        }
-                        if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_DENIED) {
-                            ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
-                        }
+                    if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_CODE);
+                        if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED)
+                            Toast.makeText(getBaseContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    }
+                    if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
+                    }
 
 
                     Toast.makeText(getBaseContext(), "Incomplete fields found!", Toast.LENGTH_LONG).show();
@@ -371,12 +359,10 @@ public class addActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (reminder.isChecked())
-                {
+                if (reminder.isChecked()) {
                     days.setVisibility(View.VISIBLE);
                     divider2.setVisibility(View.VISIBLE);
-                }
-                else if (!reminder.isChecked()){
+                } else if (!reminder.isChecked()) {
                     days.setVisibility(View.INVISIBLE);
                     divider2.setVisibility(View.INVISIBLE);
 
@@ -391,6 +377,7 @@ public class addActivity extends AppCompatActivity {
 
 
     }
+
     private void getIncomingIntent() {
 
 
@@ -405,13 +392,10 @@ public class addActivity extends AppCompatActivity {
             String editdate = getIntent().getStringExtra("date");
             String edittype = getIntent().getStringExtra("type");
             String editid = getIntent().getStringExtra("id");
-            if (editnotify.equals("false"))
-            {
+            if (editnotify.equals("false")) {
                 divider2.setVisibility(View.INVISIBLE);
                 days.setVisibility(View.INVISIBLE);
-            }
-            else if (editnotify.equals("true"))
-            {
+            } else if (editnotify.equals("true")) {
                 divider2.setVisibility(View.VISIBLE);
                 days.setVisibility(View.VISIBLE);
             }
@@ -481,33 +465,32 @@ public class addActivity extends AppCompatActivity {
     }
 
 
+    /* @Override
+     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                            @NonNull int[] grantResults) {
+         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+         if (requestCode == REQUEST_CODE) {
 
-        if (requestCode == REQUEST_CODE) {
+             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                 Log.d("Clima", "onRequestPermissionResult(): Permission granted");
+                 addEvent(milliTime, interval);
 
-                Log.d("Clima", "onRequestPermissionResult(): Permission granted");
-                addEvent(milliTime, interval);
+             } else {
 
-            } else {
+                 Log.d("Clima", "Permission denied =( ");
 
-                Log.d("Clima", "Permission denied =( ");
+             }
 
-            }
+         }
+     }
 
-        }
-    }
-
-
+ */
     private void addEvent(long dateTime, String interval) {
         ContentResolver cr = getBaseContext().getContentResolver();
         ContentValues cv = new ContentValues();
-        cv.put(CalendarContract.Events.DESCRIPTION, titleView.getText().toString()+" due on "+amountView.getText().toString());
+        cv.put(CalendarContract.Events.DESCRIPTION, titleView.getText().toString() + " due on " + amountView.getText().toString());
         if (billButton.isChecked()) {
             cv.put(CalendarContract.Events.TITLE, "Bill Payment");
         } else if (subscriptionButton.isChecked()) {
@@ -534,13 +517,18 @@ public class addActivity extends AppCompatActivity {
 
 
 
-        if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+      /*  if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
             return;
 
         }
+      */
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
+            return;
+        }
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
-       // Toast.makeText(getBaseContext(), "Event Successfully added", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Event Successfully added", Toast.LENGTH_LONG).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
