@@ -1,6 +1,7 @@
 package com.example.malaligowda.billreminder;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -66,7 +67,7 @@ public class addActivity extends AppCompatActivity {
     private int minutes;
     private int seconds;
     private String interval;
-
+    private int SPC = 1;
 
     private long milliTime;
     private
@@ -120,7 +121,7 @@ public class addActivity extends AppCompatActivity {
         String[] intervalarraySpinner = new String[]{"Monthly", "Annually"};
         String[] currencyarraySpinner = new String[]{"AUD $", "EUR €", "INR ₹", "USD $", "JPY	¥", "ZAR R"};
         currencySpinner.setSelection(2);
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
+        final ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, intervalarraySpinner);
         intervalSpinner.setAdapter(adapter1);
         savedid = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
@@ -132,6 +133,7 @@ public class addActivity extends AppCompatActivity {
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         selectedDate = sdf.format(new Date(mCalendarView.getDate()));
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
 
@@ -145,6 +147,11 @@ public class addActivity extends AppCompatActivity {
                 selectedDate = sdf.format(new Date(mCalendarView.getDate()));
                 Log.d("billReminder", selectedDate);
 
+                if ((checkSelfPermission(Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)){
+                    Log.d("permission", "It is alreadyy granted");
+                }
+                else
+                    Log.d("permission", "It is not granted");
 
             }
         });
@@ -166,11 +173,12 @@ public class addActivity extends AppCompatActivity {
 
 
         addbutton.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.M)
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
 
-                if ((!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !days.getText().toString().equals("")&& days.getVisibility()== View.VISIBLE)||(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && days.getVisibility()== View.INVISIBLE)) {
+                if ((ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)&&(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)&&(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !days.getText().toString().equals("")&& days.getVisibility()== View.VISIBLE)||(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && days.getVisibility()== View.INVISIBLE)) {
 
 
 
@@ -232,11 +240,19 @@ public class addActivity extends AppCompatActivity {
                                 String mon = Integer.toString(calendar.get(Calendar.MONTH));
                                 String newyear = Integer.toString(calendar.get(Calendar.YEAR));
                                 String newdate;
-                                if (Integer.valueOf(mon) > 9)
-                                    newdate = date + "/" + mon + "/" + newyear;
-                                else
-                                    newdate = date + "/0" + mon + "/" + newyear;
+                                if (Integer.valueOf(mon) > 9){
+                                    if (Integer.valueOf(date) > 9)
+                                        newdate = date + "/" + mon + "/" + newyear;
+                                    else
+                                        newdate = "0"+date + "/" + mon + "/" + newyear;
+                            }
+                                else {
 
+                                    if (Integer.valueOf(date) > 9)
+                                        newdate = date + "/0" + mon + "/" + newyear;
+                                    else
+                                        newdate = "0" + date + "/0" + mon + "/" + newyear;
+                                }
                                 Log.d("check", "onClick: " + newdate);
                                 setNotification(type, titleView.getText().toString(), newdate,selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)),type,intervalSpinner.getSelectedItem().toString(),id);
                             }
@@ -271,6 +287,11 @@ public class addActivity extends AppCompatActivity {
                             dbHandler.deleteBill(edit);
                             addEvent(milliTime, interval);
                             Toast.makeText(getBaseContext(), "Bill changed", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(addActivity.this, AlarmReciever.class);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(addActivity.this,Integer.valueOf(edit),intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                            AlarmManager alarmManager = (AlarmManager) addActivity.this.getSystemService(ALARM_SERVICE);
+                            alarmManager.cancel(pendingIntent);
+                            pendingIntent.cancel();
                         }
 
                     } else {
@@ -285,27 +306,34 @@ public class addActivity extends AppCompatActivity {
                 } else {
 
 
-                    if (titleView.getText().toString().equals(""))
-                    {
-                        YoYo.with(Techniques.Shake)
-                                .duration(900)
-                                .playOn(titleView);
+                        if (titleView.getText().toString().equals("")) {
+                            YoYo.with(Techniques.Shake)
+                                    .duration(900)
+                                    .playOn(titleView);
                         }
 
-                        if (amountView.getText().toString().equals(""))
-                        {
+                        if (amountView.getText().toString().equals("")) {
                             YoYo.with(Techniques.Shake)
                                     .duration(900)
                                     .playOn(amountView);
                         }
-                        if (days.getVisibility()==View.VISIBLE){
-                        if (days.getText().toString().equals(""))
-                        {
-                            YoYo.with(Techniques.Shake)
-                                    .duration(900)
-                                    .playOn(days);
+                        if (days.getVisibility() == View.VISIBLE) {
+                            if (days.getText().toString().equals("")) {
+                                YoYo.with(Techniques.Shake)
+                                        .duration(900)
+                                        .playOn(days);
+                            }
                         }
-                        }
+
+
+                        if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_DENIED)
+                            ActivityCompat.requestPermissions(addActivity.this,new String[]{Manifest.permission.READ_CALENDAR},SPC);
+
+                        if(ActivityCompat.checkSelfPermission(addActivity.this,Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_DENIED)
+                            ActivityCompat.requestPermissions(addActivity.this,new String[]{Manifest.permission.WRITE_CALENDAR},SPC);
+
+
+
                     Toast.makeText(getBaseContext(), "Incomplete fields found!", Toast.LENGTH_LONG).show();
 
                 }
@@ -361,7 +389,6 @@ public class addActivity extends AppCompatActivity {
 
 
     }
-
     private void getIncomingIntent() {
 
 
@@ -474,6 +501,7 @@ public class addActivity extends AppCompatActivity {
         }
     }
 
+
     private void addEvent(long dateTime, String interval) {
         ContentResolver cr = getBaseContext().getContentResolver();
         ContentValues cv = new ContentValues();
@@ -510,7 +538,7 @@ public class addActivity extends AppCompatActivity {
 
         }
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
-        Toast.makeText(getBaseContext(), "Event Successfully added", Toast.LENGTH_LONG).show();
+       // Toast.makeText(getBaseContext(), "Event Successfully added", Toast.LENGTH_LONG).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -546,20 +574,13 @@ public class addActivity extends AppCompatActivity {
         intent.putExtra("type",title);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        if(type.equals("Bill"))
+
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-        else {
-            if (Interval.equals("Annually"))
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 365 * AlarmManager.INTERVAL_DAY, pendingIntent);
-            else
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30 * AlarmManager.INTERVAL_DAY, pendingIntent);
-
-
-        }
-
-
-
     }
+
+
+
+
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -576,6 +597,8 @@ public class addActivity extends AppCompatActivity {
             Log.d("billReminder","Channel created");
         }
     }
+
+
 
 
 }

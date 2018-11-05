@@ -10,7 +10,9 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +34,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -85,8 +88,6 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-
-
         displayView.setVisibility(View.INVISIBLE);
         RequestOptions requestOptions = new RequestOptions().placeholder(R.color.white);
         holder.nameDisplay.setText(mNames.get(position));
@@ -136,6 +137,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 .into(holder.deleteButton);
 
 
+
         holder.mainbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +176,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 //                    holder.deleteButton.setVisibility(View.INVISIBLE);
 
                 }
+
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +249,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             }
         });
         holder.checkButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 Log.d("bllReminder", holder.nameDisplay.getText().toString()+" check clicked");
@@ -267,7 +271,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
                 ContentResolver resolver = mContext.getContentResolver();
                 deleteEvent(resolver, eventsUri, 3, position);
-                Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Bill Deleted", Toast.LENGTH_SHORT).show();
                 if(mType.get(position).equals("Subscription"))
                 {
                     String olddate = mDates.get(position);
@@ -307,7 +311,44 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                         else
                         newdate = olddate.substring(0,6)+Integer.toString(Integer.valueOf(olddate.substring(6,10))+1);
                     dbHandler.updateDate(newdate,mId.get(position));
+                    Intent intent = new Intent(mContext, AlarmReciever.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
+                    alarmManager.cancel(pendingIntent);
+                    pendingIntent.cancel();
+                    setNotification(mType.get(position), mNames.get(position),newdate,newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)),mType.get(position),mInterval.get(position),Integer.valueOf(mId.get(position)));
+
+
+                    int l = Integer.valueOf(mNotifyDays.get(position));
+                    if (l > 0) {
+                        int day = Integer.valueOf(newdate.substring(0, 2));
+                        int month = Integer.valueOf(newdate.substring(3, 5));
+                        int year = Integer.valueOf(newdate.substring(6, 10));
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.DATE, day);
+                        calendar.set(Calendar.MONTH, month);
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.add(Calendar.DATE, -l);
+                        String date = Integer.toString(calendar.get(Calendar.DATE));
+                        String mon = Integer.toString(calendar.get(Calendar.MONTH));
+                        String newyear = Integer.toString(calendar.get(Calendar.YEAR));
+                        String notifydate;
+                        if (Integer.valueOf(mon) > 9){
+                            if (Integer.valueOf(date) > 9)
+                                notifydate = date + "/" + mon + "/" + newyear;
+                            else
+                                notifydate = "0"+date + "/" + mon + "/" + newyear;
+                        }
+                        else {
+
+                            if (Integer.valueOf(date) > 9)
+                                notifydate = date + "/0" + mon + "/" + newyear;
+                            else
+                                notifydate = "0" + date + "/0" + mon + "/" + newyear;
+                        }
+                        setNotification(mType.get(position), mNames.get(position),notifydate,newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)),mType.get(position),mInterval.get(position),Integer.valueOf(mId.get(position)));
                     }
+                }
                 else{
                     String remove = mId.get(position);
                     dbHandler.deleteBill(remove);
@@ -413,5 +454,41 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         cursor.close();
     }
    // long eventId = cursor.getLong(cursor.getColumnIndex("_id"));
+   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+   private void setNotification(String title, String text, String dateofnotificaiton,String dateofbill, String amount, String currency,String type,String Interval,int id1){
+
+
+
+       int day = Integer.valueOf(dateofnotificaiton.substring(0,2));
+       int month = Integer.valueOf(dateofnotificaiton.substring(3,5));
+       int year = Integer.valueOf(dateofnotificaiton.substring(6,10));
+       Log.d("notification", ""+day+""+month+""+year);
+       Calendar calendar = Calendar.getInstance();
+       calendar.set(Calendar.DATE,day);
+       calendar.set(Calendar.MONTH,month-1);
+       calendar.set(Calendar.YEAR,year);
+       calendar.set(Calendar.HOUR_OF_DAY,0);
+       calendar.set(Calendar.MINUTE,0);
+       calendar.set(Calendar.SECOND,1);
+       Log.d("no1", calendar.getTime().toString());
+       Intent intent = new Intent(mContext, AlarmReciever.class);
+       intent.putExtra("amount",amount);
+       intent.putExtra("name",text);
+       intent.putExtra("currency", currency);
+       //   intent.putExtra("interval");
+       intent.putExtra("dates",dateofbill);
+       intent.putExtra("type",title);
+       PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,id1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+       intent.putExtra("amount",amount);
+       intent.putExtra("name",text);
+       intent.putExtra("currency", currency);
+       //   intent.putExtra("interval");
+       intent.putExtra("dates",dateofbill);
+       intent.putExtra("type",title);
+
+       AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
+       alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+   }
 
 }
