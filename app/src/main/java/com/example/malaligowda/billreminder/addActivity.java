@@ -47,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import spencerstudios.com.bungeelib.Bungee;
+
 public class addActivity extends AppCompatActivity {
     private TextView addheading;
     private EditText titleView;
@@ -76,7 +78,6 @@ public class addActivity extends AppCompatActivity {
     int id;
     SharedPreferences savedid;
     SharedPreferences.Editor editor;
-    private EditText notifyDays;
     private AlarmManager mAlarmManager;
     NotificationCompat.Builder notification;
     private static  final int UNIQUE_ID=456;
@@ -94,7 +95,6 @@ public class addActivity extends AppCompatActivity {
         addheading = findViewById(R.id.addHeading);
 
         amountView = findViewById(R.id.amount);
-        notifyDays = findViewById(R.id.notificationDays);
 
         mCalendarView = findViewById(R.id.calendarView);
         currencySpinner = findViewById(R.id.currencySpinner);
@@ -158,6 +158,7 @@ public class addActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(addActivity.this, MainActivity.class);
                 startActivity(intent);
+                Bungee.slideRight(addActivity.this);
 
             }
         });
@@ -169,7 +170,7 @@ public class addActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if ((!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !notifyDays.getText().toString().equals("")&& notifyDays.getVisibility()== View.VISIBLE)||(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && notifyDays.getVisibility()== View.INVISIBLE)) {
+                if ((!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && !days.getText().toString().equals("")&& days.getVisibility()== View.VISIBLE)||(!titleView.getText().toString().equals("") && !amountView.getText().toString().equals("") && days.getVisibility()== View.INVISIBLE)) {
 
 
 
@@ -184,7 +185,7 @@ public class addActivity extends AppCompatActivity {
 
                     bill.setAmt(amountView.getText().toString());
                     bill.set_currency(currencySpinner.getSelectedItem().toString());
-                    bill.set_notifyDays(notifyDays.getText().toString());
+                    bill.set_notifyDays(days.getText().toString());
                     String type="";
 
                     bill.set_name(titleView.getText().toString());
@@ -216,7 +217,7 @@ public class addActivity extends AppCompatActivity {
 
                             setNotification(type, titleView.getText().toString(), selectedDate,selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)),type,intervalSpinner.getSelectedItem().toString(),id);
 
-                            String n = notifyDays.getText().toString();
+                            String n = days.getText().toString();
                             int l = Integer.valueOf(n);
                             if (l > 0) {
                                 int day = Integer.valueOf(selectedDate.substring(0, 2));
@@ -254,7 +255,7 @@ public class addActivity extends AppCompatActivity {
 
                     dbHandler.addBill(bill);
                     if (dbHandler.addBill(bill)) {
-                        if (edit == "") {
+                        if (edit.equals("")) {
                             Toast.makeText(getBaseContext(), "Bill added", Toast.LENGTH_SHORT).show();
 
                             if (syncBox.isChecked()) {
@@ -268,6 +269,7 @@ public class addActivity extends AppCompatActivity {
 
                         } else {
                             dbHandler.deleteBill(edit);
+                            addEvent(milliTime, interval);
                             Toast.makeText(getBaseContext(), "Bill changed", Toast.LENGTH_SHORT).show();
                         }
 
@@ -296,12 +298,12 @@ public class addActivity extends AppCompatActivity {
                                     .duration(900)
                                     .playOn(amountView);
                         }
-                        if (notifyDays.getVisibility()==View.VISIBLE){
-                        if (notifyDays.getText().toString().equals(""))
+                        if (days.getVisibility()==View.VISIBLE){
+                        if (days.getText().toString().equals(""))
                         {
                             YoYo.with(Techniques.Shake)
                                     .duration(900)
-                                    .playOn(notifyDays);
+                                    .playOn(days);
                         }
                         }
                     Toast.makeText(getBaseContext(), "Incomplete fields found!", Toast.LENGTH_LONG).show();
@@ -341,11 +343,11 @@ public class addActivity extends AppCompatActivity {
 
                 if (reminder.isChecked())
                 {
-                    notifyDays.setVisibility(View.VISIBLE);
+                    days.setVisibility(View.VISIBLE);
                     divider2.setVisibility(View.VISIBLE);
                 }
                 else if (!reminder.isChecked()){
-                    notifyDays.setVisibility(View.INVISIBLE);
+                    days.setVisibility(View.INVISIBLE);
                     divider2.setVisibility(View.INVISIBLE);
 
                 }
@@ -377,12 +379,12 @@ public class addActivity extends AppCompatActivity {
             if (editnotify.equals("false"))
             {
                 divider2.setVisibility(View.INVISIBLE);
-                notifyDays.setVisibility(View.INVISIBLE);
+                days.setVisibility(View.INVISIBLE);
             }
             else if (editnotify.equals("true"))
             {
                 divider2.setVisibility(View.VISIBLE);
-                notifyDays.setVisibility(View.VISIBLE);
+                days.setVisibility(View.VISIBLE);
             }
             addheading.setText("EDIT PAYMENT");
             addbutton.setText("SAVE");

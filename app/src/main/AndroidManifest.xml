@@ -18,7 +18,7 @@
         <receiver android:name=".AlarmReciever"/>
 
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".splashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,6 +29,12 @@
             android:name="com.example.malaligowda.billreminder.addActivity"
 
         android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
+            android:name="com.example.malaligowda.billreminder.MainActivity"
+
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
         <receiver android:name=".AlarmReciever"/>

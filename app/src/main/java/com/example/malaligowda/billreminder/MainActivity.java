@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import spencerstudios.com.bungeelib.Bungee;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView timeView;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, addActivity.class);
                 startActivity(intent);
+                Bungee.slideLeft(MainActivity.this);
 
 
             }

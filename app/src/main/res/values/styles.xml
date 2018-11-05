@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
     <style name="MainBackground" parent="android:Theme">
@@ -20,7 +21,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
 
+
     </style>
+
 
 
 
