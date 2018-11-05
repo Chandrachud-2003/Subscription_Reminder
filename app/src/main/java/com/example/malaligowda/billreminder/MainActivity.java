@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView day;
     private RecyclerView displayBills;
     private ImageButton addBill;
+    private int overdue;
 
     private MyDBHandler mDBHandler;
     private static final int NUM_COLUMNS = 1;
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         day.setText(dayOfTheWeek);
         String month1 = "";
         SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-        String datee = sdf1.format(new Date());
+        String date = sdf1.format(new Date());
         switch (Calendar.getInstance().get(Calendar.MONTH)) {
             case 0: {
                 month1 = "JAN";
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         String year1 = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         year.setText(year1);
         month.setText(month1);
-        dayNumber.setText(datee);
+        dayNumber.setText(date);
 
 
     }
@@ -163,6 +165,35 @@ public class MainActivity extends AppCompatActivity {
         mType = mDBHandler.typeArray();
         mNotifyDays = mDBHandler.notifyDays();
         mSync = mDBHandler.syncArray();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+
+
+        for(int i=0;i<mDate.size();i++)
+        {
+            try {
+                Date date = sdf1.parse(mDate.get(i));
+                long millis = date.getTime();
+                if (System.currentTimeMillis()>millis)
+                {
+                    overdue++;
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        Log.d("Overdue", Integer.toString(overdue));
+
+        if (overdue!=0)
+        {
+
+
+
+
+        }
+
 
         if (mNames.size() != 0) {
      //SORTING

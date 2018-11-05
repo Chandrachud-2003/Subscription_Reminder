@@ -32,13 +32,17 @@
         android:id="@+id/titleView"
         android:layout_width="290dp"
         android:layout_height="29dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="60dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="60dp"
         android:background="@android:color/transparent"
         android:hint="@string/addTitleHint"
         android:textColor="@android:color/background_light"
         android:textColorHint="@android:color/background_light"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subscriptionButton" />
 
@@ -175,7 +179,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
 
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/add_payment"
         android:text="@string/addPaymentButton"
         android:textColor="@android:color/background_light"

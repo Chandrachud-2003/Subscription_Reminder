@@ -60,6 +60,7 @@ public class addActivity extends AppCompatActivity {
     private ImageButton backbutton;
     private Button addbutton;
     private CheckBox syncBox;
+    private EditText days;
     private int minutes;
     private int seconds;
     private String interval;
@@ -101,6 +102,7 @@ public class addActivity extends AppCompatActivity {
         reminder = findViewById(R.id.checkBox);
         backbutton = findViewById(R.id.backButton);
         addbutton = findViewById(R.id.addPaymentButton);
+        days = findViewById(R.id.notificationDays);
         dbHandler = new MyDBHandler(this, null, null, 1);
         divider = findViewById(R.id.divider7);
         billButton = findViewById(R.id.billButton);
@@ -210,6 +212,7 @@ public class addActivity extends AppCompatActivity {
 
                     if (reminder.isChecked()) {
                         bill.set_notify("true");
+                        bill.set_notifyDays(days.getText().toString());
 
                             setNotification(type, titleView.getText().toString(), selectedDate,selectedDate, amountView.getText().toString(), Character.toString(currencySpinner.getSelectedItem().toString().charAt(4)),type,intervalSpinner.getSelectedItem().toString(),id);
 
@@ -239,6 +242,7 @@ public class addActivity extends AppCompatActivity {
 
                     } else {
                         bill.set_notify("false");
+                        bill.set_notifyDays("");
 
                     }
                     if (syncBox.isChecked()) {

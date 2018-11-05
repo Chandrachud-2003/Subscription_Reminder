@@ -28,7 +28,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -84,6 +87,23 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.dateDisplay.setText(mDates.get(position));
         holder.amountDisplay.setText(mAmount.get(position));
         holder.typeView.setText(mType.get(position));
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = sdf1.parse(mDates.get(position));
+            long millis = date.getTime();
+            if (System.currentTimeMillis()>millis)
+            {
+                holder.typeView.setText(mType.get(position)+" : Overdue");
+
+            }
+            else {
+                holder.typeView.setText(mType.get(position));
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         dbHandler = new MyDBHandler(mContext,null,null,5);
 
         Glide.with(mContext)
@@ -106,7 +126,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
                 holder.mainbutton.setClickable(false);
 
-                Log.d("illReminder", holder.nameDisplay.getText().toString()+"  main clicked");
+                Log.d("billReminder", holder.nameDisplay.getText().toString()+"  main clicked");
                 if (holder.editButton.getVisibility()== View.INVISIBLE) {
                     YoYo.with(Techniques.Landing)
                             .duration(700)
@@ -163,9 +183,11 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
                     eventsUri = Uri.parse("content://com.android.calendar/events");
                 }
-                ContentResolver resolver = mContext.getContentResolver();
-                deleteEvent(resolver, eventsUri, 3, position);
-                Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+
+                    ContentResolver resolver = mContext.getContentResolver();
+                    deleteEvent(resolver, eventsUri, 3, position);
+                    Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(mContext, AlarmReciever.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
@@ -205,7 +227,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("illReminder", holder.nameDisplay.getText().toString()+" check clicked");
+                Log.d("bllReminder", holder.nameDisplay.getText().toString()+" check clicked");
                 holder.nameDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 holder.currencyDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 holder.amountDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -214,6 +236,17 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 holder.deleteButton.setVisibility(View.GONE);
                 holder.mainbutton.setClickable(false);
                 String newdate="";
+                Uri eventsUri;
+                int osVersion = android.os.Build.VERSION.SDK_INT;
+                if (osVersion <= 7) { //up-to Android 2.1
+                    eventsUri = Uri.parse("content://calendar/events");
+                } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                    eventsUri = Uri.parse("content://com.android.calendar/events");
+                }
+
+                ContentResolver resolver = mContext.getContentResolver();
+                deleteEvent(resolver, eventsUri, 3, position);
+                Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
                 if(mType.get(position).equals("Subscription"))
                 {
                     String olddate = mDates.get(position);

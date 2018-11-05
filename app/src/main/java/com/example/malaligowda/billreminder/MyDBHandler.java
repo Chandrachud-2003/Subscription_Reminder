@@ -414,6 +414,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 notifyDays.remove(7);
             }
         }
+        if (notifyDays != null) {
+            Log.d("billReminder", notifyDays.toString());
+        }
+        c.close();
+        db.close();
         return notifyDays;
 
 
@@ -422,13 +427,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public ArrayList<String> syncArray() {
         ArrayList<String> sync = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT name FROM " + TABLE_BILLS + " WHERE1";
+        String query = "SELECT sync FROM " + TABLE_BILLS + " WHERE1";
 
         Cursor c = db.rawQuery(query, null);
 
         if (c.moveToFirst()) {
             do {
-                sync.add(c.getString(c.getColumnIndex(COLUMN_NAME)));
+                sync.add(c.getString(c.getColumnIndex(COLUMN_sync)));
 
                 c.moveToNext();
                 c.moveToNext();
@@ -444,6 +449,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 sync.remove(7);
             }
         }
+        if (sync != null) {
+            Log.d("billReminder", sync.toString());
+        }
+        c.close();
+        db.close();
         return sync;
 
     }
