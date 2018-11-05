@@ -43,6 +43,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -389,7 +390,18 @@ public class addActivity extends AppCompatActivity {
             String editcurrency = getIntent().getStringExtra("currency");
             String editnotify = getIntent().getStringExtra("notify");
             final String editinterval = getIntent().getStringExtra("interval");
-            String editdate = getIntent().getStringExtra("date");
+            String editdate = getIntent().getStringExtra("dates");
+            Log.d("check", editdate);
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                java.util.Date date = sdf1.parse(editdate);
+                 long millis = date.getTime();
+                mCalendarView.setDate(millis);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
             String edittype = getIntent().getStringExtra("type");
             String editid = getIntent().getStringExtra("id");
             if (editnotify.equals("false")) {

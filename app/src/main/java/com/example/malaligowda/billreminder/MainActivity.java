@@ -1,6 +1,7 @@
 package com.example.malaligowda.billreminder;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 Bungee.slideLeft(MainActivity.this);
 
 
+
             }
         });
 
@@ -104,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
                 month1 = "APR";
                 break;
             }
+            case 4: {
+                month1 = "MAY";
+                break;
+            }
             case 5: {
                 month1 = "JUN";
                 break;
@@ -132,10 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 month1 = "DEC";
                 break;
             }
-            case 4: {
-                month1 = "MAYY";
-                break;
-            }
+
         }
         String year1 = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         year.setText(year1);

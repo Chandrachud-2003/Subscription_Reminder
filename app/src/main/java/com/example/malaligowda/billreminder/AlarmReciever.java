@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -34,7 +35,8 @@ public class AlarmReciever extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getActivity(context,10101,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "my_channel")
                     .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.mipmap.notification)
+                    .setSmallIcon(R.drawable.notification)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification))
                     .setContentTitle(title)
                     .setWhen(System.currentTimeMillis())
                     .setContentTitle(title+" Due: "+currency+amount)

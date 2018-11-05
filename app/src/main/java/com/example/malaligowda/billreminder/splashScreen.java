@@ -50,6 +50,7 @@ public class splashScreen extends AppCompatActivity {
                             public void run() {
                                 Intent intent = new Intent(splashScreen.this, MainActivity.class);
                                 startActivity(intent);
+                                splashScreen.this.finish();
                                 Bungee.zoom(splashScreen.this);
 
                             }

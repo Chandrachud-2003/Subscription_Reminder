@@ -59,7 +59,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
 
 
-    //
+
     public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays, ArrayList<String> sync, TextView display) {
 
 
@@ -96,23 +96,30 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.amountDisplay.setText(mAmount.get(position));
         holder.typeView.setText(mType.get(position));
         SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+
+        String selectedDate = sdf1.format(new java.sql.Date(System.currentTimeMillis()));
+
         try {
             Date date = sdf1.parse(mDates.get(position));
             long millis = date.getTime();
             if (System.currentTimeMillis()>millis)
             {
-                holder.typeView.setText(mType.get(position)+" : Overdue");
+                if (selectedDate.equals(mDates.get(position)))
+                {
+                    holder.typeView.setText(mType.get(position)+" : Due Today");
+
+                }
+                else {
+
+                    holder.typeView.setText(mType.get(position) + " : Overdue");
+                }
                 holder.dateDisplay.setTextColor(Color.RED);
                 holder.amountDisplay.setTextColor(Color.RED);
                 holder.nameDisplay.setTextColor(Color.RED);
                 holder.currencyDisplay.setTextColor(Color.RED);
                 holder.typeView.setTextColor(Color.RED);
 
-
-
-
-
-            }
+                }
             else {
                 holder.typeView.setText(mType.get(position));
 
@@ -223,7 +230,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("illReminder", holder.nameDisplay.getText().toString()+" edit clicked");
+                Log.d("billReminder", holder.nameDisplay.getText().toString()+" edit clicked");
 
                 Uri eventsUri;
                 int osVersion = android.os.Build.VERSION.SDK_INT;
