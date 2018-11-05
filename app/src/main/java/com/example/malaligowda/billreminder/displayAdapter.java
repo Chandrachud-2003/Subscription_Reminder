@@ -7,6 +7,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -49,12 +50,15 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private Context mContext;
     private ArrayList<String> mNotifyDays;
     private ArrayList<String> msync;
+    private TextView displayView;
 
 
 
 
-//
-    public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays, ArrayList<String> sync) {
+
+    //
+    public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays, ArrayList<String> sync, TextView display) {
+
 
         mContext = context;
         mNames = names;
@@ -67,6 +71,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mNotifyDays = notifyDays;
         mId = id;
         msync = sync;
+        displayView = display;
     }
 
     @NonNull
@@ -81,6 +86,8 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
 
+
+        displayView.setVisibility(View.INVISIBLE);
         RequestOptions requestOptions = new RequestOptions().placeholder(R.color.white);
         holder.nameDisplay.setText(mNames.get(position));
         holder.currencyDisplay.setText(mCurrency.get(position));
@@ -94,6 +101,15 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             if (System.currentTimeMillis()>millis)
             {
                 holder.typeView.setText(mType.get(position)+" : Overdue");
+                holder.dateDisplay.setTextColor(Color.RED);
+                holder.amountDisplay.setTextColor(Color.RED);
+                holder.nameDisplay.setTextColor(Color.RED);
+                holder.currencyDisplay.setTextColor(Color.RED);
+                holder.typeView.setTextColor(Color.RED);
+
+
+
+
 
             }
             else {
@@ -143,18 +159,19 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 }
                 else if (holder.editButton.getVisibility()== View.VISIBLE){
                     YoYo.with(Techniques.ZoomOut)
-                            .duration(2000)
+                            .duration(700)
                             .playOn(holder.deleteButton);
                     YoYo.with(Techniques.ZoomOut)
-                            .duration(2000)
+                            .duration(700)
                             .playOn(holder.editButton);
                     YoYo.with(Techniques.ZoomOut)
-                            .duration(2000)
+                            .duration(700)
                             .playOn(holder.checkButton);
                     Log.d("billReminder", "animation Played");
-                    holder.editButton.setVisibility(View.INVISIBLE);
-                    holder.checkButton.setVisibility(View.INVISIBLE);
-                    holder.deleteButton.setVisibility(View.INVISIBLE);
+
+//                    holder.editButton.setVisibility(View.INVISIBLE);
+//                    holder.checkButton.setVisibility(View.INVISIBLE);
+//                    holder.deleteButton.setVisibility(View.INVISIBLE);
 
                 }
             }
@@ -175,6 +192,10 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                     String remove = mId.get(0);
                     dbHandler.deleteBill(remove);
                     deleteitem(0);
+                    YoYo.with(Techniques.BounceIn)
+                            .duration(700)
+                            .playOn(displayView);
+                    displayView.setVisibility(View.VISIBLE);
                 }
                 Uri eventsUri;
                 int osVersion = android.os.Build.VERSION.SDK_INT;

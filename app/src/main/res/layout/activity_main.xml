@@ -91,11 +91,11 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
         android:background="@android:color/transparent"
+        android:contentDescription="TODO"
         android:elevation="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dayText"
-        app:srcCompat="@drawable/plus"
-        android:contentDescription="TODO" />
+        app:srcCompat="@drawable/plus" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/displayView"
@@ -112,5 +112,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addPaymentButton" />
+
+    <TextView
+        android:id="@+id/dueText"
+        android:layout_width="308dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/due"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="40sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

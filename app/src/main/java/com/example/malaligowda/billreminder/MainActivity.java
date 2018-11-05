@@ -9,7 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,15 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView displayBills;
     private ImageButton addBill;
     private int overdue;
+    private TextView display;
 
     private MyDBHandler mDBHandler;
     private static final int NUM_COLUMNS = 1;
@@ -54,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         day = findViewById(R.id.dayText);
         displayBills = findViewById(R.id.displayView);
         addBill = findViewById(R.id.addPaymentButton);
+        display = findViewById(R.id.dueText);
+
+        display.setVisibility(View.VISIBLE);
+
 
 
         addBill.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +199,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (mNames.size() != 0) {
-     //SORTING
+            display.setVisibility(View.INVISIBLE);
+
+            //SORTING
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             try {
                 for (int i = 0; i < mDate.size(); i++)
@@ -281,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("rohit",ndate.toString() );
             Log.d("rohit",mNames.toString() );
-            displayAdapter displayAdapter = new displayAdapter(this, mId, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mNotifyDays, mSync);
+            displayAdapter displayAdapter = new displayAdapter(this, mId, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mNotifyDays, mSync, display);
             displayBills.setVisibility(View.VISIBLE);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
             displayBills.setLayoutManager(staggeredGridLayoutManager);
@@ -293,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
         {
 
             Toast.makeText(getBaseContext(), "No Reminders Set", Toast.LENGTH_SHORT).show();
+            display.setVisibility(View.VISIBLE);
             displayBills.removeAllViewsInLayout();
             displayBills.setAdapter(null);
 
