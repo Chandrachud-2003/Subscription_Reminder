@@ -37,7 +37,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
-        <receiver android:name=".AlarmReciever"/>
+
     </application>
 
 

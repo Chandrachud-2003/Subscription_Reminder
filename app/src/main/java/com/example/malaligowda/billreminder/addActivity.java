@@ -114,7 +114,9 @@ public class addActivity extends AppCompatActivity {
         notification = new NotificationCompat.Builder(this, CHANNEL_ID);
         notification.setAutoCancel(true);
         createNotificationChannel();
-
+        if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
+        }
         intervalSpinner.setVisibility(View.INVISIBLE);
         divider.setVisibility(View.INVISIBLE);
         divider2 = findViewById(R.id.divider2);
@@ -148,10 +150,7 @@ public class addActivity extends AppCompatActivity {
                 selectedDate = sdf.format(new Date(mCalendarView.getDate()));
                 Log.d("billReminder", selectedDate);
 
-                if ((checkSelfPermission(Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED)) {
-                    Log.d("permission", "It is alreadyy granted");
-                } else
-                    Log.d("permission", "It is not granted");
+
 
             }
         });
@@ -315,14 +314,14 @@ public class addActivity extends AppCompatActivity {
                     }
 
 
-                    if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+                 /*   if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED) {
                         ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_CODE);
                         if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED)
                             Toast.makeText(getBaseContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
                     }
                     if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
-                        ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
-                    }
+                        ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);}
+                 */
 
 
                     Toast.makeText(getBaseContext(), "Incomplete fields found!", Toast.LENGTH_LONG).show();
