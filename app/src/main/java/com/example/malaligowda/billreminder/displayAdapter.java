@@ -162,7 +162,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             public void onClick(View v) {
 
                 holder.mainbutton.setClickable(false);
-
+                Log.d("position", Integer.toString(holder.getAdapterPosition()));
 
 
 
@@ -211,7 +211,19 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             public void onClick(View v) {
                 Log.d("billReminder", holder.nameDisplay.getText().toString() + " delete clicked");
 
+                if (msync.get(position).equals("true")) {
+                    Uri eventsUri;
+                    int osVersion = android.os.Build.VERSION.SDK_INT;
+                    if (osVersion <= 7) { //up-to Android 2.1
+                        eventsUri = Uri.parse("content://calendar/events");
+                    } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                        eventsUri = Uri.parse("content://com.android.calendar/events");
+                    }
 
+                    ContentResolver resolver = mContext.getContentResolver();
+                    deleteEvent(resolver, eventsUri, 3, position);
+                    Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+                }
                 if (mNames.size() != 1){
                     String remove = mId.get(position);
                     Log.d("del", ""+mId.get(position));
@@ -227,17 +239,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                             .playOn(displayView);
                     displayView.setVisibility(View.VISIBLE);
                 }
-                Uri eventsUri;
-                int osVersion = android.os.Build.VERSION.SDK_INT;
-                if (osVersion <= 7) { //up-to Android 2.1
-                    eventsUri = Uri.parse("content://calendar/events");
-                } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-                    eventsUri = Uri.parse("content://com.android.calendar/events");
-                }
 
-                ContentResolver resolver = mContext.getContentResolver();
-                deleteEvent(resolver, eventsUri, 3, position);
-                Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(mContext, AlarmReciever.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -252,15 +254,19 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             public void onClick(View v) {
                 Log.d("billReminder", holder.nameDisplay.getText().toString()+" edit clicked");
 
-                Uri eventsUri;
-                int osVersion = android.os.Build.VERSION.SDK_INT;
-                if (osVersion <= 7) { //up-to Android 2.1
-                    eventsUri = Uri.parse("content://calendar/events");
-                } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-                    eventsUri = Uri.parse("content://com.android.calendar/events");
+                if (msync.get(position).equals("true")) {
+                    Uri eventsUri;
+                    int osVersion = android.os.Build.VERSION.SDK_INT;
+                    if (osVersion <= 7) { //up-to Android 2.1
+                        eventsUri = Uri.parse("content://calendar/events");
+                    } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                        eventsUri = Uri.parse("content://com.android.calendar/events");
+                    }
+
+                    ContentResolver resolver = mContext.getContentResolver();
+                    deleteEvent(resolver, eventsUri, 3, position);
+                    Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
                 }
-                ContentResolver resolver = mContext.getContentResolver();
-                deleteEvent(resolver, eventsUri, 3, position);
                 Intent intent = new Intent(mContext, addActivity.class);
                 intent.putExtra("id",mId.get(position));
                 intent.putExtra("amount",mAmount.get(position));
@@ -288,17 +294,19 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 holder.deleteButton.setVisibility(View.GONE);
                 holder.mainbutton.setClickable(false);
                 String newdate="";
-                Uri eventsUri;
-                int osVersion = android.os.Build.VERSION.SDK_INT;
-                if (osVersion <= 7) { //up-to Android 2.1
-                    eventsUri = Uri.parse("content://calendar/events");
-                } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-                    eventsUri = Uri.parse("content://com.android.calendar/events");
-                }
+                if (msync.get(position).equals("true")) {
+                    Uri eventsUri;
+                    int osVersion = android.os.Build.VERSION.SDK_INT;
+                    if (osVersion <= 7) { //up-to Android 2.1
+                        eventsUri = Uri.parse("content://calendar/events");
+                    } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                        eventsUri = Uri.parse("content://com.android.calendar/events");
+                    }
 
-                ContentResolver resolver = mContext.getContentResolver();
-                deleteEvent(resolver, eventsUri, 3, position);
-                Toast.makeText(mContext, "Bill Deleted", Toast.LENGTH_SHORT).show();
+                    ContentResolver resolver = mContext.getContentResolver();
+                    deleteEvent(resolver, eventsUri, 3, position);
+                    Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+                }
                 if(mType.get(position).equals("Subscription"))
                 {
                     String olddate = mDates.get(position);
