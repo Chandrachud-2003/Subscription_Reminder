@@ -391,6 +391,7 @@ public class addActivity extends AppCompatActivity {
             String editname = getIntent().getStringExtra("name");
             String editcurrency = getIntent().getStringExtra("currency");
             String editnotify = getIntent().getStringExtra("notify");
+            String editsync = getIntent().getStringExtra("sync");
             final String editinterval = getIntent().getStringExtra("interval");
             String editdate = getIntent().getStringExtra("dates");
             Log.d("check", editdate);
@@ -402,8 +403,8 @@ public class addActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-
+            String editnotifydays = getIntent().getStringExtra("notifydays");
+            days.setText(editnotifydays);
             String edittype = getIntent().getStringExtra("type");
             String editid = getIntent().getStringExtra("id");
             if (editnotify.equals("false")) {
@@ -413,6 +414,7 @@ public class addActivity extends AppCompatActivity {
                 divider2.setVisibility(View.VISIBLE);
                 days.setVisibility(View.VISIBLE);
             }
+
             addheading.setText("EDIT PAYMENT");
             addbutton.setText("SAVE");
             titleView.setText(editname);
@@ -463,6 +465,11 @@ public class addActivity extends AppCompatActivity {
                 reminder.setChecked(true);
             else
                 reminder.setChecked(false);
+            if (editsync.equals("true"))
+                syncBox.setChecked(true);
+            else
+                syncBox.setChecked(false);
+
 
             edit = editid;
 

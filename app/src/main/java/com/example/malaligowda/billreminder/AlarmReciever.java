@@ -40,7 +40,7 @@ public class AlarmReciever extends BroadcastReceiver {
                     .setContentTitle(title)
                     .setWhen(System.currentTimeMillis())
                     .setContentTitle(title+" Due: "+currency+amount)
-                    .setContentText(title+"\""+text+"\""+" | Due on "+date)
+                    .setContentText(text+" | Due on "+date)
                     .setAutoCancel(true)
                     .setChannelId("my_channel");
 

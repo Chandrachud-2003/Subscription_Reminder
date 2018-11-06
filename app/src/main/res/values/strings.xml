@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">billReminder</string>
+    <string name="app_name">Bill Reminder</string>
     <string name="mainBillButton">BILLS</string>
     <string name="mainSubButton">SUBSCRIPTIONS</string>
     <string name="addTitle">Add Payment</string>

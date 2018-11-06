@@ -58,7 +58,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private ImageButton check;
     private ImageButton delete;
     private ImageButton edit;
-
+    private int currentSelectedPosition = RecyclerView.NO_POSITION;
 
 
 
@@ -119,11 +119,11 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 if (selectedDate.equals(mDates.get(position)))
                 {
                     holder.typeView.setText(mType.get(position)+" : Due Today");
-
                 }
                 else {
 
                     holder.typeView.setText(mType.get(position) + " : Overdue");
+
                 }
                 holder.dateDisplay.setTextColor(Color.RED);
                 holder.amountDisplay.setTextColor(Color.RED);
@@ -161,16 +161,17 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             @Override
             public void onClick(View v) {
 
-                holder.mainbutton.setClickable(false);
-                Log.d("position", Integer.toString(holder.getAdapterPosition()));
+               // holder.mainbutton.setClickable(false);
+               // Log.d("position", Integer.toString(holder.getAdapterPosition()));
+                currentSelectedPosition = position;
+                notifyDataSetChanged();
 
 
 
 
 
 
-
-                Log.d("billReminder", holder.nameDisplay.getText().toString()+"  main clicked");
+             /*   Log.d("billReminder", holder.nameDisplay.getText().toString()+"  main clicked");
                 if (holder.editButton.getVisibility()== View.INVISIBLE) {
 
                     YoYo.with(Techniques.Landing)
@@ -203,199 +204,218 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 //                    holder.deleteButton.setVisibility(View.INVISIBLE);
 
                 }
-
+*/
             }
         });
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("billReminder", holder.nameDisplay.getText().toString() + " delete clicked");
+        if (currentSelectedPosition == position) {
+            holder.editButton.setVisibility(View.VISIBLE);
+            holder.deleteButton.setVisibility(View.VISIBLE);
+            holder.checkButton.setVisibility(View.VISIBLE);
+            holder.mainbutton.setClickable(false);
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("billReminder", holder.nameDisplay.getText().toString() + " delete clicked");
 
-                if (msync.get(position).equals("true")) {
-                    Uri eventsUri;
-                    int osVersion = android.os.Build.VERSION.SDK_INT;
-                    if (osVersion <= 7) { //up-to Android 2.1
-                        eventsUri = Uri.parse("content://calendar/events");
-                    } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-                        eventsUri = Uri.parse("content://com.android.calendar/events");
+                    if (msync.get(position).equals("true")) {
+                        Uri eventsUri;
+                        int osVersion = android.os.Build.VERSION.SDK_INT;
+                        if (osVersion <= 7) { //up-to Android 2.1
+                            eventsUri = Uri.parse("content://calendar/events");
+                        } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                            eventsUri = Uri.parse("content://com.android.calendar/events");
+                        }
+
+                        ContentResolver resolver = mContext.getContentResolver();
+                        deleteEvent(resolver, eventsUri, 3, position);
+                        Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+                    }
+                    if (mNames.size() != 1){
+                        String remove = mId.get(position);
+                        Log.d("del", ""+mId.get(position));
+                        dbHandler.deleteBill(remove);
+                        deleteitem(position);
+                    }
+                    else{
+                        String remove = mId.get(0);
+                        dbHandler.deleteBill(remove);
+                        deleteitem(0);
+                        YoYo.with(Techniques.BounceIn)
+                                .duration(700)
+                                .playOn(displayView);
+                        displayView.setVisibility(View.VISIBLE);
                     }
 
-                    ContentResolver resolver = mContext.getContentResolver();
-                    deleteEvent(resolver, eventsUri, 3, position);
-                    Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
-                }
-                if (mNames.size() != 1){
-                    String remove = mId.get(position);
-                    Log.d("del", ""+mId.get(position));
-                dbHandler.deleteBill(remove);
-                deleteitem(position);
-            }
-                else{
-                    String remove = mId.get(0);
-                    dbHandler.deleteBill(remove);
-                    deleteitem(0);
-                    YoYo.with(Techniques.BounceIn)
-                            .duration(700)
-                            .playOn(displayView);
-                    displayView.setVisibility(View.VISIBLE);
-                }
 
-
-                Intent intent = new Intent(mContext, AlarmReciever.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
-                alarmManager.cancel(pendingIntent);
-                pendingIntent.cancel();
-
-            }
-        });
-        holder.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("billReminder", holder.nameDisplay.getText().toString()+" edit clicked");
-
-                if (msync.get(position).equals("true")) {
-                    Uri eventsUri;
-                    int osVersion = android.os.Build.VERSION.SDK_INT;
-                    if (osVersion <= 7) { //up-to Android 2.1
-                        eventsUri = Uri.parse("content://calendar/events");
-                    } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-                        eventsUri = Uri.parse("content://com.android.calendar/events");
-                    }
-
-                    ContentResolver resolver = mContext.getContentResolver();
-                    deleteEvent(resolver, eventsUri, 3, position);
-                    Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
-                }
-                Intent intent = new Intent(mContext, addActivity.class);
-                intent.putExtra("id",mId.get(position));
-                intent.putExtra("amount",mAmount.get(position));
-                intent.putExtra("name",mNames.get(position));
-                intent.putExtra("notify",mNotify.get(position));
-                intent.putExtra("currency",mCurrency.get(position));
-                intent.putExtra("interval",mInterval.get(position));
-                intent.putExtra("dates",mDates.get(position));
-                intent.putExtra("type",mType.get(position));
-                mContext.startActivity(intent);
-
-
-            }
-        });
-        holder.checkButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onClick(View v) {
-                Log.d("bllReminder", holder.nameDisplay.getText().toString()+" check clicked");
-                holder.nameDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.currencyDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.amountDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.editButton.setVisibility(View.GONE);
-                holder.checkButton.setVisibility(View.GONE);
-                holder.deleteButton.setVisibility(View.GONE);
-                holder.mainbutton.setClickable(false);
-                String newdate="";
-                if (msync.get(position).equals("true")) {
-                    Uri eventsUri;
-                    int osVersion = android.os.Build.VERSION.SDK_INT;
-                    if (osVersion <= 7) { //up-to Android 2.1
-                        eventsUri = Uri.parse("content://calendar/events");
-                    } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-                        eventsUri = Uri.parse("content://com.android.calendar/events");
-                    }
-
-                    ContentResolver resolver = mContext.getContentResolver();
-                    deleteEvent(resolver, eventsUri, 3, position);
-                    Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
-                }
-                if(mType.get(position).equals("Subscription"))
-                {
-                    String olddate = mDates.get(position);
-                    if (mInterval.get(position).equals("Monthly")) {
-
-                        if(olddate.substring(3,5).equals("01"))
-                        {
-                            if(Integer.valueOf(olddate.substring(0,2))>28)
-                            newdate = "28/02/"+olddate.substring(6,10);
-                        }
-                        else if(olddate.substring(3,5).equals("03"))
-                        {
-                            if(Integer.valueOf(olddate.substring(0,2))>30)
-                            newdate = "30/04/"+olddate.substring(6,10);
-                        }
-                        else if(olddate.substring(3,5).equals("05"))
-                        {
-                            if(Integer.valueOf(olddate.substring(0,2))>30)
-                            newdate = "30/06/"+olddate.substring(6,10);
-                        }
-                        else if(olddate.substring(3,5).equals("08"))
-                        {
-                            if(Integer.valueOf(olddate.substring(0,2))>30)
-                            newdate = "30/09/"+olddate.substring(6,10);
-                        }
-
-                        else
-                        {
-
-                        if (Integer.valueOf(olddate.substring(3, 5)) == 12)
-                            newdate = olddate.substring(0, 2) + "/01/" + Integer.toString(Integer.valueOf(olddate.substring(6, 10)) + 1);
-                        else
-                            newdate = olddate.substring(0, 2) + "/" + Integer.toString(Integer.valueOf(olddate.substring(3, 5)) + 1) + "/" + olddate.substring(6, 10);
-
-                      }
-                        }
-                        else
-                        newdate = olddate.substring(0,6)+Integer.toString(Integer.valueOf(olddate.substring(6,10))+1);
-                    dbHandler.updateDate(newdate,mId.get(position));
                     Intent intent = new Intent(mContext, AlarmReciever.class);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
                     alarmManager.cancel(pendingIntent);
                     pendingIntent.cancel();
-                    setNotification(mType.get(position), mNames.get(position),newdate,newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)),mType.get(position),mInterval.get(position),Integer.valueOf(mId.get(position)));
+
+                }
+            });
+            holder.editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
 
-                    int l = Integer.valueOf(mNotifyDays.get(position));
-                    if (l > 0) {
-                        int day = Integer.valueOf(newdate.substring(0, 2));
-                        int month = Integer.valueOf(newdate.substring(3, 5));
-                        int year = Integer.valueOf(newdate.substring(6, 10));
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.DATE, day);
-                        calendar.set(Calendar.MONTH, month);
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.add(Calendar.DATE, -l);
-                        String date = Integer.toString(calendar.get(Calendar.DATE));
-                        String mon = Integer.toString(calendar.get(Calendar.MONTH));
-                        String newyear = Integer.toString(calendar.get(Calendar.YEAR));
-                        String notifydate;
-                        if (Integer.valueOf(mon) > 9){
-                            if (Integer.valueOf(date) > 9)
-                                notifydate = date + "/" + mon + "/" + newyear;
-                            else
-                                notifydate = "0"+date + "/" + mon + "/" + newyear;
+                    Log.d("billReminder", holder.nameDisplay.getText().toString()+" edit clicked");
+
+                    if (msync.get(position).equals("true")) {
+                        Uri eventsUri;
+                        int osVersion = android.os.Build.VERSION.SDK_INT;
+                        if (osVersion <= 7) { //up-to Android 2.1
+                            eventsUri = Uri.parse("content://calendar/events");
+                        } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                            eventsUri = Uri.parse("content://com.android.calendar/events");
                         }
-                        else {
 
-                            if (Integer.valueOf(date) > 9)
-                                notifydate = date + "/0" + mon + "/" + newyear;
-                            else
-                                notifydate = "0" + date + "/0" + mon + "/" + newyear;
-                        }
-                        setNotification(mType.get(position), mNames.get(position),notifydate,newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)),mType.get(position),mInterval.get(position),Integer.valueOf(mId.get(position)));
+                        ContentResolver resolver = mContext.getContentResolver();
+                        deleteEvent(resolver, eventsUri, 3, position);
+                        Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
                     }
+                    Intent intent = new Intent(mContext, addActivity.class);
+                    intent.putExtra("id",mId.get(position));
+                    intent.putExtra("amount",mAmount.get(position));
+                    intent.putExtra("name",mNames.get(position));
+                    intent.putExtra("notify",mNotify.get(position));
+                    intent.putExtra("currency",mCurrency.get(position));
+                    intent.putExtra("interval",mInterval.get(position));
+                    intent.putExtra("sync",msync.get(position));
+                    intent.putExtra("notifydays",mNotifyDays.get(position));
+                    intent.putExtra("dates",mDates.get(position));
+                    intent.putExtra("type",mType.get(position));
+                    mContext.startActivity(intent);
+
                 }
-                else{
-                    String remove = mId.get(position);
-                    dbHandler.deleteBill(remove);
+            });
+            holder.checkButton.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void onClick(View v) {
+                    Log.d("bllReminder", holder.nameDisplay.getText().toString()+" check clicked");
+                    holder.nameDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.currencyDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.amountDisplay.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.editButton.setVisibility(View.GONE);
+                    holder.checkButton.setVisibility(View.GONE);
+                    holder.deleteButton.setVisibility(View.GONE);
+                    holder.mainbutton.setClickable(false);
+                    String newdate="";
+                    if (msync.get(position).equals("true")) {
+                        Uri eventsUri;
+                        int osVersion = android.os.Build.VERSION.SDK_INT;
+                        if (osVersion <= 7) { //up-to Android 2.1
+                            eventsUri = Uri.parse("content://calendar/events");
+                        } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                            eventsUri = Uri.parse("content://com.android.calendar/events");
+                        }
+
+                        ContentResolver resolver = mContext.getContentResolver();
+                        deleteEvent(resolver, eventsUri, 3, position);
+
+                    }
+                    if(mType.get(position).equals("Subscription"))
+                    {
+                        String olddate = mDates.get(position);
+                        Log.d("error", "Old Date = "+olddate);
+                        if (mInterval.get(position).equals("Monthly")) {
+
+                            if((olddate.substring(3,5).equals("01"))&&(Integer.valueOf(olddate.substring(0,2))>28))
+                            {
+                                newdate = "28/02/"+olddate.substring(6,10);
+                                Log.d("error", "this happened");
+                            }
+                            else if((olddate.substring(3,5).equals("03"))&&(Integer.valueOf(olddate.substring(0,2))>30))
+                            {
+                                    newdate = "30/04/"+olddate.substring(6,10);
+                            }
+                            else if((olddate.substring(3,5).equals("05"))&&(Integer.valueOf(olddate.substring(0,2))>30))
+                            {
+                                    newdate = "30/06/"+olddate.substring(6,10);
+                            }
+                            else if((olddate.substring(3,5).equals("08"))&&(Integer.valueOf(olddate.substring(0,2))>30))
+                            {
+                                    newdate = "30/09/"+olddate.substring(6,10);
+                            }
+
+                            else
+                            {
+
+                                if (Integer.valueOf(olddate.substring(3, 5)) == 12)
+                                    newdate = olddate.substring(0, 2) + "/01/" + Integer.toString(Integer.valueOf(olddate.substring(6, 10)) + 1);
+                                else {
+
+                                    if (((Integer.valueOf(olddate.substring(3, 5))) + 1) < 10)
+                                        newdate = olddate.substring(0, 2) + "/0" + Integer.toString(Integer.valueOf(olddate.substring(3, 5)) + 1) + "/" + olddate.substring(6, 10);
+                                    else
+                                        newdate = olddate.substring(0, 2) + "/" + Integer.toString(Integer.valueOf(olddate.substring(3, 5)) + 1) + "/" + olddate.substring(6, 10);
+                                }
+                                Log.d("error", "now:"+newdate);
+                            }
+                        }
+                        else
+                            newdate = olddate.substring(0,6)+Integer.toString(Integer.valueOf(olddate.substring(6,10))+1);
+                        dbHandler.updateDate(newdate,mId.get(position));
+                        Intent intent = new Intent(mContext, AlarmReciever.class);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
+                        alarmManager.cancel(pendingIntent);
+                        pendingIntent.cancel();
+                        setNotification(mType.get(position), mNames.get(position),newdate,newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)),mType.get(position),mInterval.get(position),Integer.valueOf(mId.get(position)));
+
+
+                        int l = Integer.valueOf(mNotifyDays.get(position));
+                        if (l > 0) {
+                            int day = Integer.valueOf(newdate.substring(0, 2));
+                            int month = Integer.valueOf(newdate.substring(3, 5));
+                            int year = Integer.valueOf(newdate.substring(6, 10));
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.DATE, day);
+                            calendar.set(Calendar.MONTH, month);
+                            calendar.set(Calendar.YEAR, year);
+                            calendar.add(Calendar.DATE, -l);
+                            String date = Integer.toString(calendar.get(Calendar.DATE));
+                            String mon = Integer.toString(calendar.get(Calendar.MONTH));
+                            String newyear = Integer.toString(calendar.get(Calendar.YEAR));
+                            String notifydate;
+                            if (Integer.valueOf(mon) > 9){
+                                if (Integer.valueOf(date) > 9)
+                                    notifydate = date + "/" + mon + "/" + newyear;
+                                else
+                                    notifydate = "0"+date + "/" + mon + "/" + newyear;
+                            }
+                            else {
+
+                                if (Integer.valueOf(date) > 9)
+                                    notifydate = date + "/0" + mon + "/" + newyear;
+                                else
+                                    notifydate = "0" + date + "/0" + mon + "/" + newyear;
+                            }
+                            setNotification(mType.get(position), mNames.get(position),notifydate,newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)),mType.get(position),mInterval.get(position),Integer.valueOf(mId.get(position)));
+                        }
+                    }
+                    else{
+                        String remove = mId.get(position);
+                        dbHandler.deleteBill(remove);
+                    }
+
+                    holder.view.setVisibility(View.VISIBLE);
+                    holder.layout.setClickable(false);
+
+
+
                 }
+            });
 
-                holder.view.setVisibility(View.VISIBLE);
-                holder.layout.setClickable(false);
+        }
+        else {
+            holder.editButton.setVisibility(View.GONE);
+            holder.deleteButton.setVisibility(View.GONE);
+            holder.checkButton.setVisibility(View.GONE);
+        }
 
-
-
-            }
-        });
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -492,7 +512,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
    private void setNotification(String title, String text, String dateofnotificaiton,String dateofbill, String amount, String currency,String type,String Interval,int id1){
 
-
+       Log.d("error", ""+dateofnotificaiton+"                  Date of bill:"+dateofbill);
 
        int day = Integer.valueOf(dateofnotificaiton.substring(0,2));
        int month = Integer.valueOf(dateofnotificaiton.substring(3,5));
