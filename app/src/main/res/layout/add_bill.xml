@@ -10,28 +10,28 @@
 
     <TextView
         android:id="@+id/addHeading"
-        android:layout_width="162dp"
-        android:layout_height="39dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="60dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="60dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="@string/add_Title"
         android:textColor="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintDimensionRatio="h,16:3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintStart_toEndOf="@+id/backButton"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/titleView"
         android:layout_width="290dp"
-        android:layout_height="29dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="8dp"
@@ -41,6 +41,7 @@
         android:textColor="@android:color/background_light"
         android:textColorHint="@android:color/background_light"
         android:textSize="18sp"
+        app:layout_constraintDimensionRatio="16:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +59,7 @@
     <EditText
         android:id="@+id/amount"
         android:layout_width="173dp"
-        android:layout_height="29dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -70,52 +71,57 @@
         android:inputType="numberDecimal"
         android:textColor="@android:color/background_light"
         android:textColorHint="@android:color/background_light"
+        app:layout_constraintDimensionRatio="16:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.459"
         app:layout_constraintStart_toEndOf="@+id/currencySpinner"
         app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
 
-        <RadioButton
-            android:id="@+id/billButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:text="@string/addBillButton"
-            android:textColor="@android:color/background_light"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/subscriptionButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addHeading" />
+    <RadioButton
+        android:id="@+id/billButton"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/addBillButton"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintDimensionRatio="h,16:3"
+        app:layout_constraintEnd_toStartOf="@+id/subscriptionButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHeading" />
 
-        <RadioButton
-            android:id="@+id/subscriptionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:text="@string/addSubButton"
-            android:textColor="@android:color/background_light"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addHeading" />
+    <RadioButton
+        android:id="@+id/subscriptionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/addSubButton"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintDimensionRatio="h,16:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHeading" />
 
     <Spinner
         android:id="@+id/currencySpinner"
         android:layout_width="121dp"
-        android:layout_height="27dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="60dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="8dp"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintDimensionRatio="16:4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
@@ -132,12 +138,13 @@
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="280dp"
-        android:layout_height="292dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:focusedMonthDateColor="@android:color/background_light"
+        app:layout_constraintDimensionRatio="h,16:17"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amount" />
@@ -154,8 +161,8 @@
 
     <CheckBox
         android:id="@+id/checkBox"
-        android:layout_width="197dp"
-        android:layout_height="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -165,7 +172,8 @@
         android:text="@string/addReminderText"
         android:textColor="@android:color/background_light"
         android:textColorLink="@android:color/background_light"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        app:layout_constraintDimensionRatio="h,16:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/syncBox" />
@@ -173,25 +181,28 @@
     <Button
         android:id="@+id/addPaymentButton"
         android:layout_width="121dp"
-        android:layout_height="39dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
 
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/add_payment"
         android:text="@string/addPaymentButton"
         android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="h,16:5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/intervalView" />
+        app:layout_constraintTop_toBottomOf="@+id/intervalView"
+        app:layout_constraintVertical_bias="0.93" />
 
     <View
         android:id="@+id/divider7"
         android:layout_width="145dp"
         android:layout_height="1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
         android:background="@android:color/background_light"
         app:layout_constraintStart_toStartOf="@+id/intervalView"
         app:layout_constraintTop_toBottomOf="@+id/intervalView" />
@@ -199,7 +210,7 @@
     <Spinner
         android:id="@+id/intervalView"
         android:layout_width="200dp"
-        android:layout_height="29dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -207,6 +218,7 @@
         android:layout_marginTop="8dp"
         android:textColor="@android:color/background_light"
 
+        app:layout_constraintDimensionRatio="h,16:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,17 +227,19 @@
     <EditText
         android:id="@+id/notificationDays"
         android:layout_width="245dp"
-        android:layout_height="29dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="Days for Notifications updates"
         android:inputType="number"
         android:textColor="@android:color/background_light"
         android:textColorHint="@android:color/background_light"
+        app:layout_constraintDimensionRatio="h,16:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
@@ -244,7 +258,7 @@
     <CheckBox
         android:id="@+id/syncBox"
         android:layout_width="wrap_content"
-        android:layout_height="29dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -253,9 +267,19 @@
         android:checked="true"
         android:text="Sync to Calendar"
         android:textColor="@android:color/background_light"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        app:layout_constraintDimensionRatio="h,16:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="173dp"
+        android:layout_height="1dp"
+        android:background="@android:color/background_light"
+        app:layout_constraintEnd_toEndOf="@+id/amount"
+        app:layout_constraintStart_toStartOf="@+id/amount"
+        app:layout_constraintTop_toBottomOf="@+id/amount" />
 
 </android.support.constraint.ConstraintLayout>

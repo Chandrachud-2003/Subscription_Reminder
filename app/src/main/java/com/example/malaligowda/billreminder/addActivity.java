@@ -124,8 +124,8 @@ public class addActivity extends AppCompatActivity {
         divider.setVisibility(View.INVISIBLE);
         divider2 = findViewById(R.id.divider2);
         billButton.toggle();
-        String[] intervalarraySpinner = new String[]{"Monthly", "Annually"};
-        String[] currencyarraySpinner = new String[]{"AUD $", "EUR €", "INR ₹", "USD $", "JPY	¥", "ZAR R"};
+        String[] intervalarraySpinner = new String[]{"Monthly", "Yearly"};
+        String[] currencyarraySpinner = new String[]{"USD $","INR ₹", "EUR €","AUD $", "JPY	¥", "ZAR R"};
         currencySpinner.setSelection(2);
         final ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, intervalarraySpinner);

@@ -203,13 +203,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d("Overdue", Integer.toString(overdue));
 
-        if (overdue!=0)
-        {
 
-
-
-
-        }
 
 
         if (mNames.size() != 0) {

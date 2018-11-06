@@ -208,6 +208,16 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
             }
         });
         if (currentSelectedPosition == position) {
+
+            YoYo.with(Techniques.Landing)
+                    .duration(700)
+                    .playOn(holder.deleteButton);
+            YoYo.with(Techniques.Landing)
+                    .duration(700)
+                    .playOn(holder.editButton);
+            YoYo.with(Techniques.Landing)
+                    .duration(700)
+                    .playOn(holder.checkButton);
             holder.editButton.setVisibility(View.VISIBLE);
             holder.deleteButton.setVisibility(View.VISIBLE);
             holder.checkButton.setVisibility(View.VISIBLE);
