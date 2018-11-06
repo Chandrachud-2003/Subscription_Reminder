@@ -54,13 +54,19 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
     private ArrayList<String> mNotifyDays;
     private ArrayList<String> msync;
     private TextView displayView;
+    private RecyclerView mRecyclerView;
+    private ImageButton check;
+    private ImageButton delete;
+    private ImageButton edit;
 
 
 
 
 
 
-    public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays, ArrayList<String> sync, TextView display) {
+
+
+    public displayAdapter(Context context, ArrayList<String> id, ArrayList<String> names, ArrayList<String> dates, ArrayList<String> currency, ArrayList<String> amount, ArrayList<String> type, ArrayList<String> notify, ArrayList<String> interval, ArrayList<String> notifyDays, ArrayList<String> sync, TextView display, RecyclerView recyclerView, ImageButton editButton, ImageButton deleteButton, ImageButton checkButton) {
 
 
         mContext = context;
@@ -75,6 +81,10 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         mId = id;
         msync = sync;
         displayView = display;
+        mRecyclerView = recyclerView;
+        delete = deleteButton;
+        edit = editButton;
+        check = checkButton;
     }
 
     @NonNull
@@ -85,8 +95,10 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+
 
         displayView.setVisibility(View.INVISIBLE);
         RequestOptions requestOptions = new RequestOptions().placeholder(R.color.white);
@@ -151,8 +163,16 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
                 holder.mainbutton.setClickable(false);
 
+
+
+
+
+
+
+
                 Log.d("billReminder", holder.nameDisplay.getText().toString()+"  main clicked");
                 if (holder.editButton.getVisibility()== View.INVISIBLE) {
+
                     YoYo.with(Techniques.Landing)
                             .duration(700)
                             .playOn(holder.deleteButton);

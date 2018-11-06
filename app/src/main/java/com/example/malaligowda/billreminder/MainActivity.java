@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton addBill;
     private int overdue;
     private TextView display;
+    private ImageButton checkButton;
+    private ImageButton editButton;
+    private ImageButton deleteButton;
+
+
 
     private MyDBHandler mDBHandler;
     private static final int NUM_COLUMNS = 1;
@@ -57,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         displayBills = findViewById(R.id.displayView);
         addBill = findViewById(R.id.addPaymentButton);
         display = findViewById(R.id.dueText);
+        checkButton = findViewById(R.id.checkButton);
+        editButton = findViewById(R.id.editButton);
+        deleteButton = findViewById(R.id.deleteButton);
 
         display.setVisibility(View.VISIBLE);
 
@@ -292,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("rohit",ndate.toString() );
             Log.d("rohit",mNames.toString() );
-            displayAdapter displayAdapter = new displayAdapter(this, mId, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mNotifyDays, mSync, display);
+            displayAdapter displayAdapter = new displayAdapter(this, mId, mNames, mDate, mCurrency, mAmount, mType, mNotify, mInterval, mNotifyDays, mSync, display, displayBills, editButton, deleteButton, checkButton);
             displayBills.setVisibility(View.VISIBLE);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
             displayBills.setLayoutManager(staggeredGridLayoutManager);
