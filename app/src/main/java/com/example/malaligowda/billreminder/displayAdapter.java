@@ -239,7 +239,8 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
                         ContentResolver resolver = mContext.getContentResolver();
                         deleteEvent(resolver, eventsUri, 3, Integer.parseInt(mId.get(position)));
-                    }
+                        }
+
                     if (mNames.size() != 1){
                         String remove = mId.get(position);
                         Log.d("del", ""+mId.get(position));
@@ -315,6 +316,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                         deleteEvent(resolver, eventsUri, 3, Integer.parseInt(mId.get(position)));
 
                     }
+
                     if(mType.get(position).equals("Subscription"))
                     {
                         String olddate = mDates.get(position);

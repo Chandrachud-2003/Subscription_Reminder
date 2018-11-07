@@ -115,7 +115,7 @@ public class addActivity extends AppCompatActivity {
         displayDue = findViewById(R.id.dueText);
         createNotificationChannel();
         if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
+           ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
         }
         if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_CODE);
@@ -295,7 +295,7 @@ public class addActivity extends AppCompatActivity {
 
                         } else {
                             dbHandler.deleteBill(edit);
-                            if (dbHandler.syncArray().get(Integer.parseInt(editId)).equals("true")&&dbHandler.typeArray().get(Integer.parseInt(editId)).equals("Bill")) {
+                           if (dbHandler.syncArray().get(Integer.parseInt(edit)).equals("true")) {
                                 Uri eventsUri;
                                 int osVersion = android.os.Build.VERSION.SDK_INT;
                                 if (osVersion <= 7) { //up-to Android 2.1
@@ -305,7 +305,7 @@ public class addActivity extends AppCompatActivity {
                                 }
 
                                 ContentResolver resolver = getBaseContext().getContentResolver();
-                                deleteEvent(resolver, eventsUri, 3, Integer.parseInt(editId));
+                                deleteEvent(resolver, eventsUri, 3, Integer.parseInt(edit));
 
                             }
 
