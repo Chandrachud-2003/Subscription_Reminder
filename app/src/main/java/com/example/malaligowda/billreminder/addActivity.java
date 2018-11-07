@@ -71,6 +71,7 @@ public class addActivity extends AppCompatActivity {
     private int SPC = 1;
     private TextView displayDue;
     private String editId;
+    private String editsync;
 
     private long milliTime;
     private
@@ -136,6 +137,7 @@ public class addActivity extends AppCompatActivity {
         id = savedid.getInt("id", 0);
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         selectedDate = sdf.format(new Date(mCalendarView.getDate()));
+        milliTime=System.currentTimeMillis();
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -197,6 +199,7 @@ public class addActivity extends AppCompatActivity {
                     bill.set_day(selectedDate);
                     if (dbHandler.idArray().size()==0)
                     {
+                        id=0;
                         bill.set_id(0);
                     }
                     else {
@@ -291,7 +294,7 @@ public class addActivity extends AppCompatActivity {
 
                         } else {
                             dbHandler.deleteBill(edit);
-                           if (dbHandler.syncArray().get(Integer.parseInt(edit)).equals("true")) {
+                           if (editsync.equals("true")) {
                                 Uri eventsUri;
                                 int osVersion = android.os.Build.VERSION.SDK_INT;
                                 if (osVersion <= 7) { //up-to Android 2.1
@@ -421,7 +424,7 @@ public class addActivity extends AppCompatActivity {
             String editname = getIntent().getStringExtra("name");
             String editcurrency = getIntent().getStringExtra("currency");
             String editnotify = getIntent().getStringExtra("notify");
-            String editsync = getIntent().getStringExtra("sync");
+             editsync = getIntent().getStringExtra("sync");
             final String editinterval = getIntent().getStringExtra("interval");
             String editdate = getIntent().getStringExtra("dates");
             Log.d("check", editdate);
