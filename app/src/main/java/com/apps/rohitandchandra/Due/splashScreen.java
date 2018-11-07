@@ -1,4 +1,4 @@
-package com.example.rohitandchandra.Due;
+package com.apps.rohitandchandra.Due;
 
 import android.content.Intent;
 import android.os.Bundle;

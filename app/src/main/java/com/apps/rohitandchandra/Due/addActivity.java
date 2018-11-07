@@ -1,4 +1,4 @@
-package com.example.rohitandchandra.Due;
+package com.apps.rohitandchandra.Due;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -40,6 +40,10 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.apps.rohitandchandra.Due.AlarmReciever;
+import com.apps.rohitandchandra.Due.Bills;
+import com.apps.rohitandchandra.Due.MainActivity;
+import com.apps.rohitandchandra.Due.MyDBHandler;
 
 import java.sql.Date;
 import java.text.ParseException;

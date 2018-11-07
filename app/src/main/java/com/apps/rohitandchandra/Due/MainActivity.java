@@ -1,4 +1,4 @@
-package com.example.rohitandchandra.Due;
+package com.apps.rohitandchandra.Due;
 
 import android.content.Intent;
 
@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 
-
+import com.apps.rohitandchandra.Due.MyDBHandler;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.example.rohitandchandra.Due;
+package com.apps.rohitandchandra.Due;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.apps.rohitandchandra.Due.MainActivity;
 
 public class AlarmReciever extends BroadcastReceiver {
 

@@ -1,4 +1,4 @@
-package com.example.rohitandchandra.Due;
+package com.apps.rohitandchandra.Due;
 
 public class Bills {
     private int _id;

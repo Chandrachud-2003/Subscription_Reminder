@@ -1,4 +1,4 @@
-package com.example.rohitandchandra.Due;
+package com.apps.rohitandchandra.Due;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.apps.rohitandchandra.Due.MyDBHandler;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

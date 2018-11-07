@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rohitandchandra.Due">
+    package="com.apps.rohitandchandra.Due">
     
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
@@ -25,10 +25,10 @@
         android:screenOrientation="portrait"
         >
 
-        <receiver android:name="com.example.rohitandchandra.Due.AlarmReciever"/>
+        <receiver android:name="com.apps.rohitandchandra.Due.AlarmReciever"/>
 
 
-        <activity android:name="com.example.rohitandchandra.Due.splashScreen"
+        <activity android:name="com.apps.rohitandchandra.Due.splashScreen"
             android:screenOrientation="portrait"
 
             >
@@ -42,13 +42,13 @@
 
         </activity>
         <activity
-            android:name="com.example.rohitandchandra.Due.addActivity"
+            android:name="com.apps.rohitandchandra.Due.addActivity"
 
         android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
         <activity
-            android:name="com.example.rohitandchandra.Due.MainActivity"
+            android:name="com.apps.rohitandchandra.Due.MainActivity"
 
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
