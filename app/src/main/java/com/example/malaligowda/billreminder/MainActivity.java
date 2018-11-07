@@ -1,25 +1,19 @@
 package com.example.malaligowda.billreminder;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetBehavior;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,11 +21,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
 import spencerstudios.com.bungeelib.Bungee;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView timeView;
     private TextView dayNumber;
     private TextView month;
     private TextView year;
@@ -151,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         String year1 = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         year.setText(year1);
         month.setText(month1);
-        dayNumber.setText(date);
+        dayNumber.setText(date.substring(0,2));
 
 
     }
@@ -202,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         Log.d("Overdue", Integer.toString(overdue));
+        ShortcutBadger.applyCount(this, overdue);
 
 
 
@@ -305,7 +300,6 @@ public class MainActivity extends AppCompatActivity {
 
         {
 
-            Toast.makeText(getBaseContext(), "No Reminders Set", Toast.LENGTH_SHORT).show();
             display.setVisibility(View.VISIBLE);
             displayBills.removeAllViewsInLayout();
             displayBills.setAdapter(null);

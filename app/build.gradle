@@ -37,6 +37,8 @@ dependencies {
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.Binary-Finery:Bungee:master-SNAPSHOT'
+    implementation "me.leolin:ShortcutBadger:1.1.22@aar"
+
 
 
 

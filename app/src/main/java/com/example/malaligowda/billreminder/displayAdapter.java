@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -237,8 +237,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                         }
 
                         ContentResolver resolver = mContext.getContentResolver();
-                        deleteEvent(resolver, eventsUri, 3, position);
-                        Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+                        deleteEvent(resolver, eventsUri, 3, Integer.parseInt(mId.get(position)));
                     }
                     if (mNames.size() != 1){
                         String remove = mId.get(position);
@@ -255,6 +254,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                                 .playOn(displayView);
                         displayView.setVisibility(View.VISIBLE);
                     }
+                    Toast.makeText(mContext, "Bill Deleted", Toast.LENGTH_SHORT).show();
 
 
                     Intent intent = new Intent(mContext, AlarmReciever.class);
@@ -282,8 +282,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                         }
 
                         ContentResolver resolver = mContext.getContentResolver();
-                        deleteEvent(resolver, eventsUri, 3, position);
-                        Toast.makeText(mContext, "Event Deleted", Toast.LENGTH_SHORT).show();
+                        deleteEvent(resolver, eventsUri, 3, Integer.parseInt(mId.get(position)));
                     }
                     Intent intent = new Intent(mContext, addActivity.class);
                     intent.putExtra("id",mId.get(position));
@@ -313,7 +312,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                     holder.deleteButton.setVisibility(View.GONE);
                     holder.mainbutton.setClickable(false);
                     String newdate="";
-                    if (msync.get(position).equals("true")) {
+                    if (msync.get(position).equals("true")&&mType.get(position).equals("Bill")) {
                         Uri eventsUri;
                         int osVersion = android.os.Build.VERSION.SDK_INT;
                         if (osVersion <= 7) { //up-to Android 2.1
@@ -323,7 +322,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                         }
 
                         ContentResolver resolver = mContext.getContentResolver();
-                        deleteEvent(resolver, eventsUri, 3, position);
+                        deleteEvent(resolver, eventsUri, 3, Integer.parseInt(mId.get(position)));
 
                     }
                     if(mType.get(position).equals("Subscription"))

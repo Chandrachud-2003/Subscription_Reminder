@@ -7,13 +7,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,9 +20,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -69,6 +64,7 @@ public class addActivity extends AppCompatActivity {
     private int seconds;
     private String interval;
     private int SPC = 1;
+    private TextView displayDue;
 
     private long milliTime;
     private
@@ -113,6 +109,7 @@ public class addActivity extends AppCompatActivity {
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         notification = new NotificationCompat.Builder(this, CHANNEL_ID);
         notification.setAutoCancel(true);
+        displayDue = findViewById(R.id.dueText);
         createNotificationChannel();
         if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
@@ -147,7 +144,15 @@ public class addActivity extends AppCompatActivity {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                milliTime = calendar.getTimeInMillis();
+                int hour = calendar.get(Calendar.HOUR);
+                int minute = calendar.get(Calendar.MINUTE);
+                int seconds = calendar.get(Calendar.SECOND);
+
+                milliTime = calendar.getTimeInMillis()-((hour*3600000)+(minute*60000)+(seconds*1000));
+
+                Log.d("time", hour+":"+minute+":"+seconds);
+
+
                 mCalendarView.setDate(milliTime, true, true);
                 final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 selectedDate = sdf.format(new Date(mCalendarView.getDate()));
@@ -187,8 +192,14 @@ public class addActivity extends AppCompatActivity {
                     Bills bill = new Bills(titleView.getText().toString());
 
                     bill.set_day(selectedDate);
-                    id++;
-                    bill.set_id(id);
+                    if (dbHandler.idArray().size()==0)
+                    {
+                        bill.set_id(0);
+                    }
+                    else {
+                        id++;
+                        bill.set_id(id);
+                    }
 
                     bill.setAmt(amountView.getText().toString());
                     bill.set_currency(currencySpinner.getSelectedItem().toString());
@@ -547,7 +558,6 @@ public class addActivity extends AppCompatActivity {
             return;
         }
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
-        Toast.makeText(getBaseContext(), "Event Successfully added", Toast.LENGTH_LONG).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
