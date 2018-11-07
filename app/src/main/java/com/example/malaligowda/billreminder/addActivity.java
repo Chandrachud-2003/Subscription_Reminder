@@ -306,7 +306,7 @@ public class addActivity extends AppCompatActivity {
 
                                 ContentResolver resolver = getBaseContext().getContentResolver();
                                 deleteEvent(resolver, eventsUri, 3, Integer.parseInt(edit));
-
+//
                             }
 
                             addEvent(milliTime, interval);
