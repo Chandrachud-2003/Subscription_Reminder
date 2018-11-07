@@ -138,6 +138,19 @@ public class addActivity extends AppCompatActivity {
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         selectedDate = sdf.format(new Date(mCalendarView.getDate()));
         milliTime=System.currentTimeMillis();
+
+
+        if((ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) || (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED))
+        {
+            syncBox.setChecked(false);
+            syncBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkPermissions(REQUEST_CODE, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR);
+                }
+            });
+        }
+
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
