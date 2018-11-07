@@ -108,9 +108,9 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:visibility="invisible"
@@ -121,6 +121,7 @@
         app:layout_constraintStart_toEndOf="@+id/amountView"
         app:layout_constraintStart_toStartOf="@+id/mainButton"
         app:layout_constraintTop_toTopOf="@+id/mainButton"
+        app:layout_constraintVertical_bias="0.468"
         app:srcCompat="@drawable/edit" />
 
     <ImageButton
