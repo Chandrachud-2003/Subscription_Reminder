@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +48,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 import spencerstudios.com.bungeelib.Bungee;
+
+import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 
 public class addActivity extends AppCompatActivity {
     private TextView addheading;
@@ -114,12 +117,7 @@ public class addActivity extends AppCompatActivity {
         notification.setAutoCancel(true);
         displayDue = findViewById(R.id.dueText);
         createNotificationChannel();
-        if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
-           ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_CODE);
-        }
-        if (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(addActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, REQUEST_CODE);
-        }
+        checkPermissions(REQUEST_CODE, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR);
         intervalSpinner.setVisibility(View.INVISIBLE);
         divider.setVisibility(View.INVISIBLE);
         divider2 = findViewById(R.id.divider2);
@@ -651,6 +649,16 @@ public class addActivity extends AppCompatActivity {
         resolver.delete(ContentUris.withAppendedId(eventsUri, eventId), null, null);
 
         cursor.close();
+    }
+
+    private void checkPermissions(int callbackId, String... permissionsId) {
+        boolean permissions = true;
+        for (String p : permissionsId) {
+            permissions = permissions && ContextCompat.checkSelfPermission(this, p) == PERMISSION_GRANTED;
+        }
+
+        if (!permissions)
+            ActivityCompat.requestPermissions(this, permissionsId, callbackId);
     }
 
 
