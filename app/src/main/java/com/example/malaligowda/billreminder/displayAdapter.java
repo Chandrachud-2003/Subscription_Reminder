@@ -123,13 +123,13 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 else {
 
                     holder.typeView.setText(mType.get(position) + " : Overdue");
-
+                    holder.dateDisplay.setTextColor(Color.RED);
+                    holder.amountDisplay.setTextColor(Color.RED);
+                    holder.nameDisplay.setTextColor(Color.RED);
+                    holder.currencyDisplay.setTextColor(Color.RED);
+                    holder.typeView.setTextColor(Color.RED);
                 }
-                holder.dateDisplay.setTextColor(Color.RED);
-                holder.amountDisplay.setTextColor(Color.RED);
-                holder.nameDisplay.setTextColor(Color.RED);
-                holder.currencyDisplay.setTextColor(Color.RED);
-                holder.typeView.setTextColor(Color.RED);
+
 
                 }
             else {
@@ -356,42 +356,43 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                         else
                             newdate = olddate.substring(0,6)+Integer.toString(Integer.valueOf(olddate.substring(6,10))+1);
                         dbHandler.updateDate(newdate,mId.get(position));
-                        Intent intent = new Intent(mContext, AlarmReciever.class);
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,Integer.valueOf(mId.get(position)),intent,PendingIntent.FLAG_UPDATE_CURRENT);
-                        AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
-                        alarmManager.cancel(pendingIntent);
-                        pendingIntent.cancel();
-                        setNotification(mType.get(position), mNames.get(position),newdate,newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)),mType.get(position),mInterval.get(position),Integer.valueOf(mId.get(position)));
+                        if (mNotify.get(position).equals("true")) {
+                            Intent intent = new Intent(mContext, AlarmReciever.class);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, Integer.valueOf(mId.get(position)), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
+                            alarmManager.cancel(pendingIntent);
+                            pendingIntent.cancel();
+                            setNotification(mType.get(position), mNames.get(position), newdate, newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)), mType.get(position), mInterval.get(position), Integer.valueOf(mId.get(position)));
 
 
-                        int l = Integer.valueOf(mNotifyDays.get(position));
-                        if (l > 0) {
-                            int day = Integer.valueOf(newdate.substring(0, 2));
-                            int month = Integer.valueOf(newdate.substring(3, 5));
-                            int year = Integer.valueOf(newdate.substring(6, 10));
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(Calendar.DATE, day);
-                            calendar.set(Calendar.MONTH, month);
-                            calendar.set(Calendar.YEAR, year);
-                            calendar.add(Calendar.DATE, -l);
-                            String date = Integer.toString(calendar.get(Calendar.DATE));
-                            String mon = Integer.toString(calendar.get(Calendar.MONTH));
-                            String newyear = Integer.toString(calendar.get(Calendar.YEAR));
-                            String notifydate;
-                            if (Integer.valueOf(mon) > 9){
-                                if (Integer.valueOf(date) > 9)
-                                    notifydate = date + "/" + mon + "/" + newyear;
-                                else
-                                    notifydate = "0"+date + "/" + mon + "/" + newyear;
+                            int l = Integer.valueOf(mNotifyDays.get(position));
+                            if (l > 0) {
+                                int day = Integer.valueOf(newdate.substring(0, 2));
+                                int month = Integer.valueOf(newdate.substring(3, 5));
+                                int year = Integer.valueOf(newdate.substring(6, 10));
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(Calendar.DATE, day);
+                                calendar.set(Calendar.MONTH, month);
+                                calendar.set(Calendar.YEAR, year);
+                                calendar.add(Calendar.DATE, -l);
+                                String date = Integer.toString(calendar.get(Calendar.DATE));
+                                String mon = Integer.toString(calendar.get(Calendar.MONTH));
+                                String newyear = Integer.toString(calendar.get(Calendar.YEAR));
+                                String notifydate;
+                                if (Integer.valueOf(mon) > 9) {
+                                    if (Integer.valueOf(date) > 9)
+                                        notifydate = date + "/" + mon + "/" + newyear;
+                                    else
+                                        notifydate = "0" + date + "/" + mon + "/" + newyear;
+                                } else {
+
+                                    if (Integer.valueOf(date) > 9)
+                                        notifydate = date + "/0" + mon + "/" + newyear;
+                                    else
+                                        notifydate = "0" + date + "/0" + mon + "/" + newyear;
+                                }
+                                setNotification(mType.get(position), mNames.get(position), notifydate, newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)), mType.get(position), mInterval.get(position), Integer.valueOf(mId.get(position)));
                             }
-                            else {
-
-                                if (Integer.valueOf(date) > 9)
-                                    notifydate = date + "/0" + mon + "/" + newyear;
-                                else
-                                    notifydate = "0" + date + "/0" + mon + "/" + newyear;
-                            }
-                            setNotification(mType.get(position), mNames.get(position),notifydate,newdate, mAmount.get(position), Character.toString(mCurrency.get(position).charAt(4)),mType.get(position),mInterval.get(position),Integer.valueOf(mId.get(position)));
                         }
                     }
                     else{
