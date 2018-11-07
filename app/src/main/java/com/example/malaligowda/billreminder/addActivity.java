@@ -162,6 +162,10 @@ public class addActivity extends AppCompatActivity {
                 Log.d("billReminder", selectedDate);
 
 
+                if(ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED){
+                    syncBox.setChecked(false);
+                }
+
 
             }
         });
