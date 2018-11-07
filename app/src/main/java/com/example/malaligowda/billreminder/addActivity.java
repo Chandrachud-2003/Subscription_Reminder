@@ -149,7 +149,7 @@ public class addActivity extends AppCompatActivity {
                 int minute = calendar.get(Calendar.MINUTE);
                 int seconds = calendar.get(Calendar.SECOND);
 
-                milliTime = calendar.getTimeInMillis()-((hour*3600000)+(minute*60000)+(seconds*1000));
+                milliTime = calendar.getTimeInMillis()-((hour*3600000*2)+(minute*60000)+(seconds*1000));
 
                 Log.d("time", hour+":"+minute+":"+seconds);
 
@@ -556,7 +556,7 @@ public class addActivity extends AppCompatActivity {
 
         cv.put(CalendarContract.Events.DTSTART, dateTime);
 
-        cv.put(CalendarContract.Events.DURATION, "P1D");
+        cv.put(CalendarContract.Events.DTEND, dateTime+86400000);
         cv.put(CalendarContract.Events.DESCRIPTION, titleView.getText().toString());
 
 
