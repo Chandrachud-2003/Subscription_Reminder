@@ -7,10 +7,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -65,6 +67,7 @@ public class addActivity extends AppCompatActivity {
     private String interval;
     private int SPC = 1;
     private TextView displayDue;
+    private String editId;
 
     private long milliTime;
     private
@@ -288,6 +291,20 @@ public class addActivity extends AppCompatActivity {
 
                         } else {
                             dbHandler.deleteBill(edit);
+                            if (dbHandler.syncArray().get(Integer.parseInt(editId)).equals("true")&&dbHandler.typeArray().get(Integer.parseInt(editId)).equals("Bill")) {
+                                Uri eventsUri;
+                                int osVersion = android.os.Build.VERSION.SDK_INT;
+                                if (osVersion <= 7) { //up-to Android 2.1
+                                    eventsUri = Uri.parse("content://calendar/events");
+                                } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+                                    eventsUri = Uri.parse("content://com.android.calendar/events");
+                                }
+
+                                ContentResolver resolver = getBaseContext().getContentResolver();
+                                deleteEvent(resolver, eventsUri, 3, Integer.parseInt(editId));
+
+                            }
+
                             addEvent(milliTime, interval);
                             Toast.makeText(getBaseContext(), "Bill changed", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(addActivity.this, AlarmReciever.class);
@@ -398,7 +415,9 @@ public class addActivity extends AppCompatActivity {
         if (getIntent().hasExtra("amount") && getIntent().hasExtra("name")) {
             Log.d("intent", "getIncomingIntent: found intent extras.");
 
+            backbutton.setVisibility(View.INVISIBLE);
             String editamount = getIntent().getStringExtra("amount");
+             editId = getIntent().getStringExtra("id");
             String editname = getIntent().getStringExtra("name");
             String editcurrency = getIntent().getStringExtra("currency");
             String editnotify = getIntent().getStringExtra("notify");
@@ -615,6 +634,19 @@ public class addActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
             Log.d("billReminder","Channel created");
         }
+    }
+    private void deleteEvent(ContentResolver resolver, Uri eventsUri, int calendarId, int postion) {
+        Cursor cursor;
+        if (android.os.Build.VERSION.SDK_INT <= 7) { //up-to Android 2.1
+            cursor = resolver.query(eventsUri, new String[]{ "_id" }, "Calendars._id=" + calendarId, null, null);
+        } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+            cursor = resolver.query(eventsUri, new String[]{ "_id" }, "calendar_id=" + calendarId, null, null);
+        }
+        cursor.moveToPosition(postion);
+        long eventId = cursor.getLong(cursor.getColumnIndex("_id"));
+        resolver.delete(ContentUris.withAppendedId(eventsUri, eventId), null, null);
+
+        cursor.close();
     }
 
 

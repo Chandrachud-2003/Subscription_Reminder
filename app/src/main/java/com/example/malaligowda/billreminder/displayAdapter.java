@@ -272,18 +272,7 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
 
                     Log.d("billReminder", holder.nameDisplay.getText().toString()+" edit clicked");
 
-                    if (msync.get(position).equals("true")) {
-                        Uri eventsUri;
-                        int osVersion = android.os.Build.VERSION.SDK_INT;
-                        if (osVersion <= 7) { //up-to Android 2.1
-                            eventsUri = Uri.parse("content://calendar/events");
-                        } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-                            eventsUri = Uri.parse("content://com.android.calendar/events");
-                        }
 
-                        ContentResolver resolver = mContext.getContentResolver();
-                        deleteEvent(resolver, eventsUri, 3, Integer.parseInt(mId.get(position)));
-                    }
                     Intent intent = new Intent(mContext, addActivity.class);
                     intent.putExtra("id",mId.get(position));
                     intent.putExtra("amount",mAmount.get(position));
