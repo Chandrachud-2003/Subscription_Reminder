@@ -16,6 +16,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -129,11 +130,41 @@ public class addActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, intervalarraySpinner);
         intervalSpinner.setAdapter(adapter1);
-        savedid = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        savedid = PreferenceManager.getDefaultSharedPreferences(this);
         editor = savedid.edit();
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, currencyarraySpinner);
         currencySpinner.setAdapter(adapter2);
+//        if((ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED))
+//        {
+//            syncBox.setChecked(true);
+//        }
+//
+//            if((ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) || (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED))
+//        {
+//            if (!syncBox.isChecked())
+//            syncBox.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    checkPermissions(REQUEST_CODE, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR);
+//
+//                    if((ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(addActivity.this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED))
+//                    {
+//                        syncBox.setChecked(true);
+//                    }
+//
+//                }
+//            });
+//        }
+        syncBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (syncBox.isChecked())
+                {
+                    checkPermissions(REQUEST_CODE, Manifest.permission.READ_CALENDAR,Manifest.permission.WRITE_CALENDAR);
+                }
+            }
+        });
         id = savedid.getInt("id", 0);
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         selectedDate = sdf.format(new Date(mCalendarView.getDate()));
@@ -297,7 +328,7 @@ public class addActivity extends AppCompatActivity {
                             dbHandler.deleteBill(edit);
                            if (editsync.equals("true")) {
                                 Uri eventsUri;
-                                int osVersion = android.os.Build.VERSION.SDK_INT;
+                                int osVersion = Build.VERSION.SDK_INT;
                                 if (osVersion <= 7) { //up-to Android 2.1
                                     eventsUri = Uri.parse("content://calendar/events");
                                 } else { //8 is Android 2.2 (Froyo) (http://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
@@ -657,11 +688,11 @@ public class addActivity extends AppCompatActivity {
         boolean permissions = true;
         for (String p : permissionsId) {
             permissions = permissions && ContextCompat.checkSelfPermission(this, p) == PERMISSION_GRANTED;
-            syncBox.setChecked(true);
 
         }
 
         if (!permissions)
+            syncBox.setChecked(false);
             ActivityCompat.requestPermissions(this, permissionsId, callbackId);
     }
 
