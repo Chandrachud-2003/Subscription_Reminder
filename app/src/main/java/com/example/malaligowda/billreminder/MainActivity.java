@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import hotchemi.android.rate.AppRate;
 import me.leolin.shortcutbadger.ShortcutBadger;
 import spencerstudios.com.bungeelib.Bungee;
 
@@ -76,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        AppRate.with(this)
+                .setTitle("Rate This App")
+                .setMessage("If you enjoyed this app, would you mind taking a moment to rate it? It won't take more than a minute. Thanks for your support!")
+                .setInstallDays(0)
+                .setLaunchTimes(3)
+                .setRemindInterval(1)
+                .monitor();
+        AppRate.showRateDialogIfMeetsConditions(this);
 
 
         mDBHandler = new MyDBHandler(this, null, null, 5);
