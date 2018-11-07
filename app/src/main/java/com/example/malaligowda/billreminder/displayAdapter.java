@@ -119,17 +119,18 @@ public class displayAdapter extends RecyclerView.Adapter<displayAdapter.ViewHold
                 if (selectedDate.equals(mDates.get(position)))
                 {
                     holder.typeView.setText(mType.get(position)+" : Due Today");
+
                 }
                 else {
 
                     holder.typeView.setText(mType.get(position) + " : Overdue");
-                    holder.dateDisplay.setTextColor(Color.RED);
-                    holder.amountDisplay.setTextColor(Color.RED);
-                    holder.nameDisplay.setTextColor(Color.RED);
-                    holder.currencyDisplay.setTextColor(Color.RED);
-                    holder.typeView.setTextColor(Color.RED);
-                }
 
+                }
+                holder.dateDisplay.setTextColor(Color.RED);
+                holder.amountDisplay.setTextColor(Color.RED);
+                holder.nameDisplay.setTextColor(Color.RED);
+                holder.currencyDisplay.setTextColor(Color.RED);
+                holder.typeView.setTextColor(Color.RED);
 
                 }
             else {

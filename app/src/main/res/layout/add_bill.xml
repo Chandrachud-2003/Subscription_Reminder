@@ -139,7 +139,7 @@
         app:layout_constraintStart_toStartOf="@+id/currencySpinner"
         app:layout_constraintTop_toBottomOf="@+id/currencySpinner" />
 
-    <CalendarView
+    <com.example.malaligowda.billreminder.CalendarViewScrollable
         android:id="@+id/calendarView"
         android:layout_width="280dp"
         android:layout_height="0dp"
